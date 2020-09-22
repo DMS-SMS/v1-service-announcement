@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dsm.service.announcement.proto";
+option java_outer_classname = "AnnouncementProto";
+
+package announcement;
+
+
+service AnnouncementService {
+    rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementResponse) {}
+    rpc GetAnnouncementDetail(GetAnnouncementDetailRequest) returns (GetAnnouncementDetailResponse) {}
+    rpc CreateAnnouncement(CreateAnnouncementRequest) returns (CreateAnnouncementResponse) {}
+    rpc UpdateAnnouncement(UpdateAnnouncementRequest) returns (UpdateAnnouncementResponse) {}
+    rpc DeleteAnnouncement(DeleteAnnouncementRequest) returns (DeleteAnnouncementResponse) {}
+}
+
+message GetAnnouncementRequest {
+    string uuid = 1;
+    string type = 2;
+}
+
+message GetAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+    repeated AnnouncementPreview announcement = 4;
+}
+
+message AnnouncementPreview {
+    int32 number = 1;
+    string title = 2;
+    string type = 3;
+    int64 date = 4;
+    int32 views = 5;
+    string club = 6;
+}
+
+message GetAnnouncementDetailRequest {
+    string uuid = 1;
+    string aid = 2;
+}
+
+message GetAnnouncementDetailResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+    string title = 4;
+    int64 date = 5;
+    string content = 6;
+    string next_title = 7;
+    string next_aid = 8;
+    string previous_title = 9;
+    string previous_aid = 10;
+}
+
+message CreateAnnouncementRequest {
+    int32 uuid = 1;
+    string type = 2;
+    string title = 3;
+    string content = 4;
+}
+
+message CreateAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+}
+
+message UpdateAnnouncementRequest {
+    int32 uuid = 1;
+    string aid = 2;
+    string title = 3;
+    string content = 4;
+}
+
+message UpdateAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+}
+
+message DeleteAnnouncementRequest {
+    int32 uuid = 1;
+    string aid = 2;
+}
+
+message DeleteAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+}
