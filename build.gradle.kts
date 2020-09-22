@@ -66,7 +66,9 @@ sourceSets {
         java {
             setSrcDirs(
                 listOf(
-                    "build/generated/source/proto/main"
+                    "build/generated/source/proto/main/grpc",
+                    "build/generated/source/proto/main/grpckt",
+                    "build/generated/source/proto/main/java"
                 )
             )
         }
