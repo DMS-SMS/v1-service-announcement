@@ -7,9 +7,9 @@ import com.google.protobuf.gradle.protoc
 
 
 plugins {
-    id("com.google.protobuf") version "0.8.13"
     java
     kotlin("jvm") version "1.3.61"
+    id("com.google.protobuf") version "0.8.13"
 }
 
 group = "dsm.service"
@@ -53,7 +53,24 @@ tasks.withType<Jar> {
         attributes["Main-Class"] = "dsm.service.announcement.AnnouncementApplicationKt"
     }
 
-    from(configurations.runtime.get().map {if (it.isDirectory) it else zipTree(it)})
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
+sourceSets {
+    main {
+        java {
+            setSrcDirs(
+                listOf(
+                    "build/generated/source/proto/main"
+                )
+            )
+        }
+    }
 }
 
 protobuf {
