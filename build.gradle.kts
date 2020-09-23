@@ -19,6 +19,7 @@ val grpcVersion = "1.31.1"
 val grpcKotlinVersion = "0.2.0"
 val protobufVersion = "3.13.0"
 val coroutinesVersion = "1.3.8"
+val mysqlConnectorVersion = "8.0.21"
 
 
 repositories {
@@ -33,6 +34,7 @@ dependencies {
     implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
 
