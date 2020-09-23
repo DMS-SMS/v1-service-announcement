@@ -18,5 +18,9 @@ class AnnouncementRepositoryImpl(
 
         return announcement
     }
+
+    override fun save(announcement: Announcement) {
+        this.entityManager.persist(announcement)
+    }
 }
 
