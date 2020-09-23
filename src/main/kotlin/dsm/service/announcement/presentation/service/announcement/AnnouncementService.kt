@@ -1,8 +1,12 @@
-package dsm.service.announcement.presentation.service
+package dsm.service.announcement.presentation.service.announcement
 
+import dsm.service.announcement.application.service.announcement.AnnouncementService
 import dsm.service.announcement.proto.*
 
-class AnnouncementService: AnnouncementServiceGrpcKt.AnnouncementServiceCoroutineImplBase() {
+class AnnouncementServicer(
+    private val announcementService: AnnouncementService
+): AnnouncementServiceGrpcKt.AnnouncementServiceCoroutineImplBase() {
+
     override suspend fun getAnnouncement(request: GetAnnouncementRequest): GetAnnouncementResponse {
         return GetAnnouncementResponse.newBuilder()
             .build()
