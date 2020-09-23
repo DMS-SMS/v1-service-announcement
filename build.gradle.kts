@@ -20,6 +20,8 @@ val grpcKotlinVersion = "0.2.0"
 val protobufVersion = "3.13.0"
 val coroutinesVersion = "1.3.8"
 val mysqlConnectorVersion = "8.0.21"
+val jpaVersion = "1.0.0.Final"
+val hibernateVersion = "5.4.10.Final"
 
 
 repositories {
@@ -35,12 +37,16 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
+    implementation("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaVersion")
+    implementation("org.hibernate:hibernate-core:$hibernateVersion")
+    implementation("org.hibernate:hibernate-entitymanager:$hibernateVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
+
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"
