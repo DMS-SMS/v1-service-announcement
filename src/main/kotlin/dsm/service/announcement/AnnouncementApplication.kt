@@ -1,16 +1,17 @@
 package dsm.service.announcement
 
-import dsm.service.announcement.presentation.service.AnnouncementService
+import dsm.service.announcement.application.service.announcement.AnnouncementServiceImpl
+import dsm.service.announcement.presentation.service.announcement.AnnouncementServicer
 import dsm.service.announcement.proto.AnnouncementServiceGrpcKt
 import io.grpc.ServerBuilder
 
 class AnnouncementApplication constructor(
     private val port: Int,
-    private val announcementService: AnnouncementService
+    private val announcementServicer: AnnouncementServicer
 ) {
     val server = ServerBuilder
         .forPort(port)
-        .addService(announcementService)
+        .addService(announcementServicer)
         .build()
 
     fun start() {
@@ -36,8 +37,9 @@ class AnnouncementApplication constructor(
 
 fun main() {
     val port = 10000
-    val announcementService = AnnouncementService()
-    val server = AnnouncementApplication(port, announcementService)
+    val announcementService = AnnouncementServiceImpl()
+    val announcementServicer = AnnouncementServicer(announcementService)
+    val server = AnnouncementApplication(port, announcementServicer)
     server.start()
     server.blockUntilShutdown()
 }
