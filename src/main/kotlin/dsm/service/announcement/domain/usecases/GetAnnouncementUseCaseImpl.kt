@@ -1,11 +1,9 @@
 package dsm.service.announcement.domain.usecases
 
-class GetAnnouncementUseCaseImpl: GetAnnouncementUseCase {
-    override fun getClubAnnouncementUserCase() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+import dsm.service.announcement.domain.entities.Announcement
 
-    override fun getSchoolAnnouncementUserCase() {
+class GetAnnouncementUseCaseImpl: GetAnnouncementUseCase {
+    override fun getAnnouncementUseCase(type: String): Announcement {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
