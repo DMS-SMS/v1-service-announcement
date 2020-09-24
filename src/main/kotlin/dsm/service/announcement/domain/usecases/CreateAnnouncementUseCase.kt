@@ -3,11 +3,11 @@ package dsm.service.announcement.domain.usecases
 import dsm.service.announcement.domain.entities.Announcement
 
 interface CreateAnnouncementUseCase {
-    fun createAnnouncementUseCase(announcement: Announcement)
+    fun createAnnouncement(announcement: Announcement)
 
     fun createContent(content: String): String
 
-    fun createAnnouncementUuidUseCase(): String
+    fun createAnnouncementUuid(): String
 
-    fun createContentUuidUseCase(): String
+    fun createContentUuid(): String
 }
