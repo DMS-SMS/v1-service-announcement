@@ -6,8 +6,10 @@ import org.json.JSONObject
 
 
 interface AnnouncementRepository {
-    fun findByType(type: String): Announcement?
-
+    fun findSchoolAnnouncement(uuid: String): Announcement?
+    // #TODO 리스트로 바꾸세요
+    fun findClubAnnouncement():Announcement?
+    // #TODO 리스트로 바꾸세요
     fun findByUuid(uuid: String): Announcement?
 
     fun findContentByUuid(uuid: String): Document?
