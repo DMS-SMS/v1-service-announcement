@@ -1,7 +1,7 @@
 package dsm.service.announcement.domain.usecases
 
-interface GetAnnouncementUseCase {
-    fun getClubAnnouncementUserCase()
+import dsm.service.announcement.domain.entities.Announcement
 
-    fun getSchoolAnnouncementUserCase()
+interface GetAnnouncementUseCase {
+    fun getAnnouncementUseCase(type: String): Announcement
 }
