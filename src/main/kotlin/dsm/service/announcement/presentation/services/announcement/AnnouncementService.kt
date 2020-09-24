@@ -16,7 +16,7 @@ class AnnouncementServicer(
     }
 
     override suspend fun createAnnouncement(request: CreateAnnouncementRequest): CreateAnnouncementResponse {
-        return super.createAnnouncement(request)
+        return announcementService.createAnnouncement(request)
     }
 
     override suspend fun updateAnnouncement(request: UpdateAnnouncementRequest): UpdateAnnouncementResponse {
