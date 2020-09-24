@@ -35,9 +35,8 @@ class AnnouncementRepositoryImpl(
         transaction.commit()
     }
 
-    override fun saveContent(content: String): String {
-        val key = "temporaryKey"
-        val content: Document = Document.parse("{'temporaryKey':$content}")
+    override fun saveContent(content: String, key: String): String {
+        val content: Document = Document.parse("{'uuid':'$key','content':$content}")
         mongoManager.collection.insertOne(content)
         return key
     }
