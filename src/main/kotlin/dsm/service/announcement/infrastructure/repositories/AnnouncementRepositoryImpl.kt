@@ -2,12 +2,18 @@ package dsm.service.announcement.infrastructure.repositories
 
 import dsm.service.announcement.domain.entities.Announcement
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
+import dsm.service.announcement.infrastructure.mongo.MongoManager
 import dsm.service.announcement.infrastructure.mysql.MySqlEntityManager
 import javax.persistence.EntityManager
+import javax.persistence.EntityTransaction
 import javax.persistence.TypedQuery
+import org.bson.Document
+import org.json.JSONObject
 
 class AnnouncementRepositoryImpl(
-    val entityManager: EntityManager = MySqlEntityManager.em
+    val entityManager: EntityManager = MySqlEntityManager.em,
+    val transaction: EntityTransaction = MySqlEntityManager.tx,
+    val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
     override fun findByType(type: String): Announcement {
         val getAnnouncementQuery: TypedQuery<Announcement> = this.entityManager.createQuery(
@@ -20,7 +26,16 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun save(announcement: Announcement) {
-        this.entityManager.persist(announcement)
+        transaction.begin()
+        entityManager.persist(announcement)
+        transaction.commit()
+    }
+
+    override fun saveContent(content: String): String {
+        val key = "temporaryKey"
+        val content: Document = Document.parse("{'temporaryKey':$content}")
+        mongoManager.collection.insertOne(content)
+        return key
     }
 }
 
