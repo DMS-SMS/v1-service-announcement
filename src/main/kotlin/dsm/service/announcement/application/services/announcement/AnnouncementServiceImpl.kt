@@ -16,12 +16,10 @@ import dsm.service.announcement.proto.GetAnnouncementResponse
 import jdk.nashorn.internal.parser.JSONParser
 import org.json.JSONObject
 
-class   AnnouncementServiceImpl(
-    val announcementMapper: AnnouncementMapper = AnnouncementMapper(),
-    val getAnnouncementUseCase: GetAnnouncementUseCase = GetAnnouncementUseCaseImpl(),
-    val createAnnouncementUseCase: CreateAnnouncementUseCase = CreateAnnouncementUseCaseImpl(
-        AnnouncementRepositoryImpl()
-    )
+class AnnouncementServiceImpl(
+    val announcementMapper: AnnouncementMapper,
+    val getAnnouncementUseCase: GetAnnouncementUseCase,
+    val createAnnouncementUseCase: CreateAnnouncementUseCase
 ) : AnnouncementService {
 
     override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
