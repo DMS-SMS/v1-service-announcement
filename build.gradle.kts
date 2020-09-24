@@ -22,6 +22,9 @@ val coroutinesVersion = "1.3.8"
 val mysqlConnectorVersion = "8.0.21"
 val jpaVersion = "1.0.0.Final"
 val hibernateVersion = "5.4.10.Final"
+val mongoDriverVersion = "3.12.7"
+val configurationVersion = "2.3"
+val jsonVersion = "20200518"
 
 
 repositories {
@@ -40,6 +43,9 @@ dependencies {
     implementation("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaVersion")
     implementation("org.hibernate:hibernate-core:$hibernateVersion")
     implementation("org.hibernate:hibernate-entitymanager:$hibernateVersion")
+    implementation("org.mongodb:mongo-java-driver:$mongoDriverVersion")
+    implementation("org.apache.commons:commons-configuration2:$configurationVersion")
+    implementation("org.json:json:$jsonVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
 
@@ -54,19 +60,6 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
     }
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "dsm.service.announcement.AnnouncementApplicationKt"
-    }
-
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
 }
 
 sourceSets {
@@ -103,4 +96,17 @@ protobuf {
             }
         }
     }
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "dsm.service.announcement.AnnouncementApplicationKt"
+    }
+
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }
