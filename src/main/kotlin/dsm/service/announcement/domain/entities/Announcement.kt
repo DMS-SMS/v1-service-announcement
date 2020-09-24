@@ -5,30 +5,30 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "announement")
+@Table(name = "announcement")
 open class Announcement(
     @Id
     @Column(name = "uuid")
-    var uuid: Int? = null,
+    open var uuid: String? = null,
 
     @Column(name = "writer_uuid")
-    var writerUuid: Int? = null,
+    open var writerUuid: String? = null,
 
     @Column(name = "date")
-    var date: LocalDateTime? = null,
+    open var date: LocalDateTime? = null,
 
     @Column(name = "title")
-    var title: String? = null,
+    open var title: String? = null,
 
     @Column(name = "content_id")
-    var content: Int? = null,
+    open var content: String? = null,
 
     @Column(name = "target_grade")
-    var targetGrade: Int? = null,
+    open var targetGrade: Int? = null,
 
     @Column(name = "target_class")
-    var targetClass: Int? = null,
+    open var targetClass: Int? = null,
 
     @Column(name = "type")
-    var type: String? = null
+    open var type: String? = null
 )
