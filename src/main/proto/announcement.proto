@@ -59,8 +59,8 @@ message CreateAnnouncementRequest {
     string type = 2;
     string title = 3;
     string content = 4;
-    string target_grade = 5;
-    string target_class = 6;
+    int32 target_grade = 5;
+    int32 target_class = 6;
 }
 
 message CreateAnnouncementResponse {
@@ -74,8 +74,8 @@ message UpdateAnnouncementRequest {
     string aid = 2;
     string title = 3;
     string content = 4;
-    string target_grade = 5;
-    string target_class = 6;
+    int32 target_grade = 5;
+    int32 target_class = 6;
 }
 
 message UpdateAnnouncementResponse {
