@@ -15,7 +15,7 @@ class AnnouncementRepositoryImpl(
     val transaction: EntityTransaction = MySqlEntityManager.tx,
     val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
-    override fun findByType(type: String): Announcement {
+    override fun findByType(type: String): Announcement? {
         val getAnnouncementQuery: TypedQuery<Announcement> = this.entityManager.createQuery(
             "SELECT a FROM Announcement a WHERE a.type=:type",Announcement::class.java)
 
@@ -23,6 +23,10 @@ class AnnouncementRepositoryImpl(
             setParameter("type", type).getSingleResult();
 
         return announcement
+    }
+
+    override fun findByUuid(uuid: String): Announcement? {
+        return entityManager.find(Announcement::class.java, uuid)
     }
 
     override fun save(announcement: Announcement) {
