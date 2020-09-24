@@ -9,17 +9,17 @@ import kotlin.streams.asSequence
 class CreateAnnouncementUseCaseImpl(
     val announcementRepository: AnnouncementRepository
 ): CreateAnnouncementUseCase {
-    override fun createAnnouncementUseCase(announcement: Announcement) {
-        announcement.uuid = createAnnouncementUuidUseCase()
+    override fun createAnnouncement(announcement: Announcement) {
+        announcement.uuid = createAnnouncementUuid()
         announcementRepository.save(announcement)
     }
 
     override fun createContent(content: String): String {
         return announcementRepository
-            .saveContent(content, createContentUuidUseCase())
+            .saveContent(content, createContentUuid())
     }
 
-    override fun createAnnouncementUuidUseCase(): String {
+    override fun createAnnouncementUuid(): String {
         while (true) {
             val key = generateRandomKey(12)
             if (announcementRepository.findByUuid(key) == null )
@@ -27,7 +27,7 @@ class CreateAnnouncementUseCaseImpl(
         }
     }
 
-    override fun createContentUuidUseCase(): String {
+    override fun createContentUuid(): String {
         while (true) {
             val key = generateRandomKey(12)
             if (announcementRepository.findContentByUuid(key) == null )
