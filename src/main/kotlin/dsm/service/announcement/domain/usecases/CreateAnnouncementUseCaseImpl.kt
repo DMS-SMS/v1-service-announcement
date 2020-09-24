@@ -21,7 +21,11 @@ class CreateAnnouncementUseCaseImpl(
         }
     }
 
-    override fun createContent(content: String): String {
-        return announcementRepository.saveContent(content)
+    override fun createContentUuidUseCase(): String {
+        while (true) {
+            val key = RandomKey().generateRandomKey(12)
+            if (announcementRepository.findContentByUuid(key) == null )
+                return key
+        }
     }
 }
