@@ -15,7 +15,7 @@ class AnnouncementMapper {
             type = createAnnouncementRequest.type,
             date = LocalDateTime.now(),
             title = createAnnouncementRequest.title,
-            content = contentUuid
+            contentUuid = contentUuid
         )
     }
 }
