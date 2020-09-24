@@ -13,6 +13,11 @@ class CreateAnnouncementUseCaseImpl(
         announcementRepository.save(announcement)
     }
 
+    override fun createContent(content: String): String {
+        return announcementRepository
+            .saveContent(content, createContentUuidUseCase())
+    }
+
     override fun createAnnouncementUuidUseCase(): String {
         while (true) {
             val key = RandomKey().generateRandomKey(12)
