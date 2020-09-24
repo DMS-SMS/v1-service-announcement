@@ -7,4 +7,6 @@ interface AnnouncementRepository {
     fun findByType(type: String): Announcement
 
     fun save(announcement: Announcement)
+
+    fun saveContents(contents: String)
 }
