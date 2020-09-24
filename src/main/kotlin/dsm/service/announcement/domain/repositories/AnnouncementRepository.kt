@@ -5,7 +5,9 @@ import org.json.JSONObject
 
 
 interface AnnouncementRepository {
-    fun findByType(type: String): Announcement
+    fun findByType(type: String): Announcement?
+
+    fun findByUuid(uuid: String): Announcement?
 
     fun save(announcement: Announcement)
 
