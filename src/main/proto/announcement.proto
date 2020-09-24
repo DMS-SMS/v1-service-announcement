@@ -55,7 +55,7 @@ message GetAnnouncementDetailResponse {
 }
 
 message CreateAnnouncementRequest {
-    int32 uuid = 1;
+    string uuid = 1;
     string type = 2;
     string title = 3;
     string content = 4;
@@ -68,7 +68,7 @@ message CreateAnnouncementResponse {
 }
 
 message UpdateAnnouncementRequest {
-    int32 uuid = 1;
+    string uuid = 1;
     string aid = 2;
     string title = 3;
     string content = 4;
@@ -81,7 +81,7 @@ message UpdateAnnouncementResponse {
 }
 
 message DeleteAnnouncementRequest {
-    int32 uuid = 1;
+    string uuid = 1;
     string aid = 2;
 }
 
