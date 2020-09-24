@@ -1,6 +1,7 @@
 package dsm.service.announcement.domain.repositories
 
 import dsm.service.announcement.domain.entities.Announcement
+import org.json.JSONObject
 
 
 interface AnnouncementRepository {
@@ -8,5 +9,5 @@ interface AnnouncementRepository {
 
     fun save(announcement: Announcement)
 
-    fun saveContents(contents: String)
+    fun saveContent(content: String): String
 }
