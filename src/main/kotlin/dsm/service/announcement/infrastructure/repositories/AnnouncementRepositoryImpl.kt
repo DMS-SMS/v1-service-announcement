@@ -1,5 +1,6 @@
 package dsm.service.announcement.infrastructure.repositories
 
+import com.mongodb.BasicDBObject
 import dsm.service.announcement.domain.entities.Announcement
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
 import dsm.service.announcement.infrastructure.mongo.MongoManager
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager
 import javax.persistence.EntityTransaction
 import javax.persistence.TypedQuery
 import org.bson.Document
+import org.bson.conversions.Bson
 import org.json.JSONObject
 
 class AnnouncementRepositoryImpl(
@@ -27,6 +29,13 @@ class AnnouncementRepositoryImpl(
 
     override fun findByUuid(uuid: String): Announcement? {
         return entityManager.find(Announcement::class.java, uuid)
+    }
+
+    override fun findContentByUuid(uuid: String): Document? {
+        val obj = BasicDBObject()
+        obj.put("uuid", uuid)
+
+        return mongoManager.collection.find(obj).first()
     }
 
     override fun save(announcement: Announcement) {
