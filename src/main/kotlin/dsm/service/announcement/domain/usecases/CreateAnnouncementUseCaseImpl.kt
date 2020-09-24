@@ -17,7 +17,6 @@ class CreateAnnouncementUseCaseImpl(
     }
 
     override fun createContent(content: String): String {
-        println(content)
         return announcementRepository.saveContent(content)
     }
 }
