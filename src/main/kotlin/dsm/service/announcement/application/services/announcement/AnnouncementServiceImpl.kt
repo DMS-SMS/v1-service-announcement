@@ -33,7 +33,7 @@ class AnnouncementServiceImpl(
             createAnnouncementRequest.content
         )
 
-        createAnnouncementUseCase.createAnnouncementUseCase(
+        createAnnouncementUseCase.createAnnouncement(
             announcementMapper.createAnnouncementRequestMapper(
                 createAnnouncementRequest, contentUuid))
 
