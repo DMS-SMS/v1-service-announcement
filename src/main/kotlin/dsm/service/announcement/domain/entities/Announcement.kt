@@ -21,7 +21,7 @@ open class Announcement(
     open var title: String? = null,
 
     @Column(name = "content_id")
-    open var content: String? = null,
+    open var contentUuid: String? = null,
 
     @Column(name = "target_grade")
     open var targetGrade: Int? = null,
