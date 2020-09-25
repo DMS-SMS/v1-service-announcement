@@ -9,10 +9,7 @@ import dsm.service.announcement.domain.usecases.CreateAnnouncementUseCaseImpl
 import dsm.service.announcement.domain.usecases.GetAnnouncementUseCase
 import dsm.service.announcement.domain.usecases.GetAnnouncementUseCaseImpl
 import dsm.service.announcement.infrastructure.repositories.AnnouncementRepositoryImpl
-import dsm.service.announcement.proto.CreateAnnouncementRequest
-import dsm.service.announcement.proto.CreateAnnouncementResponse
-import dsm.service.announcement.proto.GetAnnouncementRequest
-import dsm.service.announcement.proto.GetAnnouncementResponse
+import dsm.service.announcement.proto.*
 import jdk.nashorn.internal.parser.JSONParser
 import org.json.JSONObject
 
@@ -22,10 +19,19 @@ class AnnouncementServiceImpl(
     val createAnnouncementUseCase: CreateAnnouncementUseCase
 ) : AnnouncementService {
     override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
-        val announcements: List<Announcement?> = getAnnouncementUseCase.getAnnouncement(
+        val announcements: List<Announcement?> = getAnnouncementUseCase.getAnnouncements(
             getAnnouncementRequest.uuid, getAnnouncementRequest.type)
 
-        return announcementMapper.getAnnouncementResponseMapper(announcements)
+        return announcementMapper.getAnnouncementsResponseMapper(announcements)
+    }
+
+    override fun getAnnouncementDetail(getAnnouncementDetailRequest: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
+        val aid = getAnnouncementDetailRequest.aid
+        val announcement = getAnnouncementUseCase.getAnnouncement(aid)
+        val content = announcement?.contentUuid?.let {
+            getAnnouncementUseCase.getAnnouncementContent(it) }
+
+        return announcementMapper.getAnnouncementResponseMapper(announcement, content)
     }
 
     override fun createAnnouncement(createAnnouncementRequest: CreateAnnouncementRequest): CreateAnnouncementResponse {
