@@ -35,13 +35,26 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun saveContent(content: String, key: String): String {
-        val content: Document = Document.parse("{'uuid':'$key','content':$content}")
-        mongoManager.collection.insertOne(content)
+        val document: Document = Document.parse("{'uuid':'$key','content':$content}")
+        mongoManager.collection.insertOne(document)
         return key
     }
 
     override fun findClubAnnouncement(): List<Announcement?> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("FindClubeAnnouncement Called ")
+        val query: TypedQuery<Announcement> = entityManager.createQuery(
+            "SELECT a FROM Announcement a where a.type = :type",
+            Announcement::class.java
+        )
+
+        println(query)
+
+        val announcement: List<Announcement?> = query.
+            setParameter("type", "club").resultList;
+
+        println(announcement)
+
+        return announcement
     }
 
     override fun findSchoolAnnouncement(uuid: String): List<Announcement?> {
