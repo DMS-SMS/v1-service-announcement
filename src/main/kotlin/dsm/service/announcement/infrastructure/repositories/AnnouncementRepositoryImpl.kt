@@ -18,7 +18,19 @@ class AnnouncementRepositoryImpl(
     val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
     override fun findByUuid(uuid: String): Announcement? {
-        return entityManager.find(Announcement::class.java, uuid)
+        val query: TypedQuery<Announcement> = entityManager.createQuery(
+            "SELECT a FROM Announcement a where a.uuid = :uuid",
+            Announcement::class.java
+        )
+
+        var announcement: Announcement?
+
+        try {
+            announcement = query.setParameter("uuid", "$uuid").singleResult
+        } catch (e: Exception) {
+            announcement = null
+        }
+        return announcement
     }
 
     override fun findContentByUuid(uuid: String): Document? {
