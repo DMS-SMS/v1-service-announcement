@@ -21,9 +21,9 @@ class AnnouncementServiceImpl(
     val getAnnouncementUseCase: GetAnnouncementUseCase,
     val createAnnouncementUseCase: CreateAnnouncementUseCase
 ) : AnnouncementService {
-
     override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
-        val a = AnnouncementRepositoryImpl().findByType("hello")
+        val announcement = getAnnouncementUseCase.getAnnouncement(
+            getAnnouncementRequest.uuid, getAnnouncementRequest.type)
         return GetAnnouncementResponse.newBuilder()
             .build()
     }
