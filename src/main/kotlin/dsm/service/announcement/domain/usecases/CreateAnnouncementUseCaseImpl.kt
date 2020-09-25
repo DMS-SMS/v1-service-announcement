@@ -22,8 +22,9 @@ class CreateAnnouncementUseCaseImpl(
     override fun createAnnouncementUuid(): String {
         while (true) {
             val key = generateRandomKey(12)
-            if (announcementRepository.findByUuid(key) == null )
-                return "Announcement-$key"
+            val uuid = "announcement-$key"
+            if (announcementRepository.findByUuid(uuid) == null )
+                return uuid
         }
     }
 
