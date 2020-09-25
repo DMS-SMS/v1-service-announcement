@@ -1,12 +1,11 @@
 package dsm.service.announcement.application.services.announcement
 
-import dsm.service.announcement.proto.CreateAnnouncementRequest
-import dsm.service.announcement.proto.CreateAnnouncementResponse
-import dsm.service.announcement.proto.GetAnnouncementRequest
-import dsm.service.announcement.proto.GetAnnouncementResponse
+import dsm.service.announcement.proto.*
 
 interface AnnouncementService {
     fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse
+
+    fun getAnnouncementDetail(getAnnouncementDetailRequest: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse
 
     fun createAnnouncement(createAnnouncementRequest: CreateAnnouncementRequest): CreateAnnouncementResponse
 }
