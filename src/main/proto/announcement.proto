@@ -28,7 +28,7 @@ message GetAnnouncementResponse {
 }
 
 message AnnouncementPreview {
-    int32 number = 1;
+    int64 number = 1;
     string aid = 2;
     string title = 3;
     string type = 4;
