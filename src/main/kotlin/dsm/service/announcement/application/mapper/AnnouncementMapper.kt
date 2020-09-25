@@ -47,4 +47,20 @@ class AnnouncementMapper {
 
         return getAnnouncementResponse.build()
     }
+    fun getAnnouncementResponseMapper(
+        announcement: Announcement?,
+        content: Document?
+    ): GetAnnouncementDetailResponse {
+        var response = GetAnnouncementDetailResponse.newBuilder()
+
+        if (announcement != null && content != null) {
+            response
+                .setStatus(200)
+                .setTitle(announcement.title)
+                .setDate(Timestamp.valueOf(announcement.date).time)
+                .setContent(content.toJson())
+        }
+
+        return response.build()
+    }
 }
