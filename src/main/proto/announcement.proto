@@ -29,11 +29,12 @@ message GetAnnouncementResponse {
 
 message AnnouncementPreview {
     int32 number = 1;
-    string title = 2;
-    string type = 3;
-    int64 date = 4;
-    int32 views = 5;
-    string club = 6;
+    string aid = 2;
+    string title = 3;
+    string type = 4;
+    int64 date = 5;
+    int32 views = 6;
+    string club = 7;
 }
 
 message GetAnnouncementDetailRequest {
