@@ -1,7 +1,10 @@
 package dsm.service.announcement.application.mapper
 
 import dsm.service.announcement.domain.entities.Announcement
+import dsm.service.announcement.proto.AnnouncementPreview
 import dsm.service.announcement.proto.CreateAnnouncementRequest
+import dsm.service.announcement.proto.GetAnnouncementResponse
+import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -19,5 +22,29 @@ class AnnouncementMapper {
             targetGrade = createAnnouncementRequest.targetGrade,
             targetClass = createAnnouncementRequest.targetClass
         )
+    }
+
+    fun getAnnouncementResponseMapper(
+        announcements: List<Announcement?>
+    ): GetAnnouncementResponse {
+        val getAnnouncementResponse = GetAnnouncementResponse.newBuilder()
+            .setStatus(200)
+
+        for(announcement in announcements) {
+            if (announcement != null) {
+                    getAnnouncementResponse
+                        .addAnnouncement(
+                            AnnouncementPreview.newBuilder()
+                                .setNumber(1)
+                                .setDate(
+                                    Timestamp.valueOf(announcement.date).time)
+                                .setTitle(announcement.title)
+                                .setType(announcement.type)
+                                .setViews(1).build()
+                        )
+                }
+            }
+
+        return getAnnouncementResponse.build()
     }
 }
