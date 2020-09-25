@@ -6,9 +6,9 @@ import org.json.JSONObject
 
 
 interface AnnouncementRepository {
-    fun findSchoolAnnouncement(uuid: String): List<Announcement?>
+    fun findSchoolAnnouncements(uuid: String): List<Announcement?>
 
-    fun findClubAnnouncement(): List<Announcement?>
+    fun findClubAnnouncements(): List<Announcement?>
 
     fun findByUuid(uuid: String): Announcement?
 

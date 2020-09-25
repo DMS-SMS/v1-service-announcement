@@ -8,9 +8,9 @@ class GetAnnouncementUseCaseImpl(
 ): GetAnnouncementUseCase {
     override fun getAnnouncement(uuid: String, type: String): List<Announcement?> {
         return if (type == "club") {
-            announcementRepository.findClubAnnouncement()
+            announcementRepository.findClubAnnouncements()
         } else {
-            announcementRepository.findSchoolAnnouncement(uuid)
+            announcementRepository.findSchoolAnnouncements(uuid)
         }
     }
 }

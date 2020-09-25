@@ -40,24 +40,19 @@ class AnnouncementRepositoryImpl(
         return key
     }
 
-    override fun findClubAnnouncement(): List<Announcement?> {
-        println("FindClubeAnnouncement Called ")
+    override fun findClubAnnouncements(): List<Announcement?> {
         val query: TypedQuery<Announcement> = entityManager.createQuery(
             "SELECT a FROM Announcement a where a.type = :type",
             Announcement::class.java
         )
 
-        println(query)
-
         val announcement: List<Announcement?> = query.
             setParameter("type", "club").resultList;
-
-        println(announcement)
 
         return announcement
     }
 
-    override fun findSchoolAnnouncement(uuid: String): List<Announcement?> {
+    override fun findSchoolAnnouncements(uuid: String): List<Announcement?> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
