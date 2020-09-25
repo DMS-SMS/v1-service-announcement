@@ -7,9 +7,13 @@ import javax.persistence.*
 @Entity
 @Table(name = "announcement")
 open class Announcement(
-    @Id
     @Column(name = "uuid")
     open var uuid: String? = null,
+
+    @Id
+    @Column(name = "number")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    open var number: Long? = null,
 
     @Column(name = "writer_uuid")
     open var writerUuid: String? = null,
