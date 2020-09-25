@@ -49,5 +49,13 @@ class AnnouncementRepositoryImpl(
         mongoManager.collection.insertOne(content)
         return key
     }
+
+    override fun findClubAnnouncement(): List<Announcement?> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun findSchoolAnnouncement(uuid: String): List<Announcement?> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
