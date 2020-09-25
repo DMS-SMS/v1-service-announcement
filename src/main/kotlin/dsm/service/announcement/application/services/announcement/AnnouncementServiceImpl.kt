@@ -22,10 +22,10 @@ class AnnouncementServiceImpl(
     val createAnnouncementUseCase: CreateAnnouncementUseCase
 ) : AnnouncementService {
     override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
-        val announcement = getAnnouncementUseCase.getAnnouncement(
+        val announcements: List<Announcement?> = getAnnouncementUseCase.getAnnouncement(
             getAnnouncementRequest.uuid, getAnnouncementRequest.type)
-        return GetAnnouncementResponse.newBuilder()
-            .build()
+
+        return announcementMapper.getAnnouncementResponseMapper(announcements)
     }
 
     override fun createAnnouncement(createAnnouncementRequest: CreateAnnouncementRequest): CreateAnnouncementResponse {
