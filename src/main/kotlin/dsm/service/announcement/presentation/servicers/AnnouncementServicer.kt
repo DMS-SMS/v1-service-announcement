@@ -3,17 +3,21 @@ package dsm.service.announcement.presentation.servicers
 import dsm.service.announcement.application.mapper.AnnouncementMapper
 import dsm.service.announcement.application.services.announcement.AnnouncementService
 import dsm.service.announcement.application.services.announcement.AnnouncementServiceImpl
+import dsm.service.announcement.domain.repositories.AnnouncementRepository
 import dsm.service.announcement.domain.usecases.CreateAnnouncementUseCaseImpl
 import dsm.service.announcement.domain.usecases.GetAnnouncementUseCaseImpl
 import dsm.service.announcement.infrastructure.repositories.AnnouncementRepositoryImpl
 import dsm.service.announcement.proto.*
 
 class AnnouncementServicer(
+    private val announcementRepository: AnnouncementRepository = AnnouncementRepositoryImpl(),
     private val announcementService: AnnouncementService = AnnouncementServiceImpl(
         announcementMapper = AnnouncementMapper(),
-        getAnnouncementUseCase = GetAnnouncementUseCaseImpl(),
+        getAnnouncementUseCase = GetAnnouncementUseCaseImpl(
+            announcementRepository
+        ),
         createAnnouncementUseCase = CreateAnnouncementUseCaseImpl(
-            announcementRepository = AnnouncementRepositoryImpl()
+            announcementRepository
         )
     )
 ): AnnouncementServiceGrpcKt.AnnouncementServiceCoroutineImplBase() {
