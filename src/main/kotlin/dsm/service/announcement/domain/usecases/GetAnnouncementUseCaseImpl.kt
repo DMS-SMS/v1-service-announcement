@@ -15,11 +15,11 @@ class GetAnnouncementUseCaseImpl(
         }
     }
 
-    override fun getAnnouncement(uuid: String): Announcement? {
-        return announcementRepository.findByUuid(uuid)
+    override fun getAnnouncement(announcementUuid: String): Announcement? {
+        return announcementRepository.findByUuid(announcementUuid)
     }
 
-    override fun getAnnouncementContent(uuid: String): Document? {
-        return announcementRepository.findContentByUuid(uuid)
+    override fun getAnnouncementContent(contentUuid: String): Document? {
+        return announcementRepository.findContentByUuid(contentUuid)
     }
 }
