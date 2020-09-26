@@ -16,7 +16,7 @@ class CreateAnnouncementUseCaseImpl(
 
     override fun createContent(content: String): String {
         return announcementRepository
-            .saveContent(content, createContentUuid())
+            .saveContent(createContentUuid(), content)
     }
 
     override fun createAnnouncementUuid(): String {
