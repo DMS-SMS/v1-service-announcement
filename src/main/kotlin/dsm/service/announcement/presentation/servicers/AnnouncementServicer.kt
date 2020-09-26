@@ -6,6 +6,7 @@ import dsm.service.announcement.application.services.announcement.AnnouncementSe
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
 import dsm.service.announcement.domain.usecases.CreateAnnouncementUseCaseImpl
 import dsm.service.announcement.domain.usecases.GetAnnouncementUseCaseImpl
+import dsm.service.announcement.domain.usecases.UpdateAnnouncementUseCaseImpl
 import dsm.service.announcement.infrastructure.repositories.AnnouncementRepositoryImpl
 import dsm.service.announcement.proto.*
 
@@ -17,6 +18,9 @@ class AnnouncementServicer(
             announcementRepository
         ),
         createAnnouncementUseCase = CreateAnnouncementUseCaseImpl(
+            announcementRepository
+        ),
+        updateAnnouncementUseCase = UpdateAnnouncementUseCaseImpl(
             announcementRepository
         )
     )
