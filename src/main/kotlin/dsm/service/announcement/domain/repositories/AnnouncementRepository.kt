@@ -21,4 +21,8 @@ interface AnnouncementRepository {
     fun updateAnnouncement(announcementUuid: String, title: String, targetGrade: Int, targetClass: Int): String?
 
     fun updateContent(contentUuid: String, content: String)
+
+    fun deleteAnnouncement(announcementUuid: String): String?
+
+    fun deleteContent(contentUuid: String?)
 }
