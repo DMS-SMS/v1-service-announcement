@@ -10,11 +10,15 @@ interface AnnouncementRepository {
 
     fun findClubAnnouncements(): List<Announcement?>
 
-    fun findByUuid(uuid: String): Announcement?
+    fun findByUuid(announcementUuid: String): Announcement?
 
-    fun findContentByUuid(uuid: String): Document?
+    fun findContentByUuid(contentUuid: String): Document?
 
     fun save(announcement: Announcement)
 
-    fun saveContent(content: String, key: String): String
+    fun saveContent(contentUuid: String, content: String): String
+
+    fun updateAnnouncement(announcementUuid: String, title: String, targetGrade: Int, targetClass: Int): String?
+
+    fun updateContent(contentUuid: String, content: String)
 }
