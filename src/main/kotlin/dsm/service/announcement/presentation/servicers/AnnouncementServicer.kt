@@ -43,6 +43,6 @@ class AnnouncementServicer(
     }
 
     override suspend fun deleteAnnouncement(request: DeleteAnnouncementRequest): DeleteAnnouncementResponse {
-        return super.deleteAnnouncement(request)
+        return announcementService.deleteAnnouncement(request)
     }
 }
