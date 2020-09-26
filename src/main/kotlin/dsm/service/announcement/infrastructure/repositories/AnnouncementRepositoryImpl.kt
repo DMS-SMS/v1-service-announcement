@@ -88,3 +88,18 @@ class AnnouncementRepositoryImpl(
 
         return null
     }
+
+    override fun updateContent(contentUuid: String, content: String) {
+        val filter = BasicDBObject()
+        filter.put("uuid", contentUuid)
+
+        val contentObject= BasicDBObject()
+        contentObject.put("content", BasicDBObject.parse(content))
+
+        val document = BasicDBObject()
+        document.put("\$set", contentObject)
+
+        mongoManager.collection.updateOne(filter, document)
+    }
+}
+
