@@ -113,3 +113,11 @@ class AnnouncementRepositoryImpl(
         return null
     }
 
+    override fun deleteContent(contentUuid: String?) {
+        val filter = BasicDBObject()
+        filter.put("uuid", contentUuid)
+
+        mongoManager.collection.deleteOne(filter)
+    }
+}
+
