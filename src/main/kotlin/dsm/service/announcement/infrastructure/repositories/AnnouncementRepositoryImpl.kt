@@ -67,5 +67,24 @@ class AnnouncementRepositoryImpl(
     override fun findSchoolAnnouncements(uuid: String): List<Announcement?> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-}
 
+    override fun updateAnnouncement(
+        announcementUuid: String,
+        title: String,
+        targetGrade: Int,
+        targetClass: Int
+    ): String? {
+        val announcement = findByUuid(announcementUuid)
+        if (announcement != null) {
+            transaction.begin()
+
+            announcement.title = title
+            announcement.targetGrade = targetGrade
+            announcement.targetClass = targetClass
+
+            transaction.commit()
+            return announcement.contentUuid
+        }
+
+        return null
+    }
