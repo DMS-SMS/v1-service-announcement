@@ -9,7 +9,7 @@ class DeleteAnnouncementUseCaseImpl(
         return announcementRepository.deleteAnnouncement(announcementUuid)
     }
 
-    override fun deleteContent(contentUuid: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteContent(contentUuid: String?) {
+        announcementRepository.deleteContent(contentUuid)
     }
 }
