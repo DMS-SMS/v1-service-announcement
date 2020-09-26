@@ -17,7 +17,7 @@ class AnnouncementRepositoryImpl(
     val transaction: EntityTransaction = MySqlEntityManager.tx,
     val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
-    override fun findByUuid(uuid: String): Announcement? {
+    override fun findByUuid(announcementUuid: String): Announcement? {
         val query: TypedQuery<Announcement> = entityManager.createQuery(
             "SELECT a FROM Announcement a where a.uuid = :uuid",
             Announcement::class.java
@@ -26,16 +26,16 @@ class AnnouncementRepositoryImpl(
         var announcement: Announcement?
 
         try {
-            announcement = query.setParameter("uuid", "$uuid").singleResult
+            announcement = query.setParameter("uuid", "$announcementUuid").singleResult
         } catch (e: Exception) {
             announcement = null
         }
         return announcement
     }
 
-    override fun findContentByUuid(uuid: String): Document? {
+    override fun findContentByUuid(contentUuid: String): Document? {
         val obj = BasicDBObject()
-        obj.put("uuid", uuid)
+        obj.put("uuid", contentUuid)
 
         return mongoManager.collection.find(obj).first()
     }
@@ -46,10 +46,10 @@ class AnnouncementRepositoryImpl(
         transaction.commit()
     }
 
-    override fun saveContent(content: String, key: String): String {
-        val document: Document = Document.parse("{'uuid':'$key','content':$content}")
+    override fun saveContent(contentUuid: String, content: String): String {
+        val document: Document = Document.parse("{'uuid':'$contentUuid','content':$content}")
         mongoManager.collection.insertOne(document)
-        return key
+        return contentUuid
     }
 
     override fun findClubAnnouncements(): List<Announcement?> {
