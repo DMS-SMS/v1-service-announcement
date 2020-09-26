@@ -14,7 +14,8 @@ class AnnouncementServiceImpl(
     val announcementMapper: AnnouncementMapper,
     val getAnnouncementUseCase: GetAnnouncementUseCase,
     val createAnnouncementUseCase: CreateAnnouncementUseCase,
-    val updateAnnouncementUseCase: UpdateAnnouncementUseCase
+    val updateAnnouncementUseCase: UpdateAnnouncementUseCase,
+    val deleteAnnouncementUseCase: DeleteAnnouncementUseCase
 ) : AnnouncementService {
     override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
         val announcements: List<Announcement?> = getAnnouncementUseCase.getAnnouncements(
@@ -62,6 +63,11 @@ class AnnouncementServiceImpl(
     }
 
     override fun deleteAnnouncement(deleteAnnouncementRequest: DeleteAnnouncementRequest): DeleteAnnouncementResponse {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val contentUuid: String? = deleteAnnouncementUseCase.deleteAnnouncement(
+            deleteAnnouncementRequest.aid)
+
+        deleteAnnouncementUseCase.deleteContent(contentUuid)
+
+        return DeleteAnnouncementResponse.newBuilder().build()
     }
 }
