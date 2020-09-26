@@ -1,5 +1,6 @@
 package dsm.service.announcement.application.services.announcement
 
+
 import dsm.service.announcement.proto.*
 
 interface AnnouncementService {
@@ -8,4 +9,8 @@ interface AnnouncementService {
     fun getAnnouncementDetail(getAnnouncementDetailRequest: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse
 
     fun createAnnouncement(createAnnouncementRequest: CreateAnnouncementRequest): CreateAnnouncementResponse
+
+    fun updateAnnouncement(updateAnnouncementRequest: UpdateAnnouncementRequest): UpdateAnnouncementResponse
+
+    fun deleteAnnouncement(deleteAnnouncementRequest: DeleteAnnouncementRequest): DeleteAnnouncementResponse
 }
