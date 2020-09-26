@@ -101,5 +101,15 @@ class AnnouncementRepositoryImpl(
 
         mongoManager.collection.updateOne(filter, document)
     }
-}
+
+    override fun deleteAnnouncement(announcementUuid: String): String? {
+        val announcement: Announcement? = findByUuid(announcementUuid)
+        transaction.begin()
+        entityManager.remove(announcement)
+        transaction.commit()
+        if (announcement != null) {
+            return announcement.contentUuid
+        }
+        return null
+    }
 
