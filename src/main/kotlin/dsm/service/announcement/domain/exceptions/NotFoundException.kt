@@ -5,5 +5,4 @@ class NotFoundException: BusinessException {
                 code: Int = -1001,
                 message: String = "Not Found"):
             super(status, code, message)
-} {
 }
