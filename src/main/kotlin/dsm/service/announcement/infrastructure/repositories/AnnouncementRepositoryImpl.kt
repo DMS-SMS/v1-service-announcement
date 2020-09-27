@@ -19,13 +19,13 @@ class AnnouncementRepositoryImpl(
     val transaction: EntityTransaction = MySqlEntityManager.tx,
     val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
-    override fun findByUuid(announcementUuid: String): Announcement? {
+    override fun findByUuid(announcementUuid: String): Announcement {
         val query: TypedQuery<Announcement> = entityManager.createQuery(
             "SELECT a FROM Announcement a where a.uuid = :uuid",
             Announcement::class.java
         )
 
-        var announcement: Announcement?
+        var announcement: Announcement
 
         try {
             announcement = query.setParameter("uuid", "$announcementUuid").singleResult
