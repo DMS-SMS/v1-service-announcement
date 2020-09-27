@@ -5,12 +5,15 @@ import dsm.service.announcement.application.mapper.AnnouncementMapper
 import dsm.service.announcement.application.services.announcement.AnnouncementService
 import dsm.service.announcement.application.services.announcement.AnnouncementServiceImpl
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
+import dsm.service.announcement.domain.repositories.AuthRepository
 import dsm.service.announcement.domain.usecases.*
 import dsm.service.announcement.infrastructure.repositories.AnnouncementRepositoryImpl
+import dsm.service.announcement.infrastructure.repositories.AuthRepositoryImpl
 import dsm.service.announcement.proto.*
 
 class AnnouncementServicer(
     private val announcementRepository: AnnouncementRepository = AnnouncementRepositoryImpl(),
+    private val authRepository: AuthRepository = AuthRepositoryImpl(),
     private val announcementServiceImpl: AnnouncementService = AnnouncementServiceImpl(
         announcementMapper = AnnouncementMapper(),
         getAnnouncementUseCase = GetAnnouncementUseCaseImpl(
@@ -26,7 +29,8 @@ class AnnouncementServicer(
             announcementRepository
         ),
         validateUseCase = ValidateUseCaseImpl(
-            announcementRepository
+            announcementRepository,
+            authRepository
         )
     ),
     private val announcementService: AnnouncementServiceProxy = AnnouncementServiceProxy(
