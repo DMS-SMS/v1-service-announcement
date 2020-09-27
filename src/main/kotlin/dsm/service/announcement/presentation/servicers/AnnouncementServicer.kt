@@ -1,19 +1,17 @@
 package dsm.service.announcement.presentation.servicers
 
+import dsm.service.announcement.application.aop.AnnouncementServiceProxy
 import dsm.service.announcement.application.mapper.AnnouncementMapper
 import dsm.service.announcement.application.services.announcement.AnnouncementService
 import dsm.service.announcement.application.services.announcement.AnnouncementServiceImpl
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
-import dsm.service.announcement.domain.usecases.CreateAnnouncementUseCaseImpl
-import dsm.service.announcement.domain.usecases.DeleteAnnouncementUseCaseImpl
-import dsm.service.announcement.domain.usecases.GetAnnouncementUseCaseImpl
-import dsm.service.announcement.domain.usecases.UpdateAnnouncementUseCaseImpl
+import dsm.service.announcement.domain.usecases.*
 import dsm.service.announcement.infrastructure.repositories.AnnouncementRepositoryImpl
 import dsm.service.announcement.proto.*
 
 class AnnouncementServicer(
     private val announcementRepository: AnnouncementRepository = AnnouncementRepositoryImpl(),
-    private val announcementService: AnnouncementService = AnnouncementServiceImpl(
+    private val announcementServiceImpl: AnnouncementService = AnnouncementServiceImpl(
         announcementMapper = AnnouncementMapper(),
         getAnnouncementUseCase = GetAnnouncementUseCaseImpl(
             announcementRepository
@@ -26,7 +24,13 @@ class AnnouncementServicer(
         ),
         deleteAnnouncementUseCase = DeleteAnnouncementUseCaseImpl(
             announcementRepository
+        ),
+        validateUseCase = ValidateUseCaseImpl(
+            announcementRepository
         )
+    ),
+    private val announcementService: AnnouncementServiceProxy = AnnouncementServiceProxy(
+        announcementServiceImpl
     )
 ): AnnouncementServiceGrpcKt.AnnouncementServiceCoroutineImplBase() {
 
