@@ -35,6 +35,8 @@ open class AnnouncementServiceImpl(
     }
 
     override fun createAnnouncement(createAnnouncementRequest: CreateAnnouncementRequest): CreateAnnouncementResponse {
+        validateUseCase.validateAuth(createAnnouncementRequest.uuid, createAnnouncementRequest.type)
+
         val contentUuid: String = createAnnouncementUseCase.createContent(
             createAnnouncementRequest.content
         )
