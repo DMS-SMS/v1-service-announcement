@@ -19,7 +19,7 @@ class AnnouncementRepositoryImpl(
     val transaction: EntityTransaction = MySqlEntityManager.tx,
     val mongoManager: MongoManager = MongoManager
 ): AnnouncementRepository {
-    override fun findByUuid(announcementUuid: String): Announcement {
+    override fun findByUuid(announcementUuid: String): Announcement? {
         val query: TypedQuery<Announcement> = entityManager.createQuery(
             "SELECT a FROM Announcement a where a.uuid = :uuid",
             Announcement::class.java
@@ -30,7 +30,7 @@ class AnnouncementRepositoryImpl(
         try {
             announcement = query.setParameter("uuid", "$announcementUuid").singleResult
         } catch (e: Exception) {
-            throw NotFoundException()
+            return null
         }
         return announcement
     }
@@ -44,7 +44,11 @@ class AnnouncementRepositoryImpl(
 
     override fun validateAnnouncement(announcementUuid: String, uuid: String) {
         val announcement = findByUuid(announcementUuid)
-        if (announcement.writerUuid != uuid) throw AuthorityFailedException()
+        if (announcement != null) {
+            if (announcement.writerUuid != uuid) throw AuthorityFailedException()
+        } else {
+            throw NotFoundException()
+        }
     }
 
     override fun save(announcement: Announcement) {
