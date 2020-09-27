@@ -1,6 +1,6 @@
 package dsm.service.announcement.presentation.servicers
 
-import dsm.service.announcement.application.aop.AnnouncementServiceProxy
+import dsm.service.announcement.application.proxy.AnnouncementServiceProxy
 import dsm.service.announcement.application.mapper.AnnouncementMapper
 import dsm.service.announcement.application.services.announcement.AnnouncementService
 import dsm.service.announcement.application.services.announcement.AnnouncementServiceImpl
