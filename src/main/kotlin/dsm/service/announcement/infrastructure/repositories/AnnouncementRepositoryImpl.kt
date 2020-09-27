@@ -42,6 +42,11 @@ class AnnouncementRepositoryImpl(
         return mongoManager.collection.find(obj).first()
     }
 
+    override fun validateAnnouncement(announcementUuid: String, uuid: String) {
+        val announcement = findByUuid(announcementUuid)
+        if (announcement.writerUuid != uuid) throw AuthorityFailedException()
+    }
+
     override fun save(announcement: Announcement) {
         transaction.begin()
         entityManager.persist(announcement)
