@@ -14,6 +14,8 @@ interface AnnouncementRepository {
 
     fun findContentByUuid(contentUuid: String): Document?
 
+    fun validateAnnouncement(announcementUuid: String, uuid: String)
+
     fun save(announcement: Announcement)
 
     fun saveContent(contentUuid: String, content: String): String
