@@ -1,10 +1,8 @@
-package dsm.service.announcement.application.aop
+package dsm.service.announcement.application.proxy
 
-import com.google.protobuf.MessageLite
 import dsm.service.announcement.application.services.announcement.AnnouncementService
 import dsm.service.announcement.domain.exceptions.BusinessException
 import dsm.service.announcement.proto.*
-import io.grpc.stub.StreamObserver
 
 
 class AnnouncementServiceProxy(
