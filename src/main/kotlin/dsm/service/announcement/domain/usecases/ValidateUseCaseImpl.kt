@@ -6,6 +6,6 @@ class ValidateUseCaseImpl(
     val announcementRepository: AnnouncementRepository
 ): ValidateUseCase {
     override fun validateAnnouncementAuthority(announcementUuid: String, userUuid: String) {
-        val announcement = announcementRepository.findByUuid(announcementUuid)
+        val announcement = announcementRepository.validateAnnouncement(announcementUuid, userUuid)
     }
 }
