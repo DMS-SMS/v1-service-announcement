@@ -10,7 +10,7 @@ interface AnnouncementRepository {
 
     fun findClubAnnouncements(): List<Announcement?>
 
-    fun findByUuid(announcementUuid: String): Announcement
+    fun findByUuid(announcementUuid: String): Announcement?
 
     fun findContentByUuid(contentUuid: String): Document?
 
