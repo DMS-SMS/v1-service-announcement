@@ -2,6 +2,8 @@ package dsm.service.announcement.infrastructure.repositories
 
 import com.mongodb.BasicDBObject
 import dsm.service.announcement.domain.entities.Announcement
+import dsm.service.announcement.domain.exceptions.AuthorityFailedException
+import dsm.service.announcement.domain.exceptions.NotFoundException
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
 import dsm.service.announcement.infrastructure.mongo.MongoManager
 import dsm.service.announcement.infrastructure.mysql.MySqlEntityManager
@@ -28,7 +30,7 @@ class AnnouncementRepositoryImpl(
         try {
             announcement = query.setParameter("uuid", "$announcementUuid").singleResult
         } catch (e: Exception) {
-            announcement = null
+            throw NotFoundException()
         }
         return announcement
     }
