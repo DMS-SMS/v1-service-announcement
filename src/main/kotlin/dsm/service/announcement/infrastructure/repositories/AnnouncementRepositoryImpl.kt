@@ -52,8 +52,6 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun save(announcement: Announcement) {
-        if (announcement.writerUuid == null) throw AuthorityFailedException()
-        TODO("선생 & 동아리장 공지 확인 관련 Impl 작성")
         transaction.begin()
         entityManager.persist(announcement)
         transaction.commit()
