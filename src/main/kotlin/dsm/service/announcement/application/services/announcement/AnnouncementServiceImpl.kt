@@ -44,6 +44,7 @@ open class AnnouncementServiceImpl(
                 createAnnouncementRequest, contentUuid))
 
         return CreateAnnouncementResponse.newBuilder()
+            .setStatus(201)
             .build()
     }
 
@@ -63,7 +64,9 @@ open class AnnouncementServiceImpl(
                 updateAnnouncementRequest.content)
         }
 
-        return UpdateAnnouncementResponse.newBuilder().build()
+        return UpdateAnnouncementResponse.newBuilder()
+            .setStatus(200)
+            .build()
     }
 
     override fun deleteAnnouncement(deleteAnnouncementRequest: DeleteAnnouncementRequest): DeleteAnnouncementResponse {
@@ -76,6 +79,8 @@ open class AnnouncementServiceImpl(
 
         deleteAnnouncementUseCase.deleteContent(contentUuid)
 
-        return DeleteAnnouncementResponse.newBuilder().build()
+        return DeleteAnnouncementResponse.newBuilder()
+            .setStatus(200)
+            .build()
     }
 }
