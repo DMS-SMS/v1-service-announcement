@@ -10,14 +10,15 @@ import dsm.service.announcement.proto.*
 import jdk.nashorn.internal.parser.JSONParser
 import org.json.JSONObject
 
-class AnnouncementServiceImpl(
+open class AnnouncementServiceImpl(
     val announcementMapper: AnnouncementMapper,
     val getAnnouncementUseCase: GetAnnouncementUseCase,
     val createAnnouncementUseCase: CreateAnnouncementUseCase,
     val updateAnnouncementUseCase: UpdateAnnouncementUseCase,
-    val deleteAnnouncementUseCase: DeleteAnnouncementUseCase
+    val deleteAnnouncementUseCase: DeleteAnnouncementUseCase,
+    val validateUseCase: ValidateUseCase
 ) : AnnouncementService {
-    override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
+    open override fun getAnnouncement(getAnnouncementRequest: GetAnnouncementRequest): GetAnnouncementResponse {
         val announcements: List<Announcement?> = getAnnouncementUseCase.getAnnouncements(
             getAnnouncementRequest.uuid, getAnnouncementRequest.type)
 
@@ -47,6 +48,9 @@ class AnnouncementServiceImpl(
     }
 
     override fun updateAnnouncement(updateAnnouncementRequest: UpdateAnnouncementRequest): UpdateAnnouncementResponse {
+        validateUseCase.validateAnnouncementAuthority(
+            updateAnnouncementRequest.aid, updateAnnouncementRequest.uuid)
+
         val contentUuid = updateAnnouncementUseCase.updateAnnouncement(
             updateAnnouncementRequest.aid,
             updateAnnouncementRequest.title,
@@ -63,6 +67,10 @@ class AnnouncementServiceImpl(
     }
 
     override fun deleteAnnouncement(deleteAnnouncementRequest: DeleteAnnouncementRequest): DeleteAnnouncementResponse {
+        validateUseCase.validateAnnouncementAuthority(
+            deleteAnnouncementRequest.aid, deleteAnnouncementRequest.uuid
+        )
+
         val contentUuid: String? = deleteAnnouncementUseCase.deleteAnnouncement(
             deleteAnnouncementRequest.aid)
 
