@@ -58,7 +58,7 @@ open class AnnouncementServiceImpl(
             updateAnnouncementRequest.aid,
             updateAnnouncementRequest.title,
             updateAnnouncementRequest.targetGrade,
-            updateAnnouncementRequest.targetClass)
+            updateAnnouncementRequest.targetGroup)
 
         if (contentUuid != null) {
             updateAnnouncementUseCase.updateContent(

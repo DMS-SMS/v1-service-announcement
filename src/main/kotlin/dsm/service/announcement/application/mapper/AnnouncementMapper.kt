@@ -22,7 +22,7 @@ class AnnouncementMapper {
             title = createAnnouncementRequest.title,
             contentUuid = contentUuid,
             targetGrade = createAnnouncementRequest.targetGrade,
-            targetClass = createAnnouncementRequest.targetClass
+            targetClass = createAnnouncementRequest.targetGroup
         )
     }
 
