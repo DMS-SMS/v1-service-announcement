@@ -61,7 +61,7 @@ message CreateAnnouncementRequest {
     string title = 3;
     string content = 4;
     int32 target_grade = 5;
-    int32 target_class = 6;
+    int32 target_group = 6;
 }
 
 message CreateAnnouncementResponse {
@@ -76,7 +76,7 @@ message UpdateAnnouncementRequest {
     string title = 3;
     string content = 4;
     int32 target_grade = 5;
-    int32 target_class = 6;
+    int32 target_group = 6;
 }
 
 message UpdateAnnouncementResponse {
