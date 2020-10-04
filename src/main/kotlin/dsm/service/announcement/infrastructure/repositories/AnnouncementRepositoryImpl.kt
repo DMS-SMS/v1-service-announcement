@@ -5,8 +5,11 @@ import dsm.service.announcement.domain.entities.Announcement
 import dsm.service.announcement.domain.exceptions.AuthorityFailedException
 import dsm.service.announcement.domain.exceptions.NotFoundException
 import dsm.service.announcement.domain.repositories.AnnouncementRepository
+import dsm.service.announcement.infrastructure.auth.AuthManager
 import dsm.service.announcement.infrastructure.mongo.MongoManager
 import dsm.service.announcement.infrastructure.mysql.MySqlEntityManager
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import javax.persistence.EntityManager
 import javax.persistence.EntityTransaction
 import javax.persistence.TypedQuery
@@ -17,7 +20,8 @@ import org.json.JSONObject
 class AnnouncementRepositoryImpl(
     val entityManager: EntityManager = MySqlEntityManager.em,
     val transaction: EntityTransaction = MySqlEntityManager.tx,
-    val mongoManager: MongoManager = MongoManager
+    val mongoManager: MongoManager = MongoManager,
+    val authManager: AuthManager = AuthManager()
 ): AnnouncementRepository {
     override fun findByUuid(announcementUuid: String): Announcement? {
         val query: TypedQuery<Announcement> = entityManager.createQuery(
@@ -75,8 +79,25 @@ class AnnouncementRepositoryImpl(
         return announcement
     }
 
-    override fun findSchoolAnnouncements(uuid: String): List<Announcement?> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun findSchoolAnnouncements(uuid: String): List<Announcement?> = runBlocking {
+
+        val studentInform = authManager.getStudentInformation(
+            "f9ed4675f1c53513c61a3b3b4e25b4c0",
+            "a:a:0:0",
+            uuid
+        )
+
+        val query: TypedQuery<Announcement> = entityManager.createQuery(
+        "SELECT a FROM Announcement a WHERE a.type = :type AND a.targetGrade = :targetGrade AND a.targetClass = :targetClass ",
+        Announcement::class.java
+        )
+
+        val announcement: List<Announcement?> = query
+            .setParameter("targetGrade", studentInform.grade)
+            .setParameter("targetClass", studentInform.group)
+            .setParameter("type", "school").resultList;
+
+        return@runBlocking announcement
     }
 
     override fun updateAnnouncement(
