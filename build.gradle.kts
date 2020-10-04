@@ -5,7 +5,6 @@ import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
-
 plugins {
     java
     kotlin("jvm") version "1.3.61"
@@ -24,8 +23,8 @@ val jpaVersion = "1.0.0.Final"
 val hibernateVersion = "5.4.10.Final"
 val mongoDriverVersion = "3.12.7"
 val configurationVersion = "2.3"
+val consulVersion = "1.4.0"
 val jsonVersion = "20200518"
-
 
 repositories {
     mavenCentral()
@@ -33,6 +32,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("javax.annotation:javax.annotation-api:1.2")
     implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
@@ -46,12 +46,14 @@ dependencies {
     implementation("org.mongodb:mongo-java-driver:$mongoDriverVersion")
     implementation("org.apache.commons:commons-configuration2:$configurationVersion")
     implementation("org.json:json:$jsonVersion")
+    implementation("com.orbitz.consul:consul-client:$consulVersion")
     runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
 }
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
+
 
 tasks {
     compileKotlin {
