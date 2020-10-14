@@ -1,1 +1,0 @@
-C:\Users\MallyCrip\Desktop\gitfiles\v1-service-announcement\build\classes\kotlin\main\dsm\service\announcement\AnnouncementApplicationKt.class
