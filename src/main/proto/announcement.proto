@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dsm.service.announcement.proto";
+option java_outer_classname = "AnnouncementProto";
+
+package announcement;
+
+
+service AnnouncementService {
+    rpc GetAnnouncements (GetAnnouncementsRequest) returns (GetAnnouncementsResponse);
+    rpc GetAnnouncementDetail (GetAnnouncementDetailRequest) returns (GetAnnouncementDetailResponse);
+    rpc CreateAnnouncement (CreateAnnouncementRequest) returns (DefaultAnnouncementResponse);
+    rpc UpdateAnnouncement (UpdateAnnouncementRequest) returns (DefaultAnnouncementResponse);
+    rpc DeleteAnnouncement (DeleteAnnouncementRequest) returns (DefaultAnnouncementResponse);
+}
+
+message GetAnnouncementsRequest {
+    string uuid = 1;
+    string type = 2;
+}
+
+message GetAnnouncementsResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+    repeated AnnouncementPreview announcement = 4;
+}
+
+message AnnouncementPreview {
+    int64 number = 1;
+    string announcement_id = 2;
+    string title = 3;
+    int64 date = 4;
+    int64 views = 5;
+    string club = 6;
+}
+
+message GetAnnouncementDetailRequest {
+    string uuid = 1;
+    string announcement_id = 2;
+}
+
+message GetAnnouncementDetailResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+    string title = 4;
+    int64 date = 5;
+    string content = 6;
+    string next_title = 7;
+    string next_announcement_id = 8;
+    string previous_title = 9;
+    string previous_announcement_id = 10;
+}
+
+message CreateAnnouncementRequest {
+    string uuid = 1;
+    string type = 2;
+    string title = 3;
+    string content = 4;
+    int32 target_grade = 5;
+    int32 target_group = 6;
+}
+
+message UpdateAnnouncementRequest {
+    string uuid = 1;
+    string announcement_id = 2;
+    string title = 3;
+    string content = 4;
+    int32 target_grade = 5;
+    int32 target_group = 6;
+}
+
+message DeleteAnnouncementRequest {
+    string uuid = 1;
+    string announcement_id = 2;
+}
+
+message DefaultAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+}
