@@ -36,6 +36,7 @@ dependencies {
     implementation("io.github.lognet:grpc-spring-boot-starter:4.0.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.orbitz.consul:consul-client:1.4.0")
     implementation("mysql:mysql-connector-java:8.0.21")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
