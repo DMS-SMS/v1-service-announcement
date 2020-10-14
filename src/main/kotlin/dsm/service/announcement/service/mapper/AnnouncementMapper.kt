@@ -12,7 +12,6 @@ import java.sql.Timestamp
 public class AnnouncementMapper {
     fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>): GetAnnouncementsResponse.Builder {
         val response = GetAnnouncementsResponse.newBuilder();
-        println("ADSFASDF")
 
         for(announcement: Announcement in announcements) {
             val previewBuilder = AnnouncementPreview.newBuilder()
