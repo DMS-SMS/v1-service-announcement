@@ -8,19 +8,19 @@ package announcement;
 
 
 service AnnouncementService {
-    rpc GetAnnouncement(GetAnnouncementRequest) returns (GetAnnouncementResponse) {}
-    rpc GetAnnouncementDetail(GetAnnouncementDetailRequest) returns (GetAnnouncementDetailResponse) {}
-    rpc CreateAnnouncement(CreateAnnouncementRequest) returns (CreateAnnouncementResponse) {}
-    rpc UpdateAnnouncement(UpdateAnnouncementRequest) returns (UpdateAnnouncementResponse) {}
-    rpc DeleteAnnouncement(DeleteAnnouncementRequest) returns (DeleteAnnouncementResponse) {}
+    rpc GetAnnouncements (GetAnnouncementsRequest) returns (GetAnnouncementsResponse);
+    rpc GetAnnouncementDetail (GetAnnouncementDetailRequest) returns (GetAnnouncementDetailResponse);
+    rpc CreateAnnouncement (CreateAnnouncementRequest) returns (DefaultAnnouncementResponse);
+    rpc UpdateAnnouncement (UpdateAnnouncementRequest) returns (DefaultAnnouncementResponse);
+    rpc DeleteAnnouncement (DeleteAnnouncementRequest) returns (DefaultAnnouncementResponse);
 }
 
-message GetAnnouncementRequest {
+message GetAnnouncementsRequest {
     string uuid = 1;
     string type = 2;
 }
 
-message GetAnnouncementResponse {
+message GetAnnouncementsResponse {
     int32 status = 1;
     int32 code = 2;
     string msg = 3;
@@ -29,17 +29,16 @@ message GetAnnouncementResponse {
 
 message AnnouncementPreview {
     int64 number = 1;
-    string aid = 2;
+    string announcement_id = 2;
     string title = 3;
-    string type = 4;
-    int64 date = 5;
-    int32 views = 6;
-    string club = 7;
+    int64 date = 4;
+    int64 views = 5;
+    string club = 6;
 }
 
 message GetAnnouncementDetailRequest {
     string uuid = 1;
-    string aid = 2;
+    string announcement_id = 2;
 }
 
 message GetAnnouncementDetailResponse {
@@ -50,9 +49,9 @@ message GetAnnouncementDetailResponse {
     int64 date = 5;
     string content = 6;
     string next_title = 7;
-    string next_aid = 8;
+    string next_announcement_id = 8;
     string previous_title = 9;
-    string previous_aid = 10;
+    string previous_announcement_id = 10;
 }
 
 message CreateAnnouncementRequest {
@@ -64,33 +63,21 @@ message CreateAnnouncementRequest {
     int32 target_group = 6;
 }
 
-message CreateAnnouncementResponse {
-    int32 status = 1;
-    int32 code = 2;
-    string msg = 3;
-}
-
 message UpdateAnnouncementRequest {
     string uuid = 1;
-    string aid = 2;
+    string announcement_id = 2;
     string title = 3;
     string content = 4;
     int32 target_grade = 5;
     int32 target_group = 6;
 }
 
-message UpdateAnnouncementResponse {
-    int32 status = 1;
-    int32 code = 2;
-    string msg = 3;
-}
-
 message DeleteAnnouncementRequest {
     string uuid = 1;
-    string aid = 2;
+    string announcement_id = 2;
 }
 
-message DeleteAnnouncementResponse {
+message DefaultAnnouncementResponse {
     int32 status = 1;
     int32 code = 2;
     string msg = 3;

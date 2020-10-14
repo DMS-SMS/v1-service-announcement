@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.ofSourceSet
@@ -6,25 +7,18 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 plugins {
-    java
-    kotlin("jvm") version "1.3.61"
+    id("org.springframework.boot") version "2.3.4.RELEASE"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("com.google.protobuf") version "0.8.13"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.3.72"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.3.72"
+    kotlin("jvm") version "1.3.72"
+    kotlin("plugin.spring") version "1.3.72"
 }
 
 group = "dsm.service"
-version = "1.0-SNAPSHOT"
-
-val grpcVersion = "1.31.1"
-val grpcKotlinVersion = "0.2.0"
-val protobufVersion = "3.13.0"
-val coroutinesVersion = "1.3.8"
-val mysqlConnectorVersion = "8.0.21"
-val jpaVersion = "1.0.0.Final"
-val hibernateVersion = "5.4.10.Final"
-val mongoDriverVersion = "3.12.7"
-val configurationVersion = "2.3"
-val consulVersion = "1.4.0"
-val jsonVersion = "20200518"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -32,28 +26,27 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("com.google.protobuf:protobuf-java-util:3.13.0")
+    implementation("io.grpc:grpc-protobuf:1.31.1")
+    implementation("io.grpc:grpc-kotlin-stub:0.2.0")
+    implementation("io.github.lognet:grpc-spring-boot-starter:4.0.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("javax.annotation:javax.annotation-api:1.2")
-    implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
-    implementation("io.grpc:grpc-protobuf:$grpcVersion")
-    implementation("io.grpc:grpc-stub:$grpcVersion")
-    implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("mysql:mysql-connector-java:$mysqlConnectorVersion")
-    implementation("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaVersion")
-    implementation("org.hibernate:hibernate-core:$hibernateVersion")
-    implementation("org.hibernate:hibernate-entitymanager:$hibernateVersion")
-    implementation("org.mongodb:mongo-java-driver:$mongoDriverVersion")
-    implementation("org.apache.commons:commons-configuration2:$configurationVersion")
-    implementation("org.json:json:$jsonVersion")
-    implementation("com.orbitz.consul:consul-client:$consulVersion")
-    runtimeOnly("io.grpc:grpc-netty-shaded:$grpcVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.orbitz.consul:consul-client:1.4.0")
+    implementation("mysql:mysql-connector-java:8.0.21")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
-
 
 tasks {
     compileKotlin {
@@ -61,6 +54,13 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "1.8"
     }
 }
 
@@ -80,14 +80,14 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:$protobufVersion"
+        artifact = "com.google.protobuf:protoc:3.13.0"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.31.1"
         }
         id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion:jdk7@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:0.2.0:jdk7@jar"
         }
     }
     generateProtoTasks {
@@ -100,15 +100,6 @@ protobuf {
     }
 }
 
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "dsm.service.announcement.AnnouncementApplicationKt"
-    }
-
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
+allOpen {
+    annotation("javax.persistence.Entity")
 }
