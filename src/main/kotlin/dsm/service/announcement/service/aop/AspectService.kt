@@ -11,6 +11,7 @@ import java.lang.Exception
 @Component
 @Aspect
 public class AspectService {
+    // TODO 에러핸들링 작성 & Metadata 처리 작성
     @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.*(..))")
     fun tracingPointCut() {}
 
