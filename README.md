@@ -2,7 +2,4 @@
 `v1-service-announcement`는 공지서비스(학교, 동아리) 입니다.
 
 ## What used
-- gRPC
-- Hibernates JPA
-- JaegerClient
-- Consul 
+- Spring Boot with gRPC
