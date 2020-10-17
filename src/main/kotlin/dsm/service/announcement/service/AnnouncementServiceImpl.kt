@@ -18,39 +18,35 @@ class AnnouncementServiceImpl(
 
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
-    override fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
-        try {
-            createAnnouncementUseCase.run(
-                request.uuid,
-                request.title,
-                request.content,
-                request.targetGrade,
-                request.targetGroup,
-                request.type)
-        } catch (e: Exception) {
-            println(e.message)
-        }
+    override fun createAnnouncement(request: CreateAnnouncementRequest, xRequestId: String, spanContext: String): DefaultAnnouncementResponse {
+        createAnnouncementUseCase.run(
+            request.uuid,
+            request.title,
+            request.content,
+            request.targetGrade,
+            request.targetGroup,
+            request.type)
         return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
     }
 
-    override fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {
+    override fun deleteAnnouncement(request: DeleteAnnouncementRequest, xRequestId: String, spanContext: String): DefaultAnnouncementResponse {
         deleteAnnouncementUseCase.run(request.uuid, request.announcementId)
         return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
     }
 
-    override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
+    override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest, xRequestId: String, spanContext: String): GetAnnouncementDetailResponse {
         return announcementMapper.getAnnouncementDetailMapper(
                 getAnnouncementDetailUseCase.run(request.announcementId),
                 getContentUseCase.run(request.announcementId)).setStatus(200).build()
     }
 
-    override fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
+    override fun getAnnouncements(request: GetAnnouncementsRequest, xRequestId: String, spanContext: String): GetAnnouncementsResponse {
         return announcementMapper.getAnnouncementsMapper(
-                getAnnouncementsUseCase.run(request.uuid, request.type)
+                getAnnouncementsUseCase.run(request.uuid, request.type, xRequestId)
         ).setStatus(200).build()
     }
 
-    override fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse {
+    override fun updateAnnouncement(request: UpdateAnnouncementRequest, xRequestId: String, spanContext: String): DefaultAnnouncementResponse {
         updateAnnouncementUseCase.run(
                 request.uuid,
                 request.announcementId,
