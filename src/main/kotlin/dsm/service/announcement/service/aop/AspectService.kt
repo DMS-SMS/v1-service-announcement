@@ -1,27 +1,84 @@
 package dsm.service.announcement.service.aop
 
+import dsm.service.announcement.domain.exception.BusinessException
+import dsm.service.announcement.infra.jaeger.JaegerHandler
+import dsm.service.announcement.proto.DefaultAnnouncementResponse
+import dsm.service.announcement.proto.GetAnnouncementDetailResponse
+import dsm.service.announcement.proto.GetAnnouncementsResponse
+import dsm.service.announcement.service.aop.annotation.Tracing
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.springframework.stereotype.Component
-import java.lang.Exception
 
 
 @Component
 @Aspect
-public class AspectService {
-    // TODO 에러핸들링 작성 & Metadata 처리 작성
-    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.*(..))")
-    fun tracingPointCut() {}
+public class AspectService(
+        val jaegerHandler: JaegerHandler
+) {
+    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.createAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.service.AnnouncementServiceImpl.updateAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.service.AnnouncementServiceImpl.deleteAnnouncement(..))")
+    fun defaultAnnouncementPointCut() {}
 
-    @Around("tracingPointCut()")
-    fun ErrorHandling(pjp: ProceedingJoinPoint): Any {
-        try {
-            return pjp.proceed()
+    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.getAnnouncements(..))")
+    fun getAnnouncementsPointCut() {}
+
+    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.getAnnouncementDetail(..))")
+    fun getAnnouncementDetailPointCut() {}
+
+    @Around("getAnnouncementsPointCut()")
+    fun getAnnouncementsHandling(pjp: ProceedingJoinPoint): Any {
+        return try {
+            jaegerHandler.serviceTracing(pjp)
+        } catch (e: BusinessException) {
+            GetAnnouncementsResponse.newBuilder()
+                    .setStatus(e.statusCode)
+                    .setCode(e.errorCode)
+                    .setMsg(e.message)
+                    .build()
         } catch (e: Exception) {
             println(e)
         }
-        return pjp.proceed()
+    }
+
+
+    @Around("getAnnouncementDetailPointCut()")
+    fun getAnnouncementDetailHandling(pjp: ProceedingJoinPoint): Any {
+        return try {
+            jaegerHandler.serviceTracing(pjp)
+        } catch (e: BusinessException) {
+            GetAnnouncementDetailResponse.newBuilder()
+                    .setStatus(e.statusCode)
+                    .setCode(e.errorCode)
+                    .setMsg(e.message)
+                    .build()
+        } catch (e: BusinessException) {
+            println(e.message)
+        } catch (e: Exception) {
+            println(e)
+        }
+    }
+
+    @Around("defaultAnnouncementPointCut()")
+    fun defaultAnnouncementHandling(pjp: ProceedingJoinPoint): Any {
+        return try {
+            jaegerHandler.serviceTracing(pjp)
+        } catch (e: BusinessException) {
+            DefaultAnnouncementResponse.newBuilder()
+                    .setStatus(e.statusCode)
+                    .setCode(e.errorCode)
+                    .setMsg(e.message)
+                    .build()
+        } catch (e: Exception) {
+            println(e)
+        }
+    }
+
+    @Around("@annotation(dsm.service.announcement.service.aop.annotation.Tracing) && @annotation(tracing)")
+    fun extensionTracing(pjp: ProceedingJoinPoint, tracing: Tracing): Any {
+        return jaegerHandler.extensionTracing(pjp, tracing.serviceName)
     }
 }
