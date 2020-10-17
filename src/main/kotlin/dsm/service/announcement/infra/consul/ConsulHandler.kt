@@ -6,6 +6,7 @@ import com.orbitz.consul.KeyValueClient
 import com.orbitz.consul.model.agent.ImmutableRegistration
 import com.orbitz.consul.model.agent.Registration
 import com.orbitz.consul.model.health.Service
+import dsm.service.announcement.domain.exception.NotFoundException
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import org.springframework.stereotype.Component
@@ -47,12 +48,12 @@ public class ConsulHandler(
         }
     }
 
-    fun getServiceHost(serviceName: String): String? {
-        return Objects.requireNonNull(getService(serviceName))?.address
+    fun getServiceHost(serviceName: String): String {
+        return getService(serviceName)?.address ?: throw NotFoundException()
     }
 
-    fun getServicePort(serviceName: String): Int? {
-        return Objects.requireNonNull(getService(serviceName))?.port
+    fun getServicePort(serviceName: String): Int {
+        return getService(serviceName)?.port ?: throw NotFoundException()
     }
 
     private fun getService(serviceName: String): Service? {
