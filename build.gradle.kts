@@ -37,6 +37,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.orbitz.consul:consul-client:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
+    implementation("io.jaegertracing:jaeger-client:1.4.0")
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("mysql:mysql-connector-java:8.0.21")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
