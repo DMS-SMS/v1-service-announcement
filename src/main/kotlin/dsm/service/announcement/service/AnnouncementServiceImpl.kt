@@ -25,7 +25,8 @@ class AnnouncementServiceImpl(
             request.content,
             request.targetGrade,
             request.targetGroup,
-            request.type)
+            request.type,
+            xRequestId)
         return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
     }
 
@@ -37,7 +38,8 @@ class AnnouncementServiceImpl(
     override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest, xRequestId: String, spanContext: String): GetAnnouncementDetailResponse {
         return announcementMapper.getAnnouncementDetailMapper(
                 getAnnouncementDetailUseCase.run(request.announcementId),
-                getContentUseCase.run(request.announcementId)).setStatus(200).build()
+                getContentUseCase.run(request.announcementId)
+        ).setStatus(200).build()
     }
 
     override fun getAnnouncements(request: GetAnnouncementsRequest, xRequestId: String, spanContext: String): GetAnnouncementsResponse {
