@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dsm.service.announcement.proto";
+option java_outer_classname = "ClubStudentProto";
+
+package announcement;
+
+service ClubStudent {
+    rpc GetClubInformWithUUID(GetClubInformWithUUIDRequest) returns (GetClubInformWithUUIDResponse) {}
+    rpc GetClubUUIDWithLeaderUUID(GetClubUUIDWithLeaderUUIDRequest) returns (GetClubUUIDWithLeaderUUIDResponse) {}
+}
+
+message GetClubInformWithUUIDRequest {
+    string UUID = 1;
+    string ClubUUID = 2;
+}
+
+message GetClubInformWithUUIDResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+    string ClubUUID = 4;
+    string LeaderUUID = 5;
+    repeated string MemberUUIDs = 6;
+    string Name = 7;
+    string ClubConcept = 8;
+    string Introduction = 9;
+    string Floor = 10;
+    string Location = 11;
+    string Field = 12;
+    string Link = 13;
+    string LogoURI = 14;
+}
+
+message GetClubUUIDWithLeaderUUIDRequest {
+    string UUID = 1;
+    string LeaderUUID = 2;
+}
+
+message GetClubUUIDWithLeaderUUIDResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+    string ClubUUID = 4;
+}
