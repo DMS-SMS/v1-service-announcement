@@ -16,13 +16,14 @@ class MysqlInterceptor: EmptyInterceptor() {
     }
     override fun beforeTransactionCompletion(tx: Transaction?) {
         val jaegerHandler = getBean("jaegerHandler") as JaegerHandler
-        jaegerHandler.tracingEnd()
+        jaegerHandler.tracingStart("SQL (Transaction)")
         super.beforeTransactionCompletion(tx)
     }
 
-    override fun afterTransactionBegin(tx: Transaction?) {
+    override fun afterTransactionCompletion(tx: Transaction?) {
         val jaegerHandler = getBean("jaegerHandler") as JaegerHandler
-        jaegerHandler.tracingStart("SQL (Transaction)")
+        jaegerHandler.tracingEnd()
+        super.afterTransactionCompletion(tx)
     }
 
     override fun onLoad(entity: Any?, id: Serializable?, state: Array<out Any>?, propertyNames: Array<out String>?, types: Array<out Type>?): Boolean {
