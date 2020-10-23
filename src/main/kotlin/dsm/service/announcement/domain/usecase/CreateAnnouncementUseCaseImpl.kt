@@ -28,19 +28,18 @@ class CreateAnnouncementUseCaseImpl(
             content: String,
             targetGrade: Int,
             targetGroup: Int,
-            type: String,
-            xRequestId: String
+            type: String
     ) {
         var club: String? = null
-        teacherRepository.findByUuid(writerUuid, xRequestId)?.let {
+        teacherRepository.findByUuid(writerUuid)?.let {
             if (it.grade == 0 || it.group == 0) {
-                val clubUuid = clubRepository.findClubUuidByLeaderUuid(writerUuid, xRequestId)
+                val clubUuid = clubRepository.findClubUuidByLeaderUuid(writerUuid)
                 clubUuid.let {
                     if (it.isEmpty()) throw UnAuthorizedException()
                     if (type == "school") throw UnAuthorizedException() // UnAuth
                 }
 
-                club = clubRepository.findByUuid(clubUuid, writerUuid, xRequestId).name
+                club = clubRepository.findByUuid(clubUuid, writerUuid).name
             }
         }
 

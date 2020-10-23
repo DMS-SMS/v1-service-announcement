@@ -10,11 +10,11 @@ class GetAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository,
         val studentRepository: StudentRepository
 ): GetAnnouncementsUseCase {
-    override fun run(accountUuid: String, type: String, xRequestId: String): MutableIterable<Announcement> {
+    override fun run(accountUuid: String, type: String): MutableIterable<Announcement> {
         return if (type == "club") {
             announcementRepository.findAllByType(type)
         } else {
-            val student = studentRepository.findByUuid(accountUuid, xRequestId)
+            val student = studentRepository.findByUuid(accountUuid)
             student?.let {
                 return if (student.group == 0 || student.grade == 0) announcementRepository.findAll()
                 else announcementRepository.findAllByTypeAndTargetGradeAndTargetGroup("school", student.grade, student.group)

@@ -13,9 +13,9 @@ class TeacherRepositoryImpl(
         val authMapper: AuthMapper,
         val authHandler: AuthHandler
 ): TeacherRepository {
-    override fun findByUuid(uuid: String, xRequestId: String): Account? = runBlocking {
+    override fun findByUuid(uuid: String): Account? = runBlocking {
         return@runBlocking authMapper.getTeacherInformWithUuidMapper(
-                authHandler.getTeacherInform(uuid, xRequestId)
+                authHandler.getTeacherInform(uuid)
         )
     }
 }

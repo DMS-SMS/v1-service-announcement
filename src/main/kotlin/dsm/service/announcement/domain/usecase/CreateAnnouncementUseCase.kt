@@ -9,6 +9,5 @@ interface CreateAnnouncementUseCase {
             content: String,
             targetGrade: Int,
             targetGroup: Int,
-            type: String,
-            xRequestId: String)
+            type: String)
 }
