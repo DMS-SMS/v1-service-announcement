@@ -1,5 +1,6 @@
 package dsm.service.announcement.infra.club
 
+import dsm.service.announcement.grpc.MetadataInterceptor
 import dsm.service.announcement.infra.consul.ConsulHandler
 import dsm.service.announcement.infra.jaeger.JaegerHandler
 import dsm.service.announcement.proto.*
@@ -20,10 +21,7 @@ class ClubHandler(
     val serviceName: String = "DMS.SMS.v1.service.club"
 
     @Tracing("ClubServiceHandler")
-    suspend fun getClubUuidWithLeaderUuid(
-            uuid: String,
-            xRequestId: String
-    ): GetClubUUIDWithLeaderUUIDResponse {
+    suspend fun getClubUuidWithLeaderUuid(uuid: String): GetClubUUIDWithLeaderUUIDResponse {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -32,6 +30,7 @@ class ClubHandler(
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
 
         val metadata: Metadata = Metadata()
+        val xRequestId = MetadataInterceptor.xRequestId.get() as String
         val spanContext = jaegerHandler.getActiveSpanString()
 
         metadata.put(Metadata.Key.of("x-request-id", Metadata.ASCII_STRING_MARSHALLER), xRequestId)
@@ -50,11 +49,7 @@ class ClubHandler(
     }
 
     @Tracing("ClubServiceHandler")
-    suspend fun getClubWithClubUuid(
-            accountUuid: String,
-            clubUuid: String,
-            xRequestId: String
-    ): GetClubInformWithUUIDResponse {
+    suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -63,6 +58,7 @@ class ClubHandler(
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
 
         val metadata: Metadata = Metadata()
+        val xRequestId = MetadataInterceptor.xRequestId.get() as String
         val spanContext = jaegerHandler.getActiveSpanString()
 
         metadata.put(Metadata.Key.of("x-request-id", Metadata.ASCII_STRING_MARSHALLER), xRequestId)

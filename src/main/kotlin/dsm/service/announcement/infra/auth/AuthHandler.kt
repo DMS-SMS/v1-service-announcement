@@ -1,5 +1,6 @@
 package dsm.service.announcement.infra.auth
 
+import dsm.service.announcement.grpc.MetadataInterceptor
 import dsm.service.announcement.infra.consul.ConsulHandler
 import dsm.service.announcement.infra.jaeger.JaegerHandler
 import dsm.service.announcement.proto.*
@@ -21,10 +22,7 @@ class AuthHandler(
     val serviceName: String = "DMS.SMS.v1.service.auth"
 
     @Tracing("AuthServiceHandler")
-    suspend fun getStudentInform(
-            uuid: String,
-            xRequestId: String
-    ): GetStudentInformWithUUIDResponse {
+    suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -34,6 +32,7 @@ class AuthHandler(
 
 
         val metadata: Metadata = Metadata()
+        val xRequestId = MetadataInterceptor.xRequestId.get() as String
         val spanContext = jaegerHandler.getActiveSpanString()
 
         metadata.put(Metadata.Key.of("x-request-id", Metadata.ASCII_STRING_MARSHALLER), xRequestId)
@@ -51,10 +50,8 @@ class AuthHandler(
         }
     }
 
-    suspend fun getTeacherInform(
-            uuid: String,
-            xRequestId: String
-    ): GetTeacherInformWithUUIDResponse {
+    @Tracing("AuthServiceHandler")
+    suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -64,6 +61,7 @@ class AuthHandler(
 
 
         val metadata: Metadata = Metadata()
+        val xRequestId = MetadataInterceptor.xRequestId.get() as String
         val spanContext = jaegerHandler.getActiveSpanString()
 
         metadata.put(Metadata.Key.of("x-request-id", Metadata.ASCII_STRING_MARSHALLER), xRequestId)
