@@ -1,5 +1,6 @@
 package dsm.service.announcement.infra.jaeger
 
+import dsm.service.announcement.grpc.MetadataInterceptor
 import io.jaegertracing.Configuration
 import io.jaegertracing.Configuration.SamplerConfiguration
 import io.jaegertracing.internal.JaegerSpanContext
@@ -17,8 +18,8 @@ class JaegerHandler {
     private val tracer: Tracer = Configuration.fromEnv("AnnouncementService").withSampler(samplerConfiguration).getTracer()
 
     fun serviceTracing(pjp: ProceedingJoinPoint): Any {
-        val spanContext = pjp.args[2] as String
-        val xRequestId = pjp.args[1] as String
+        val spanContext = MetadataInterceptor.spanContext.get() as String
+        val xRequestId = MetadataInterceptor.xRequestId.get() as String
         val span: Span = tracer.buildSpan("service").asChildOf(generateSpanContext(spanContext)).start()
         try {
             tracer.scopeManager().activate(span).use {
