@@ -22,7 +22,7 @@ class AuthHandler(
     val serviceName: String = "DMS.SMS.v1.service.auth"
 
     @Tracing("AuthServiceHandler")
-    suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse {
+    suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -43,15 +43,18 @@ class AuthHandler(
                 .setStudentUUID(uuid)
                 .build()
 
+        val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        if (response.status != 200) return null
+
         return try {
-            MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+            response
         } catch (e: Exception) {
-            GetStudentInformWithUUIDResponse.newBuilder().build()
+            return null
         }
     }
 
     @Tracing("AuthServiceHandler")
-    suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse {
+    suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -71,11 +74,13 @@ class AuthHandler(
                 .setUUID(uuid)
                 .setTeacherUUID(uuid)
                 .build()
+        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        if (response.status != 200) return null
 
         return try {
-            MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+            response
         } catch (e: Exception) {
-            GetTeacherInformWithUUIDResponse.newBuilder().build()
+            return null
         }
     }
 }

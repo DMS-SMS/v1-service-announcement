@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class ClubMapper {
-    fun getClubInformWithUuidMapper(response: GetClubInformWithUUIDResponse): Club {
-        return Club(response.name, response.clubConcept, response.introduction)
+    fun getClubInformWithUuidMapper(response: GetClubInformWithUUIDResponse?): Club? {
+        response?.let { return Club(response.name, response.clubConcept, response.introduction) }?:
+        return null
     }
 }
