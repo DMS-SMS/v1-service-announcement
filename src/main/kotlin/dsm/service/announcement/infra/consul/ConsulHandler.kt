@@ -49,11 +49,14 @@ public class ConsulHandler(
     }
 
     fun getServiceHost(serviceName: String): String {
-        return getService(serviceName)?.address ?: throw NotFoundException()
+        return getService(serviceName)?.address ?: throw NotFoundException(
+                statusCode = 500, message = "Consul Get Service Failed (Address)")
     }
 
     fun getServicePort(serviceName: String): Int {
-        return getService(serviceName)?.port ?: throw NotFoundException()
+        return getService(serviceName)?.port ?: throw NotFoundException(
+                statusCode = 500, message = "Consul Get Service Failed (Port)"
+        )
     }
 
     private fun getService(serviceName: String): Service? {
