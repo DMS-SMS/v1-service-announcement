@@ -21,7 +21,7 @@ class ClubHandler(
     val serviceName: String = "DMS.SMS.v1.service.club"
 
     @Tracing("ClubServiceHandler")
-    suspend fun getClubUuidWithLeaderUuid(uuid: String): GetClubUUIDWithLeaderUUIDResponse {
+    suspend fun getClubUuidWithLeaderUuid(uuid: String): GetClubUUIDWithLeaderUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -44,12 +44,12 @@ class ClubHandler(
         return try {
             MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
         } catch (e: Exception) {
-            GetClubUUIDWithLeaderUUIDResponse.newBuilder().build()
+            null
         }
     }
 
     @Tracing("ClubServiceHandler")
-    suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse {
+    suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
                 host,
@@ -72,7 +72,7 @@ class ClubHandler(
         return try {
             MetadataUtils.attachHeaders(stub, metadata).getClubInformWithUUID(request)
         } catch (e: Exception) {
-            GetClubInformWithUUIDResponse.newBuilder().build()
+            null
         }
     }
 }

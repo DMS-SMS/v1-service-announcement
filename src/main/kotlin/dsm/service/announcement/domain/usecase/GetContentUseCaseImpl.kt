@@ -10,7 +10,8 @@ class GetContentUseCaseImpl(
         var contentRepository: ContentRepository
 ): GetContentUseCase {
     override fun run(announcementUuid: String): String {
-        val content: Content = contentRepository.findByUuid(announcementUuid)?: throw NotFoundException()
-        return content.content.toJson()
+        contentRepository.findByUuid(announcementUuid)?.let {
+            return it.content.toJson()
+        }?: throw NotFoundException()
     }
 }

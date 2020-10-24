@@ -3,7 +3,7 @@ package dsm.service.announcement.domain.usecase
 import com.mongodb.BasicDBObject
 import dsm.service.announcement.domain.entity.Announcement
 import dsm.service.announcement.domain.entity.Content
-import dsm.service.announcement.domain.exception.NotFoundException
+import dsm.service.announcement.domain.entity.View
 import dsm.service.announcement.domain.exception.UnAuthorizedException
 import dsm.service.announcement.domain.repository.*
 import dsm.service.announcement.domain.service.UuidService
@@ -20,6 +20,7 @@ class CreateAnnouncementUseCaseImpl(
         val clubRepository: ClubRepository,
         val teacherRepository: TeacherRepository,
         val contentRepository: ContentRepository,
+        val viewRepository: ViewRepository,
         val uuidService: UuidService
 ): CreateAnnouncementUseCase {
     override fun run(
@@ -30,17 +31,13 @@ class CreateAnnouncementUseCaseImpl(
             targetGroup: Int,
             type: String
     ) {
-        var club: String? = null
-        teacherRepository.findByUuid(writerUuid)?.let {
-            if (it.grade == 0 || it.group == 0) {
-                val clubUuid = clubRepository.findClubUuidByLeaderUuid(writerUuid)
-                clubUuid.let {
-                    if (it.isEmpty()) throw UnAuthorizedException()
-                    if (type == "school") throw UnAuthorizedException() // UnAuth
-                }
-
-                club = clubRepository.findByUuid(clubUuid, writerUuid).name
-            }
+        var clubName: String? = null
+        teacherRepository.findByUuid(writerUuid) ?: run {
+            if (type == "school") throw UnAuthorizedException()
+            val clubUuid = clubRepository.findClubUuidByLeaderUuid(writerUuid)
+            clubUuid?.let {
+                clubName = clubRepository.findByUuid(clubUuid, writerUuid)?.name
+            }?: throw UnAuthorizedException()
         }
 
         val announcementUuid = uuidService.createAnnouncementUuid()
@@ -54,12 +51,16 @@ class CreateAnnouncementUseCaseImpl(
                     targetGrade=targetGrade,
                     targetGroup=targetGroup,
                     type=type,
-                    club=club
+                    club=clubName
             )
         )
 
         contentRepository.save(
                 Content(announcementUuid, BasicDBObject.parse(content))
+        )
+
+        viewRepository.save(
+                View(announcementUuid, mutableListOf())
         )
     }
 }

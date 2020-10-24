@@ -14,12 +14,10 @@ class GetAnnouncementsUseCaseImpl(
         return if (type == "club") {
             announcementRepository.findAllByType(type)
         } else {
-            val student = studentRepository.findByUuid(accountUuid)
-            student?.let {
-                return if (student.group == 0 || student.grade == 0) announcementRepository.findAll()
-                else announcementRepository.findAllByTypeAndTargetGradeAndTargetGroup("school", student.grade, student.group)
-            }
-            announcementRepository.findAll()
+            studentRepository.findByUuid(accountUuid)?.let {
+                return announcementRepository.findAllByTypeAndTargetGradeAndTargetGroup(
+                        "school", it.grade, it.group)
+            }?: announcementRepository.findAll()
         }
     }
 }
