@@ -4,7 +4,6 @@ import dsm.service.announcement.domain.usecase.*
 import dsm.service.announcement.proto.*
 import dsm.service.announcement.service.mapper.AnnouncementMapper
 import org.springframework.stereotype.Component
-import java.lang.Exception
 
 
 @Component
@@ -15,6 +14,8 @@ class AnnouncementServiceImpl(
         val getAnnouncementDetailUseCase: GetAnnouncementDetailUseCase,
         val deleteAnnouncementUseCase: DeleteAnnouncementUseCase,
         val updateAnnouncementUseCase: UpdateAnnouncementUseCase,
+        val getNextAnnouncementUseCase: GetNextAnnouncementUseCase,
+        val getPreviewAnnouncementUseCase: GetPreviousAnnouncementUseCase,
 
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
@@ -35,9 +36,13 @@ class AnnouncementServiceImpl(
     }
 
     override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
+        val currentAnnouncement = getAnnouncementDetailUseCase.run(request.announcementId, request.uuid)
         return announcementMapper.getAnnouncementDetailMapper(
-                getAnnouncementDetailUseCase.run(request.announcementId),
-                getContentUseCase.run(request.announcementId)
+                currentAnnouncement,
+                getContentUseCase.run(request.announcementId),
+                getNextAnnouncementUseCase.run(currentAnnouncement),
+                getPreviewAnnouncementUseCase.run(currentAnnouncement)
+
         ).setStatus(200).build()
     }
 
