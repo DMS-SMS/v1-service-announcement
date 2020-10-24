@@ -54,12 +54,16 @@ class CreateAnnouncementUseCaseImpl(
                     targetGrade=targetGrade,
                     targetGroup=targetGroup,
                     type=type,
-                    club=club
+                    club=clubName
             )
         )
 
         contentRepository.save(
                 Content(announcementUuid, BasicDBObject.parse(content))
+        )
+
+        viewRepository.save(
+                View(announcementUuid, mutableListOf())
         )
     }
 }
