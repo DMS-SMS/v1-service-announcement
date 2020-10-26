@@ -37,7 +37,7 @@ class JaegerHandler {
         ).start()
         var service: Any = Any()
         try {
-            tracer.scopeManager().activate(span).use { scope -> service = pjp.proceed() }
+            tracer.scopeManager().activate(span).use { service = pjp.proceed() }
         } finally {
             span.finish()
         }

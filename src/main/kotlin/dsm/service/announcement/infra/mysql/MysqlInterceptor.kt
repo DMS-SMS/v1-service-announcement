@@ -11,9 +11,6 @@ import java.io.Serializable
 
 
 class MysqlInterceptor: EmptyInterceptor() {
-    init {
-        val jaegerHandler: JaegerHandler
-    }
     override fun beforeTransactionCompletion(tx: Transaction?) {
         val jaegerHandler = getBean("jaegerHandler") as JaegerHandler
         jaegerHandler.tracingStart("SQL (Transaction)")

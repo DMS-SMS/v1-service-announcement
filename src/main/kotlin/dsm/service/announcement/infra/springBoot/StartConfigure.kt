@@ -1,6 +1,7 @@
 package dsm.service.announcement.infra.springBoot
 
 import dsm.service.announcement.infra.consul.ConsulHandler
+import org.lognet.springboot.grpc.autoconfigure.GRpcServerProperties
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 

@@ -9,22 +9,26 @@ import com.orbitz.consul.model.health.Service
 import dsm.service.announcement.domain.exception.NotFoundException
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import org.lognet.springboot.grpc.context.LocalRunningGrpcPort
 import org.springframework.stereotype.Component
 import java.util.*
+import kotlin.random.Random
 
 
 @Component
 public class ConsulHandler(
-        val serviceId: String = "DMS.SMS.v1.service.announcement",
-        val client: Consul = Consul.builder().withUrl("http://127.0.0.1:8500").build(),
+        val serviceName: String = "DMS.SMS.v1.service.announcement",
+        val client: Consul = Consul.builder().withUrl("http://${System.getenv("CONSUL_ADDR")}").build(),
         val agentClient: AgentClient = client.agentClient(),
-        val kvClient: KeyValueClient = client.keyValueClient()
+        val kvClient: KeyValueClient = client.keyValueClient(),
+        val serviceId: String = "$serviceName-${UUID.randomUUID()}",
+        @LocalRunningGrpcPort val port: Int = 0
 ) {
-    fun registerConsul() {
+    fun registerConsul(): String {
         val service = ImmutableRegistration.builder()
                 .id(serviceId)
-                .name(serviceId)
-                .port(10999)
+                .name(serviceName)
+                .port(port)
                 .check(Registration.RegCheck.ttl(100000000L))
                 .tags(Collections.singletonList("Announcement"))
                 .meta(Collections.singletonMap("version","0.0.1"))
@@ -32,6 +36,7 @@ public class ConsulHandler(
 
         agentClient.register(service)
         agentClient.pass(serviceId)
+        return serviceId
     }
 
     fun deregisterConsul() {
