@@ -9,7 +9,7 @@ import javax.sql.DataSource
 
 @Configuration
 public class MysqlConfigure(
-        private final val consulHandler: ConsulHandler
+        private val consulHandler: ConsulHandler
 ) {
     @Bean
     fun dataSource(): DataSource {
@@ -18,7 +18,7 @@ public class MysqlConfigure(
         dataSourceBuilder.driverClassName("com.mysql.cj.jdbc.Driver")
         dataSourceBuilder.url(databaseConfig.get("url") as String?)
         dataSourceBuilder.username(databaseConfig.get("username") as String?)
-        dataSourceBuilder.password("mingi0130")
+        dataSourceBuilder.password(System.getenv("DB_PASSWORD"))
         return dataSourceBuilder.build();
     }
 }
