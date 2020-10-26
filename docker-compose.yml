@@ -1,14 +1,15 @@
 version: '3.5'
 services:
-  service-outing:
+  service-announcement:
     image: migsking/dms-sms-service-announcement:${VERSION}
-    container_name: service-outing
+    container_name: service-announcement
     networks:
       - dms_sms_local
     environment:
       - DB_PASSWORD=${DB_PASSWORD}
       - CONSUL_ADDR=${CONSUL_ADDRESS}
-      - JAEGER_ADDR=${JAEGER_ADDRESS}
+      - JAEGER_AGENT_HOST=${JAEGER_HOST}
+      - JAEGER_AGENT_PORT=${JAEGER_PORT}
 
 networks:
   dms_sms_local:
