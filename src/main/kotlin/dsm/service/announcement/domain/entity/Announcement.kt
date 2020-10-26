@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "tbl_announcement")
 data class Announcement(
-        @Column(name = "uuid")
+        @Column(name = "uuid", length = 25)
         var uuid: String,
 
         @Id
@@ -14,13 +14,13 @@ data class Announcement(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var number: Long? = null,
 
-        @Column(name = "writer_uuid")
+        @Column(name = "writer_uuid", length = 20)
         var writerUuid: String,
 
         @Column(name = "date")
         var date: LocalDateTime,
 
-        @Column(name = "title")
+        @Column(name = "title", length = 50)
         var title: String,
 
         @Column(name = "target_grade")
@@ -29,7 +29,7 @@ data class Announcement(
         @Column(name = "target_group")
         var targetGroup: Int? = null,
 
-        @Column(name = "type")
+        @Column(name = "type", length = 6)
         var type: String,
 
         @Column(name = "club")
