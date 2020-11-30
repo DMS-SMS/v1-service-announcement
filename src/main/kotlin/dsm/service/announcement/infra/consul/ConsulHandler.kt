@@ -11,6 +11,7 @@ import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import org.lognet.springboot.grpc.context.LocalRunningGrpcPort
 import org.springframework.stereotype.Component
+import java.net.InetAddress
 import java.util.*
 import kotlin.random.Random
 
@@ -22,12 +23,14 @@ public class ConsulHandler(
         val agentClient: AgentClient = client.agentClient(),
         val kvClient: KeyValueClient = client.keyValueClient(),
         val serviceId: String = "$serviceName-${UUID.randomUUID()}",
-        @LocalRunningGrpcPort val port: Int = 0
+        @LocalRunningGrpcPort val port: Int = 0,
+        val address: String = InetAddress.getLocalHost().hostAddress
 ) {
     fun registerConsul(): String {
         val service = ImmutableRegistration.builder()
                 .id(serviceId)
                 .name(serviceName)
+                .address(address)
                 .port(port)
                 .check(Registration.RegCheck.ttl(100000000L))
                 .tags(Collections.singletonList("Announcement"))
