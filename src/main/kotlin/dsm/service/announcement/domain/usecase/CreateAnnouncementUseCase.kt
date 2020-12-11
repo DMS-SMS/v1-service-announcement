@@ -9,5 +9,5 @@ interface CreateAnnouncementUseCase {
             content: String,
             targetGrade: Int,
             targetGroup: Int,
-            type: String)
+            type: String): String
 }
