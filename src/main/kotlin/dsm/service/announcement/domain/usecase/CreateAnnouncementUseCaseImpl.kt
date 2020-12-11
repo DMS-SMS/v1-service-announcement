@@ -30,7 +30,7 @@ class CreateAnnouncementUseCaseImpl(
             targetGrade: Int,
             targetGroup: Int,
             type: String
-    ) {
+    ): String {
         var clubName: String? = null
         teacherRepository.findByUuid(writerUuid) ?: run {
             if (type == "school") throw UnAuthorizedException()
@@ -62,5 +62,6 @@ class CreateAnnouncementUseCaseImpl(
         viewRepository.save(
                 View(announcementUuid, mutableListOf())
         )
+        return announcementUuid;
     }
 }

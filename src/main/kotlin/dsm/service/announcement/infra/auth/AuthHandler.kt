@@ -44,6 +44,8 @@ class AuthHandler(
                 .build()
 
         val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        channel.shutdown()
+
         if (response.status != 200) return null
 
         return try {
@@ -75,6 +77,8 @@ class AuthHandler(
                 .setTeacherUUID(uuid)
                 .build()
         val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        channel.shutdown()
+        
         if (response.status != 200) return null
 
         return try {
