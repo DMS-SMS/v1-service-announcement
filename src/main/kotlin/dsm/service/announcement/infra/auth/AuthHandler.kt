@@ -43,7 +43,9 @@ class AuthHandler(
                 .setStudentUUID(uuid)
                 .build()
 
+        print("asdf")
         val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        print("asdf1")
         channel.shutdown()
 
         if (response.status != 200) return null
