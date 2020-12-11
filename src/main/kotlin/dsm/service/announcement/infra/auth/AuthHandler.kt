@@ -43,17 +43,16 @@ class AuthHandler(
                 .setStudentUUID(uuid)
                 .build()
 
-        print("asdf")
-        val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
-        print("asdf1")
-        channel.shutdown()
 
-        if (response.status != 200) return null
+        var response: GetStudentInformWithUUIDResponse? = null
 
-        return try {
-            response
+        try {
+            response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+            channel.shutdown()
         } catch (e: Exception) {
-            return null
+            channel.shutdown()
+        } finally {
+            return response
         }
     }
 
@@ -78,15 +77,16 @@ class AuthHandler(
                 .setUUID(uuid)
                 .setTeacherUUID(uuid)
                 .build()
-        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-        channel.shutdown()
 
-        if (response.status != 200) return null
+        var response: GetTeacherInformWithUUIDResponse? = null
 
-        return try {
-            response
+        try {
+            response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+            channel.shutdown()
         } catch (e: Exception) {
-            return null
+            channel.shutdown()
+        } finally {
+            return response
         }
     }
 }
