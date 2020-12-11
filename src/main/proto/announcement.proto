@@ -3,6 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "dsm.service.announcement.proto";
 option java_outer_classname = "AnnouncementProto";
+option go_package = ".;announcementproto";
 
 package announcement;
 
@@ -13,11 +14,14 @@ service AnnouncementService {
     rpc CreateAnnouncement (CreateAnnouncementRequest) returns (DefaultAnnouncementResponse);
     rpc UpdateAnnouncement (UpdateAnnouncementRequest) returns (DefaultAnnouncementResponse);
     rpc DeleteAnnouncement (DeleteAnnouncementRequest) returns (DefaultAnnouncementResponse);
+    rpc CheckAnnouncement (CheckAnnouncementRequest) returns (CheckAnnouncementResponse);
 }
 
 message GetAnnouncementsRequest {
     string uuid = 1;
     string type = 2;
+    int32 start = 3;
+    int32 count = 4;
 }
 
 message GetAnnouncementsResponse {
@@ -30,10 +34,11 @@ message GetAnnouncementsResponse {
 message AnnouncementPreview {
     int64 number = 1;
     string announcement_id = 2;
-    string title = 3;
-    int64 date = 4;
-    int64 views = 5;
-    string club = 6;
+    string writer_name = 3;
+    string title = 4;
+    int64 date = 5;
+    int64 views = 6;
+    int64 is_checked = 7;
 }
 
 message GetAnnouncementDetailRequest {
@@ -48,10 +53,11 @@ message GetAnnouncementDetailResponse {
     string title = 4;
     int64 date = 5;
     string content = 6;
-    string next_title = 7;
-    string next_announcement_id = 8;
-    string previous_title = 9;
-    string previous_announcement_id = 10;
+    string writer_name = 7;
+    string next_title = 8;
+    string next_announcement_id = 9;
+    string previous_title = 10;
+    string previous_announcement_id = 11;
 }
 
 message CreateAnnouncementRequest {
@@ -81,4 +87,17 @@ message DefaultAnnouncementResponse {
     int32 status = 1;
     int32 code = 2;
     string msg = 3;
+    string announcement_id = 4;
+}
+
+message CheckAnnouncementRequest {
+    string uuid = 1;
+}
+
+message CheckAnnouncementResponse {
+    int32 status = 1;
+    int32 code = 2;
+    string msg = 3;
+    int32 school = 4;
+    int32 club = 5;
 }
