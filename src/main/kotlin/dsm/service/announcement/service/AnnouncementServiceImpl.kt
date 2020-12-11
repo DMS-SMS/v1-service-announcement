@@ -16,23 +16,30 @@ class AnnouncementServiceImpl(
         val updateAnnouncementUseCase: UpdateAnnouncementUseCase,
         val getNextAnnouncementUseCase: GetNextAnnouncementUseCase,
         val getPreviewAnnouncementUseCase: GetPreviousAnnouncementUseCase,
+        val getAccountUseCase: GetAccountUseCase,
 
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
     override fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
-        createAnnouncementUseCase.run(
+        val announcementId = createAnnouncementUseCase.run(
             request.uuid,
             request.title,
             request.content,
             request.targetGrade,
             request.targetGroup,
             request.type)
-        return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
+        return DefaultAnnouncementResponse.newBuilder()
+                .setAnnouncementId(announcementId)
+                .setStatus(201)
+                .build();
     }
 
     override fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {
         deleteAnnouncementUseCase.run(request.uuid, request.announcementId)
-        return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
+        return DefaultAnnouncementResponse.newBuilder()
+                .setAnnouncementId(request.announcementId)
+                .setStatus(201)
+                .build();
     }
 
     override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
@@ -47,8 +54,10 @@ class AnnouncementServiceImpl(
     }
 
     override fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
+        val announcement = getAnnouncementsUseCase.run(request.uuid, request.type)
+
         return announcementMapper.getAnnouncementsMapper(
-                getAnnouncementsUseCase.run(request.uuid, request.type)
+                announcement
         ).setStatus(200).build()
     }
 
@@ -60,6 +69,9 @@ class AnnouncementServiceImpl(
                 request.content,
                 request.targetGrade,
                 request.targetGroup)
-        return DefaultAnnouncementResponse.newBuilder().setStatus(201).build();
+        return DefaultAnnouncementResponse.newBuilder()
+                .setAnnouncementId(request.announcementId)
+                .setStatus(201)
+                .build();
     }
 }
