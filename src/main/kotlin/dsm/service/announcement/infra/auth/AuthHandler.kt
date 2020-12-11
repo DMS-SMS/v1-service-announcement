@@ -21,7 +21,7 @@ class AuthHandler(
     val host: String = "127.0.0.1"
     val serviceName: String = "DMS.SMS.v1.service.auth"
 
-    @Tracing("AuthServiceHandler")
+    @Tracing("AuthServiceHandler (getStudentInform)")
     suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
@@ -55,7 +55,7 @@ class AuthHandler(
         }
     }
 
-    @Tracing("AuthServiceHandler")
+    @Tracing("AuthServiceHandler (getTeacherInform)")
     suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
 //                consulHandler.getServiceHost(serviceName),
@@ -78,7 +78,7 @@ class AuthHandler(
                 .build()
         val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
         channel.shutdown()
-        
+
         if (response.status != 200) return null
 
         return try {
