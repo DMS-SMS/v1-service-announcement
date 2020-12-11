@@ -41,10 +41,14 @@ class ClubHandler(
                 .setLeaderUUID(uuid)
                 .build()
 
-        return try {
-            MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
+        var response:GetClubUUIDWithLeaderUUIDResponse? = null
+        try {
+            response = MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
+            channel.shutdown()
         } catch (e: Exception) {
-            null
+            channel.shutdown()
+        } finally {
+            return response
         }
     }
 
@@ -69,10 +73,14 @@ class ClubHandler(
                 .setClubUUID(clubUuid)
                 .build()
 
-        return try {
-            MetadataUtils.attachHeaders(stub, metadata).getClubInformWithUUID(request)
+        var response: GetClubInformWithUUIDResponse? = null;
+        try {
+            response = MetadataUtils.attachHeaders(stub, metadata).getClubInformWithUUID(request)
+            channel.shutdown()
         } catch (e: Exception) {
-            null
+            channel.shutdown()
+        } finally {
+            return response
         }
     }
 }
