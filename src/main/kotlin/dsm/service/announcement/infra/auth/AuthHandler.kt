@@ -43,17 +43,10 @@ class AuthHandler(
                 .setStudentUUID(uuid)
                 .build()
 
+        val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        channel.shutdown()
 
-        var response: GetStudentInformWithUUIDResponse? = null
-
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
-            channel.shutdown()
-        } catch (e: Exception) {
-            channel.shutdown()
-        } finally {
-            return response
-        }
+        return response
     }
 
     @Tracing("AuthServiceHandler (getTeacherInform)")
