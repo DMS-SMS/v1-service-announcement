@@ -1,5 +1,6 @@
 package dsm.service.announcement.infra.auth
 
+import dsm.service.announcement.domain.exception.ServerException
 import dsm.service.announcement.grpc.MetadataInterceptor
 import dsm.service.announcement.infra.consul.ConsulHandler
 import dsm.service.announcement.infra.jaeger.JaegerHandler
@@ -84,7 +85,7 @@ class AuthHandler(
             response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
             channel.shutdown()
         } catch (e: Exception) {
-            channel.shutdown()
+            throw e.message?.let { ServerException(message = it) }!!
         } finally {
             return response
         }
