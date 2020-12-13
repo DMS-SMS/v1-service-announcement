@@ -55,7 +55,7 @@ class AnnouncementServiceImpl(
     }
 
     override fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
-        val announcement = getAnnouncementsUseCase.run(request.uuid, request.type)
+        val announcement = getAnnouncementsUseCase.run(request.uuid, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcement
