@@ -17,6 +17,7 @@ class AnnouncementServiceImpl(
         val getNextAnnouncementUseCase: GetNextAnnouncementUseCase,
         val getPreviewAnnouncementUseCase: GetPreviousAnnouncementUseCase,
         val getAccountUseCase: GetAccountUseCase,
+        val checkAnnouncementUseCase: CheckAnnouncementUseCase,
 
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
@@ -73,5 +74,13 @@ class AnnouncementServiceImpl(
                 .setAnnouncementId(request.announcementId)
                 .setStatus(201)
                 .build();
+    }
+
+    override fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse {
+        return CheckAnnouncementResponse.newBuilder()
+                .setClub(checkAnnouncementUseCase.execute(request.uuid, "club"))
+                .setSchool(checkAnnouncementUseCase.execute(request.uuid, "school"))
+                .setStatus(200)
+                .build()
     }
 }
