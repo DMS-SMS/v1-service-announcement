@@ -9,6 +9,7 @@ import dsm.service.announcement.service.aop.annotation.Tracing
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
+import io.grpc.Server
 import io.grpc.stub.MetadataUtils
 import org.springframework.stereotype.Component
 import java.lang.Exception
@@ -83,6 +84,7 @@ class AuthHandler(
 
 //        try {
         response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        throw ServerException(message = response.message)
         channel.shutdown()
 //        } catch (e: Exception) {
 //            throw e.message?.let { ServerException(message = it) }!!
