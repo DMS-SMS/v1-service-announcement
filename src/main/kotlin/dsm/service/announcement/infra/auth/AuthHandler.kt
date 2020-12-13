@@ -20,14 +20,12 @@ class AuthHandler(
         val jaegerHandler: JaegerHandler,
         val consulHandler: ConsulHandler
 ) {
-    val host: String = "127.0.0.1"
     val serviceName: String = "DMS.SMS.v1.service.auth"
 
     @Tracing("AuthServiceHandler (getStudentInform)")
     suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: AuthStudentGrpcKt.AuthStudentCoroutineStub = AuthStudentGrpcKt.AuthStudentCoroutineStub(channel)
@@ -61,8 +59,7 @@ class AuthHandler(
     @Tracing("AuthServiceHandler (getTeacherInform)")
     suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: AuthTeacherGrpcKt.AuthTeacherCoroutineStub = AuthTeacherGrpcKt.AuthTeacherCoroutineStub(channel)
@@ -79,7 +76,7 @@ class AuthHandler(
                 .setUUID(uuid)
                 .setTeacherUUID(uuid)
                 .build()
-        
+
         val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
         channel.shutdown()
 
