@@ -81,13 +81,13 @@ class AuthHandler(
 
         var response: GetTeacherInformWithUUIDResponse? = null
 
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-            channel.shutdown()
-        } catch (e: Exception) {
-            throw e.message?.let { ServerException(message = it) }!!
-        } finally {
-            return response
-        }
+//        try {
+        response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        channel.shutdown()
+//        } catch (e: Exception) {
+//            throw e.message?.let { ServerException(message = it) }!!
+//        } finally {
+        return response
+//        }
     }
 }
