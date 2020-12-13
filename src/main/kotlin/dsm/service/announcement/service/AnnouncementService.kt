@@ -12,4 +12,6 @@ interface AnnouncementService {
     fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse
 
     fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse
+
+    fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse
 }

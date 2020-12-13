@@ -30,4 +30,8 @@ public class AnnouncementServiceGrpc(
     override suspend fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse {
         return announcementService.updateAnnouncement(request)
     }
+
+    override suspend fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse {
+        return announcementService.checkAnnouncement(request)
+    }
 }
