@@ -16,10 +16,12 @@ class CheckAnnouncementUseCaseImpl(
         for (announcement: Announcement in announcements) {
             viewRepository.findByUuid(announcement.uuid)?.let {
                 it.read_accounts.find { it == uuid }?.let {
-                    return 1
+                    return 0
                 }
             }
         }
-        return 0
+
+        if (announcements.count().equals(0)) return 0
+        return 1
     }
 }
