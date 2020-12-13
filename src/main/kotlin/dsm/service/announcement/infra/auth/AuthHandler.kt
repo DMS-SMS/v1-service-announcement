@@ -84,7 +84,7 @@ class AuthHandler(
 
         try {
             response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-            channel.shutdown()
+            channel.shutdownNow()
         } catch (e: Exception) {
             if (response != null) {
                 throw ServerException( message = response.message)
