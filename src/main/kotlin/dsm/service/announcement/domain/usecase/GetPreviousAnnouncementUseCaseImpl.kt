@@ -15,7 +15,13 @@ class GetPreviousAnnouncementUseCaseImpl(
         while (number > minNumber) {
             number -= 1
             announcementRepository.findByNumber(number)?.let {
-                return it
+                if (currentAnnouncement.type == it.type) {
+                    if (currentAnnouncement.type == "club") return it
+                    else {
+                        if (currentAnnouncement.targetGrade == it.targetGrade &&
+                                currentAnnouncement.targetGroup == it.targetGroup ) return it
+                    }
+                }
             }
         }
         return null
