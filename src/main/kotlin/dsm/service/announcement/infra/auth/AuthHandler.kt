@@ -79,21 +79,10 @@ class AuthHandler(
                 .setUUID(uuid)
                 .setTeacherUUID(uuid)
                 .build()
+        
+        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        channel.shutdown()
 
-        var response: GetTeacherInformWithUUIDResponse? = null
-
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-            channel.shutdownNow()
-        } catch (e: Exception) {
-            if (response != null) {
-                throw ServerException( message = response.message)
-            }
-            throw e.message?.let { ServerException(message = it) }!!
-        }
-//            throw e.message?.let { ServerException(message = it) }!!
-//        } finally {
         return response
-//        }
     }
 }
