@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class JaegerHandler {
     private var samplerConfiguration: SamplerConfiguration? = Configuration.SamplerConfiguration.fromEnv()
             .withParam(1).withType("const")
-    private val tracer: Tracer = Configuration.fromEnv("AnnouncementService").withSampler(samplerConfiguration).getTracer()
+    private val tracer: Tracer = Configuration.fromEnv("DMS.SMS.v1.service.announcement").withSampler(samplerConfiguration).getTracer()
 
     fun serviceTracing(pjp: ProceedingJoinPoint): Any {
         val spanContext = MetadataInterceptor.spanContext.get() as String
