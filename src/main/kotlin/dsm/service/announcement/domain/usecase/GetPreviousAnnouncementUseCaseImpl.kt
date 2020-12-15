@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class GetPreviousAnnouncementUseCaseImpl(
         val announcementRepository: AnnouncementRepository
 ): GetPreviousAnnouncementUseCase {
-    override fun run(currentAnnouncement: Announcement): Announcement? {
+    override fun execute(currentAnnouncement: Announcement): Announcement? {
         val minNumber = announcementRepository.findTopByOrderByNumberAsc()?.number?: return null
         var number = currentAnnouncement.number?: throw Exception()
 

@@ -1,5 +1,5 @@
 package dsm.service.announcement.domain.usecase
 
 interface DeleteAnnouncementUseCase {
-    fun run(writerUuid: String, announcementUuid: String)
+    fun execute(writerUuid: String, announcementUuid: String)
 }

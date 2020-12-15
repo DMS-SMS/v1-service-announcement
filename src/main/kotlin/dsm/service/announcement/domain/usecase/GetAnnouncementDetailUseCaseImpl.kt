@@ -11,7 +11,7 @@ class GetAnnouncementDetailUseCaseImpl(
         var announcementRepository: AnnouncementRepository,
         var viewRepository: ViewRepository
 ): GetAnnouncementDetailUseCase {
-    override fun run(announcementUuid: String, accountUuid: String): Announcement {
+    override fun execute(announcementUuid: String, accountUuid: String): Announcement {
         viewRepository.findByUuid(announcementUuid)?.let {
             if (it.read_accounts.find { it == accountUuid } == null) {
                 it.read_accounts.add(accountUuid)

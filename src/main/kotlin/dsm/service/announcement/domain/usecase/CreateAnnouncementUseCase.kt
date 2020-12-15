@@ -3,7 +3,7 @@ package dsm.service.announcement.domain.usecase
 import java.time.LocalDateTime
 
 interface CreateAnnouncementUseCase {
-    fun run(
+    fun execute(
             writerUuid: String,
             title: String,
             content: String,

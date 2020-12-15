@@ -11,7 +11,7 @@ class GetAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository,
         val studentRepository: StudentRepository
 ): GetAnnouncementsUseCase {
-    override fun run(accountUuid: String, type: String, start: Int, count: Int): MutableIterable<Announcement> {
+    override fun execute(accountUuid: String, type: String, start: Int, count: Int): MutableIterable<Announcement> {
         return if (type == "club") {
             announcementRepository.findAllByType(type, PageRequest.of(start,count))
         } else {

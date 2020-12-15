@@ -23,7 +23,7 @@ class CreateAnnouncementUseCaseImpl(
         val viewRepository: ViewRepository,
         val uuidService: UuidService
 ): CreateAnnouncementUseCase {
-    override fun run(
+    override fun execute(
             writerUuid: String,
             title: String,
             content: String,

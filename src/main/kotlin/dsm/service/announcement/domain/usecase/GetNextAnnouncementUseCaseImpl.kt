@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class GetNextAnnouncementUseCaseImpl(
         val announcementRepository: AnnouncementRepository
 ): GetNextAnnouncementUseCase {
-    override fun run(currentAnnouncement: Announcement): Announcement? {
+    override fun execute(currentAnnouncement: Announcement): Announcement? {
         val maxNumber = announcementRepository.findTopByOrderByNumberDesc()?.number?: return null
         var number = currentAnnouncement.number?: throw Exception()
 

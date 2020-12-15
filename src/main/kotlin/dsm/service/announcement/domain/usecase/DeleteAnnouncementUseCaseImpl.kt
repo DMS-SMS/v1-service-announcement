@@ -11,7 +11,7 @@ class DeleteAnnouncementUseCaseImpl(
         val announcementRepository: AnnouncementRepository,
         val contentRepository: ContentRepository
 ): DeleteAnnouncementUseCase {
-    override fun run(writerUuid: String, announcementUuid: String) {
+    override fun execute(writerUuid: String, announcementUuid: String) {
         announcementRepository.findByUuid(announcementUuid)?.let {
             if (it.writerUuid != writerUuid) throw UnAuthorizedException()
             announcementRepository.delete(it);
