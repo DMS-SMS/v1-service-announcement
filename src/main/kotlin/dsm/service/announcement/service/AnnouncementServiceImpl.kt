@@ -22,7 +22,7 @@ class AnnouncementServiceImpl(
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
     override fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
-        val announcementId = createAnnouncementUseCase.run(
+        val announcementId = createAnnouncementUseCase.execute(
             request.uuid,
             request.title,
             request.content,
@@ -36,7 +36,7 @@ class AnnouncementServiceImpl(
     }
 
     override fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {
-        deleteAnnouncementUseCase.run(request.uuid, request.announcementId)
+        deleteAnnouncementUseCase.execute(request.uuid, request.announcementId)
         return DefaultAnnouncementResponse.newBuilder()
                 .setAnnouncementId(request.announcementId)
                 .setStatus(201)
@@ -44,18 +44,18 @@ class AnnouncementServiceImpl(
     }
 
     override fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
-        val currentAnnouncement = getAnnouncementDetailUseCase.run(request.announcementId, request.uuid)
+        val currentAnnouncement = getAnnouncementDetailUseCase.execute(request.announcementId, request.uuid)
         return announcementMapper.getAnnouncementDetailMapper(
                 currentAnnouncement,
-                getContentUseCase.run(request.announcementId),
-                getNextAnnouncementUseCase.run(currentAnnouncement),
-                getPreviewAnnouncementUseCase.run(currentAnnouncement)
+                getContentUseCase.execute(request.announcementId),
+                getNextAnnouncementUseCase.execute(currentAnnouncement),
+                getPreviewAnnouncementUseCase.execute(currentAnnouncement)
 
         ).setStatus(200).build()
     }
 
     override fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
-        val announcement = getAnnouncementsUseCase.run(request.uuid, request.type, request.start, request.count)
+        val announcement = getAnnouncementsUseCase.execute(request.uuid, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcement
@@ -63,7 +63,7 @@ class AnnouncementServiceImpl(
     }
 
     override fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse {
-        updateAnnouncementUseCase.run(
+        updateAnnouncementUseCase.execute(
                 request.uuid,
                 request.announcementId,
                 request.title,
