@@ -16,9 +16,10 @@ class GetAnnouncementsUseCaseImpl(
             announcementRepository.findAllByType(type, PageRequest.of(start,count))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                return announcementRepository.findAllByTypeAndTargetGradeAndTargetGroup(
+                announcementRepository.findAllByTypeAndTargetGradeAndTargetGroup(
                         "school", it.grade, it.group, PageRequest.of(start, count))
-            }?: announcementRepository.findAll()
+            }
+            announcementRepository.findAllByType(type, PageRequest.of(start,count))
         }
     }
 }
