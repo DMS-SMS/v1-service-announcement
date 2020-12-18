@@ -2,6 +2,7 @@ package dsm.service.announcement.service.aop
 
 import dsm.service.announcement.domain.exception.BusinessException
 import dsm.service.announcement.infra.jaeger.JaegerHandler
+import dsm.service.announcement.proto.CheckAnnouncementResponse
 import dsm.service.announcement.proto.DefaultAnnouncementResponse
 import dsm.service.announcement.proto.GetAnnouncementDetailResponse
 import dsm.service.announcement.proto.GetAnnouncementsResponse
@@ -23,11 +24,15 @@ public class AspectService(
             "execution(* dsm.service.announcement.service.AnnouncementServiceImpl.deleteAnnouncement(..))")
     fun defaultAnnouncementPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.getAnnouncements(..))")
+    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.getAnnouncements(..)) ||" +
+            "execution(* dsm.service.announcement.service.AnnouncementServiceImpl.searchAnnouncements(..))")
     fun getAnnouncementsPointCut() {}
 
     @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.getAnnouncementDetail(..))")
     fun getAnnouncementDetailPointCut() {}
+
+    @Pointcut("execution(* dsm.service.announcement.service.AnnouncementServiceImpl.checkAnnouncement(..))")
+    fun checkAnnouncementPointCut() {}
 
     @Around("getAnnouncementsPointCut()")
     fun getAnnouncementsHandling(pjp: ProceedingJoinPoint): Any {
@@ -68,6 +73,21 @@ public class AspectService(
             jaegerHandler.serviceTracing(pjp)
         } catch (e: BusinessException) {
             DefaultAnnouncementResponse.newBuilder()
+                    .setStatus(e.statusCode)
+                    .setCode(e.errorCode)
+                    .setMsg(e.message)
+                    .build()
+        } catch (e: Exception) {
+            println(e)
+        }
+    }
+
+    @Around("checkAnnouncementPointCut()")
+    fun checkAnnouncementHandling(pjp: ProceedingJoinPoint): Any {
+        return try {
+            jaegerHandler.serviceTracing(pjp)
+        } catch (e: BusinessException) {
+            CheckAnnouncementResponse.newBuilder()
                     .setStatus(e.statusCode)
                     .setCode(e.errorCode)
                     .setMsg(e.message)
