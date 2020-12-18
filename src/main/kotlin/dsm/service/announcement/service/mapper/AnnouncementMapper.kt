@@ -20,17 +20,19 @@ public class AnnouncementMapper(
 
         for(announcement: Announcement in announcements) {
             val previewBuilder = AnnouncementPreview.newBuilder()
-            viewRepository.findByUuid(announcement.uuid)?.read_accounts?.let {
-                var checked = 0
-                it.find { it == announcement.writerUuid }.let {
-                    checked = 1
+            previewBuilder
+                    .setAnnouncementId(announcement.uuid)
+                    .setTitle(announcement.title)
+                    .setDate(Timestamp.valueOf(announcement.date).time)
+                    .setIsChecked(0)
+            viewRepository.findByUuid(announcement.uuid).let {
+                it?.read_accounts?.size?.toLong()?.let { size ->
+                    previewBuilder.setViews(size)
                 }
-                previewBuilder
-                        .setAnnouncementId(announcement.uuid)
-                        .setTitle(announcement.title)
-                        .setDate(Timestamp.valueOf(announcement.date).time)
-                        .setViews(it.size.toLong())
-                        .setIsChecked(checked.toLong())
+                it?.read_accounts?.find { it == announcement.writerUuid }.let {
+                    previewBuilder
+                            .setIsChecked(1)
+                }
             }
 
             announcement.number?.let {
