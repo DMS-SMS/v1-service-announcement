@@ -18,6 +18,7 @@ class AnnouncementServiceImpl(
         val getPreviewAnnouncementUseCase: GetPreviousAnnouncementUseCase,
         val getAccountUseCase: GetAccountUseCase,
         val checkAnnouncementUseCase: CheckAnnouncementUseCase,
+        val searchAnnouncementUseCase: SearchAnnouncementsUseCase,
 
         val announcementMapper: AnnouncementMapper
 ): AnnouncementService {
@@ -82,5 +83,17 @@ class AnnouncementServiceImpl(
                 .setSchool(checkAnnouncementUseCase.execute(request.uuid, "school"))
                 .setStatus(200)
                 .build()
+    }
+
+    override fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
+        val announcements = searchAnnouncementUseCase.execute(request.uuid, request.query, request.type, request.start, request.count)
+
+        return announcementMapper.getAnnouncementsMapper(
+            announcements
+        ).setStatus(200).build()
+    }
+
+    override fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
