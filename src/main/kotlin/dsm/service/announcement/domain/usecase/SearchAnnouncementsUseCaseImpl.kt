@@ -4,7 +4,9 @@ import dsm.service.announcement.domain.entity.Announcement
 import dsm.service.announcement.domain.repository.AnnouncementRepository
 import dsm.service.announcement.domain.repository.StudentRepository
 import org.springframework.data.domain.PageRequest
+import org.springframework.stereotype.Component
 
+@Component
 class SearchAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository,
         val studentRepository: StudentRepository
