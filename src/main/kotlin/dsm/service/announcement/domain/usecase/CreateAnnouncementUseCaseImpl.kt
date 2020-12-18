@@ -4,11 +4,14 @@ import com.mongodb.BasicDBObject
 import dsm.service.announcement.domain.entity.Announcement
 import dsm.service.announcement.domain.entity.Content
 import dsm.service.announcement.domain.entity.View
+import dsm.service.announcement.domain.exception.BadRequestException
 import dsm.service.announcement.domain.exception.UnAuthorizedException
 import dsm.service.announcement.domain.repository.*
 import dsm.service.announcement.domain.service.UuidService
+import org.bson.json.JsonParseException
 import org.springframework.data.annotation.Id
 import org.springframework.stereotype.Component
+import java.lang.Exception
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.GeneratedValue
@@ -42,26 +45,32 @@ class CreateAnnouncementUseCaseImpl(
 
         val announcementUuid = uuidService.createAnnouncementUuid()
 
-        announcementRepository.save(
-            Announcement(
-                    uuid=announcementUuid,
-                    writerUuid=writerUuid,
-                    date=LocalDateTime.now(),
-                    title=title,
-                    targetGrade=targetGrade,
-                    targetGroup=targetGroup,
-                    type=type,
-                    club=clubName
+        try {
+            val parsedContent = BasicDBObject.parse(content)
+
+            announcementRepository.save(
+                    Announcement(
+                            uuid=announcementUuid,
+                            writerUuid=writerUuid,
+                            date=LocalDateTime.now(),
+                            title=title,
+                            targetGrade=targetGrade,
+                            targetGroup=targetGroup,
+                            type=type,
+                            club=clubName
+                    )
             )
-        )
 
-        contentRepository.save(
-                Content(announcementUuid, BasicDBObject.parse(content))
-        )
+            contentRepository.save(
+                    Content(announcementUuid, parsedContent)
+            )
 
-        viewRepository.save(
-                View(announcementUuid, mutableListOf())
-        )
+            viewRepository.save(
+                    View(announcementUuid, mutableListOf())
+            )
+        } catch (e: JsonParseException) {
+            throw BadRequestException()
+        }
         return announcementUuid;
     }
 }
