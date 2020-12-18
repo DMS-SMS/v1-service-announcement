@@ -39,11 +39,14 @@ public class AnnouncementMapper(
                 previewBuilder.setNumber(it)
             }
 
+            announcement.writerUuid.let {
+                val userName: String = getAccountUseCase.execute(announcement.writerUuid)?.name ?: ""
+                previewBuilder.setWriterName(userName)
+            }
+
             announcement.club?.let {
                 previewBuilder.setWriterName(it)
-            }?.let {
-                val userName: String = getAccountUseCase.execute(announcement.writerUuid)?.name ?: ""
-                previewBuilder.setWriterName(userName) }
+            }
 
             response.addAnnouncement(previewBuilder.build())
         }

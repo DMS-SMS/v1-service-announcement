@@ -17,14 +17,12 @@ class ClubHandler(
         val jaegerHandler: JaegerHandler,
         val consulHandler: ConsulHandler
 ) {
-    val host: String = "127.0.0.1"
     val serviceName: String = "DMS.SMS.v1.service.club"
 
     @Tracing("ClubServiceHandler")
     suspend fun getClubUuidWithLeaderUuid(uuid: String): GetClubUUIDWithLeaderUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
@@ -55,8 +53,7 @@ class ClubHandler(
     @Tracing("ClubServiceHandler")
     suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
