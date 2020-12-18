@@ -12,7 +12,9 @@ interface AnnouncementRepository: CrudRepository<Announcement, Long> {
 
     fun findTopByOrderByNumberAsc(): Announcement?
 
-    fun findAllByTitleContainsAndType(title: String, type: String, pageable: Pageable): MutableIterable<Announcement>
+    fun findAllByWriterUuidAndType(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
+
+    fun findAllByTitleContainsAndType(title: String, type: String, pageable: Pageable): Page<Announcement>
 
     fun findAllByType(type: String): MutableIterable<Announcement>
 
