@@ -36,10 +36,10 @@ public class AnnouncementServiceGrpc(
     }
 
     override suspend fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
-        return super.getMyAnnouncements(request)
+        return announcementService.getMyAnnouncements(request)
     }
 
     override suspend fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
-        return announcementService.searchAnnouncement(request)
+        return announcementService.searchAnnouncements(request)
     }
 }
