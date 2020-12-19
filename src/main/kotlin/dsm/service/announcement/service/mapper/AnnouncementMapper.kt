@@ -27,23 +27,13 @@ public class AnnouncementMapper(
                     .setIsChecked(0)
             viewRepository.findByUuid(announcement.uuid)
                     ?.let {
-                        /*
-                        print(it.read_accounts)
-                        it.read_accounts.size.toLong()
-                                .let { size ->
-                                    previewBuilder.setViews(size)
-
-                                }
-                        it.read_accounts.find { it.contains(announcement.writerUuid) }
-                                .let {
-                                    previewBuilder.setIsChecked(1)
-                                }
-                        */
-
                         it.read_accounts.count()
                                 .let { size ->
                                     previewBuilder.setViews(size.toLong())
                                 }
+
+                        println(it.read_accounts)
+                        println(it.read_accounts.contains(announcement.writerUuid))
 
                         if (it.read_accounts.contains(announcement.writerUuid)) previewBuilder.setIsChecked(1)
                     }
