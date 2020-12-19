@@ -31,8 +31,9 @@ public class AnnouncementMapper(
                                 .let { size ->
                                     previewBuilder.setViews(size.toLong())
                                 }
-
-                        println(it.read_accounts.get(1) == announcement.writerUuid)
+                        try {
+                            println(it.read_accounts.get(1) == announcement.writerUuid)
+                        } catch (e: Exception) {}
                         println(it.read_accounts.contains(announcement.writerUuid))
 
                         if (it.read_accounts.contains(announcement.writerUuid)) previewBuilder.setIsChecked(1)
