@@ -9,6 +9,7 @@ import dsm.service.announcement.proto.GetAnnouncementDetailResponse
 import dsm.service.announcement.proto.GetAnnouncementsResponse
 import org.springframework.stereotype.Component
 import java.sql.Timestamp
+import kotlin.reflect.typeOf
 
 @Component
 public class AnnouncementMapper(
@@ -32,7 +33,11 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
                         try {
-                            print("asdf")
+                            print("asdf: ")
+                            println(it.read_accounts.get(0).javaClass.name)
+                            println(it.read_accounts.get(0))
+                            println(announcement.writerUuid.javaClass.name)
+                            println(announcement.writerUuid)
                             println(it.read_accounts.get(0) == announcement.writerUuid)
                         } catch (e: Exception) {}
                         println(it.read_accounts.contains(announcement.writerUuid))
