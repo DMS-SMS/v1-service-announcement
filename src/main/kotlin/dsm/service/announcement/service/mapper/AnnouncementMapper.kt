@@ -19,7 +19,6 @@ public class AnnouncementMapper(
         val response = GetAnnouncementsResponse.newBuilder();
 
         for(announcement: Announcement in announcements) {
-            println("asdf")
             val previewBuilder = AnnouncementPreview.newBuilder()
             previewBuilder
                     .setAnnouncementId(announcement.uuid)
@@ -41,7 +40,7 @@ public class AnnouncementMapper(
                                 } */
 
                         for (account in it.read_accounts) {
-                            print("$account ")
+                            print(": ${account.toString()}")
                         }
                         it.read_accounts.count().toLong()
                                 .let { size ->
