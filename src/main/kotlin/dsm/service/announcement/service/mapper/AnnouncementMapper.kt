@@ -26,12 +26,12 @@ public class AnnouncementMapper(
                     .setDate(Timestamp.valueOf(announcement.date).time)
                     .setIsChecked(0)
             viewRepository.findByUuid(announcement.uuid).let {
+
                 it?.read_accounts?.size?.toLong()?.let { size ->
                     previewBuilder.setViews(size)
                 }
                 it?.read_accounts?.find { it == announcement.writerUuid }.let {
-                    previewBuilder
-                            .setIsChecked(1)
+                    if (it != null) previewBuilder.setIsChecked(1)
                 }
             }
 
