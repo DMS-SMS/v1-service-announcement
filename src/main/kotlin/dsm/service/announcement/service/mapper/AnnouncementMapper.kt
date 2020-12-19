@@ -25,15 +25,32 @@ public class AnnouncementMapper(
                     .setTitle(announcement.title)
                     .setDate(Timestamp.valueOf(announcement.date).time)
                     .setIsChecked(0)
-            viewRepository.findByUuid(announcement.uuid).let {
-                print(it?.read_accounts)
-                it?.read_accounts?.size?.toLong()?.let { size ->
-                    previewBuilder.setViews(size)
-                }
-                it?.read_accounts?.find { it.contains(announcement.writerUuid) }?.let {
-                    previewBuilder.setIsChecked(1)
-                }
-            }
+            viewRepository.findByUuid(announcement.uuid)
+                    ?.let {
+                        /*
+                        print(it.read_accounts)
+                        it.read_accounts.size.toLong()
+                                .let { size ->
+                                    previewBuilder.setViews(size)
+
+                                }
+                        it.read_accounts.find { it.contains(announcement.writerUuid) }
+                                .let {
+                                    previewBuilder.setIsChecked(1)
+                                } */
+
+                        for (account in it.read_accounts) {
+                            print("$account ")
+                        }
+                        it.read_accounts.count().toLong()
+                                .let { size ->
+                                    previewBuilder.setViews(size)
+                                }
+                        it.read_accounts.takeIf { it.contains(announcement.writerUuid) }
+                                ?.let {
+                                    previewBuilder.setIsChecked(1)
+                                }
+                    }
 
             announcement.number?.let {
                 previewBuilder.setNumber(it)
