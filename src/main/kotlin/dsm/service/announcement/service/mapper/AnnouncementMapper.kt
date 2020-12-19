@@ -19,6 +19,7 @@ public class AnnouncementMapper(
         val response = GetAnnouncementsResponse.newBuilder();
 
         for(announcement: Announcement in announcements) {
+            println("asdf")
             val previewBuilder = AnnouncementPreview.newBuilder()
             previewBuilder
                     .setAnnouncementId(announcement.uuid)
