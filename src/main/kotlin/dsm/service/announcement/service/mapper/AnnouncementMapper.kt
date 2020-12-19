@@ -46,8 +46,7 @@ public class AnnouncementMapper(
                                 }
 
                         for( read in it.read_accounts) {
-                            if ( read.contains(announcement.writerUuid)) {
-                                println(it)
+                            if ( read == announcement.writerUuid) {
                                 previewBuilder.setIsChecked(1)
                             }
                         }
