@@ -45,20 +45,13 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
 
-                        for( read in it.read_accounts) {
-                            if ( read == announcement.writerUuid) {
-                                previewBuilder.setIsChecked(1)
-                            }
-                        }
-                        /*
                         it.read_accounts
-                                .takeIf {
-                                    it.contains(announcement.writerUuid)
+                                .takeIf { read ->
+                                    read.contains(announcement.writerUuid)
                                 }
-                                ?.also {
-                                    println(it)
-                                    previewBuilder.setIsChecked(1)
-                                }*/
+                                ?.let {
+                                    previewBuilder.isChecked = 1
+                                }
                     }
 
             announcement.number?.let {
