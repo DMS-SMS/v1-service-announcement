@@ -38,16 +38,18 @@ public class AnnouncementMapper(
                                 .let {
                                     previewBuilder.setIsChecked(1)
                                 } */
-
+                        print("red : $it")
+                        print("read: ${it.read_accounts}}")
                         for (account in it.read_accounts) {
                             print(": ${account.toString()}")
                         }
                         it.read_accounts.count().toLong()
                                 .let { size ->
+                                    print(": $size")
                                     previewBuilder.setViews(size)
                                 }
-                        it.read_accounts.takeIf { it.contains(announcement.writerUuid) }
-                                ?.let {
+                        it.read_accounts.filter { it.contains(announcement.writerUuid) }
+                                .let {
                                     previewBuilder.setIsChecked(1)
                                 }
                     }
