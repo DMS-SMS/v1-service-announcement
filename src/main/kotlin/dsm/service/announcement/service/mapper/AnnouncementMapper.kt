@@ -45,13 +45,7 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
 
-                        it.read_accounts
-                                .takeIf { read ->
-                                    read.contains(announcement.writerUuid)
-                                }
-                                ?.let {
-                                    previewBuilder.isChecked = 1
-                                }
+                        if (it.read_accounts.contains(announcement.writerUuid)) previewBuilder.setIsChecked(1)
                     }
 
             announcement.number?.let {
