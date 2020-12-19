@@ -37,19 +37,21 @@ public class AnnouncementMapper(
                         it.read_accounts.find { it.contains(announcement.writerUuid) }
                                 .let {
                                     previewBuilder.setIsChecked(1)
-                                } */
-                        print("red : $it")
-                        print("read: ${it.read_accounts}}")
-                        for (account in it.read_accounts) {
-                            print(": ${account.toString()}")
-                        }
-                        it.read_accounts.count().toLong()
+                                }
+                        */
+                        println("[ read ] : ${it.read_accounts.toString()}}")
+
+                        it.read_accounts.count()
                                 .let { size ->
                                     print(": $size")
-                                    previewBuilder.setViews(size)
+                                    previewBuilder.setViews(size.toLong())
                                 }
-                        it.read_accounts.filter { it.contains(announcement.writerUuid) }
+                        it.read_accounts
+                                .filter {
+                                    it.contains(announcement.writerUuid)
+                                }
                                 .let {
+                                    println(it)
                                     previewBuilder.setIsChecked(1)
                                 }
                     }
