@@ -39,20 +39,27 @@ public class AnnouncementMapper(
                                     previewBuilder.setIsChecked(1)
                                 }
                         */
-                        println("[ read ] : ${it.read_accounts.toString()}}")
 
                         it.read_accounts.count()
                                 .let { size ->
-                                    print(": $size")
                                     previewBuilder.setViews(size.toLong())
                                 }
+
+                        for( read in it.read_accounts) {
+                            if ( read.contains(announcement.writerUuid)) {
+                                println(it)
+                                previewBuilder.setIsChecked(1)
+                            }
+                        }
+                        /*
                         it.read_accounts
                                 .takeIf {
                                     it.contains(announcement.writerUuid)
                                 }
-                                .also {
+                                ?.also {
+                                    println(it)
                                     previewBuilder.setIsChecked(1)
-                                }
+                                }*/
                     }
 
             announcement.number?.let {
