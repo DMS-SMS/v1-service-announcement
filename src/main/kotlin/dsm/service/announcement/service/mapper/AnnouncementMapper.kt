@@ -32,7 +32,7 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
 
-                        println(it.read_accounts)
+                        println(it.read_accounts.get(1) == announcement.writerUuid)
                         println(it.read_accounts.contains(announcement.writerUuid))
 
                         if (it.read_accounts.contains(announcement.writerUuid)) previewBuilder.setIsChecked(1)
