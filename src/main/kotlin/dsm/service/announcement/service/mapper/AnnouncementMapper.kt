@@ -47,11 +47,10 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
                         it.read_accounts
-                                .filter {
+                                .takeIf {
                                     it.contains(announcement.writerUuid)
                                 }
-                                .let {
-                                    println(it)
+                                .also {
                                     previewBuilder.setIsChecked(1)
                                 }
                     }
