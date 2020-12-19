@@ -30,7 +30,7 @@ public class AnnouncementMapper(
                 it?.read_accounts?.size?.toLong()?.let { size ->
                     previewBuilder.setViews(size)
                 }
-                it?.read_accounts?.find { it == announcement.writerUuid }.let {
+                it?.read_accounts?.find { it.contains(announcement.writerUuid) }.let {
                     if (it != null) previewBuilder.setIsChecked(1)
                 }
             }
