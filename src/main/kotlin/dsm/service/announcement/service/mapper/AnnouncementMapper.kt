@@ -32,7 +32,8 @@ public class AnnouncementMapper(
                                     previewBuilder.setViews(size.toLong())
                                 }
                         try {
-                            println(it.read_accounts.get(1) == announcement.writerUuid)
+                            print("asdf")
+                            println(it.read_accounts.get(0) == announcement.writerUuid)
                         } catch (e: Exception) {}
                         println(it.read_accounts.contains(announcement.writerUuid))
 
