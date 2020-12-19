@@ -16,7 +16,7 @@ public class AnnouncementMapper(
         val viewRepository: ViewRepository,
         val getAccountUseCase: GetAccountUseCase
 ) {
-    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>): GetAnnouncementsResponse.Builder {
+    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>, uuid: String): GetAnnouncementsResponse.Builder {
         val response = GetAnnouncementsResponse.newBuilder();
 
         for(announcement: Announcement in announcements) {
@@ -32,17 +32,7 @@ public class AnnouncementMapper(
                                 .let { size ->
                                     previewBuilder.setViews(size.toLong())
                                 }
-                        try {
-                            print("asdf: ")
-                            println(it.read_accounts.get(0).javaClass.name)
-                            println(it.read_accounts.get(0))
-                            println(announcement.writerUuid.javaClass.name)
-                            println(announcement.writerUuid)
-                            println(it.read_accounts.get(0) == announcement.writerUuid)
-                        } catch (e: Exception) {}
-                        println(it.read_accounts.contains(announcement.writerUuid))
-
-                        if (it.read_accounts.contains(announcement.writerUuid)) previewBuilder.setIsChecked(1)
+                        if (it.read_accounts.contains(uuid)) previewBuilder.setIsChecked(1)
                     }
 
             announcement.number?.let {

@@ -60,7 +60,8 @@ class AnnouncementServiceImpl(
         val announcement = getAnnouncementsUseCase.execute(request.uuid, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
-                announcement
+                announcement,
+                request.uuid
         ).setStatus(200).build()
     }
 
@@ -90,7 +91,8 @@ class AnnouncementServiceImpl(
         val announcements = searchAnnouncementsUseCase.execute(request.uuid, request.query, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
-            announcements
+                announcements,
+                request.uuid
         ).setStatus(200).build()
     }
 
@@ -98,7 +100,8 @@ class AnnouncementServiceImpl(
         val announcements = getTeacherAnnouncementsUseCase.execute(request.uuid, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
-                announcements
+                announcements,
+                request.uuid
         ).setStatus(200).build()
     }
 }
