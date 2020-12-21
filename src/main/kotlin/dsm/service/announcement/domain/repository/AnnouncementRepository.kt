@@ -22,7 +22,7 @@ interface AnnouncementRepository: PagingAndSortingRepository<Announcement, Long>
 
     fun findByNumber(number: Long): Announcement?
 
-    fun findByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
+    fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun findByTypeAndTargetGradeContainsAndTargetGroupContains(
