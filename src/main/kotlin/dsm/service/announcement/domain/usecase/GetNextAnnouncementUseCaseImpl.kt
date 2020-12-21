@@ -18,8 +18,9 @@ class GetNextAnnouncementUseCaseImpl(
                 if (currentAnnouncement.type == it.type) {
                     if (currentAnnouncement.type == "club") return it
                     else {
-                        if (currentAnnouncement.targetGrade == it.targetGrade &&
-                                currentAnnouncement.targetGroup == it.targetGroup ) return it
+                        if (currentAnnouncement.targetGrade.contains(it.targetGrade.toString()) &&
+                                currentAnnouncement.targetGroup.contains(it.targetGroup.toString()))
+                            return it
                     }
                 }
             }
