@@ -3,9 +3,9 @@ package dsm.service.announcement.domain.repository
 import dsm.service.announcement.domain.entity.Announcement
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.PagingAndSortingRepository
 
-interface AnnouncementRepository: CrudRepository<Announcement, Long> {
+interface AnnouncementRepository: PagingAndSortingRepository<Announcement, Long> {
     fun findByUuid(uuid: String): Announcement?
 
     fun findTopByOrderByNumberDesc(): Announcement?
@@ -25,6 +25,6 @@ interface AnnouncementRepository: CrudRepository<Announcement, Long> {
     fun findByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
-    fun findByTypeAndTargetGradeContainsAndTargetGroupContains(
+    fun findByTypeAndTargetGradeContainingAndTargetGroupContaining(
             type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 }
