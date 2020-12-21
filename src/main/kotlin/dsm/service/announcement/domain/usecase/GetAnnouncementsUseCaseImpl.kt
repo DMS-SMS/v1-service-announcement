@@ -21,7 +21,7 @@ class GetAnnouncementsUseCaseImpl(
                 println(it.grade.toString())
                 println(it.group.toString())
                 announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
-                        "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
+                        "school", "2", "1", PageRequest.of(start, count))
             }
             announcementRepository.findByType(type, PageRequest.of(start,count))
         }
