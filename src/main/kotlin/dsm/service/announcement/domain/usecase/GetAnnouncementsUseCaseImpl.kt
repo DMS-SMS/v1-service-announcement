@@ -16,6 +16,10 @@ class GetAnnouncementsUseCaseImpl(
             announcementRepository.findByType(type, PageRequest.of(start,count))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
+                println(it.grade)
+                println(it.grade.javaClass.name)
+                println(it.grade.toString())
+                println(it.group.toString())
                 announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
                         "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
             }
