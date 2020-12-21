@@ -22,7 +22,9 @@ interface AnnouncementRepository: CrudRepository<Announcement, Long> {
 
     fun findByNumber(number: Long): Announcement?
 
-    fun findAllByTitleContainsAndTypeAndTargetGradeAndTargetGroup(title: String, type: String, grade: Int, group: Int, pageable: Pageable): Page<Announcement>
+    fun findAllByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
+            title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
-    fun findAllByTypeAndTargetGradeAndTargetGroup(type: String, grade: Int, group: Int, pageable: Pageable): Page<Announcement>
+    fun findAllByTypeAndTargetGradeContainingAndTargetGroupContaining(
+            type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 }
