@@ -18,8 +18,8 @@ class UpdateAnnouncementUseCaseImpl(
         announcementRepository.findByUuid(announcementUuid)?.let {
                 if (it.writerUuid != writerUuid) throw UnAuthorizedException()
                 it.title = title
-                it.targetGrade = targetGrade
-                it.targetGroup = targetGroup
+                it.targetGrade = targetGrade.toString()
+                it.targetGroup = targetGroup.toString()
                 announcementRepository.save(it)
                 contentRepository.findByUuid(announcementUuid)?.let {
                     it.content = BasicDBObject.parse(content)
