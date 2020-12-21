@@ -23,11 +23,11 @@ data class Announcement(
         @Column(name = "title", length = 50)
         var title: String,
 
-        @Column(name = "target_grade")
-        var targetGrade: Int? = null,
+        @Column(name = "target_grade", length = 3)
+        var targetGrade: String,
 
-        @Column(name = "target_group")
-        var targetGroup: Int? = null,
+        @Column(name = "target_group", length = 4)
+        var targetGroup: String,
 
         @Column(name = "type", length = 6)
         var type: String,
