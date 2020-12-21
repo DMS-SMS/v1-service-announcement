@@ -25,6 +25,6 @@ interface AnnouncementRepository: PagingAndSortingRepository<Announcement, Long>
     fun findByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
-    fun findByTypeAndTargetGradeContainingAndTargetGroupContaining(
+    fun findByTypeAndTargetGradeContainsAndTargetGroupContains(
             type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 }
