@@ -54,8 +54,8 @@ class CreateAnnouncementUseCaseImpl(
                             writerUuid=writerUuid,
                             date=LocalDateTime.now(),
                             title=title,
-                            targetGrade=targetGrade,
-                            targetGroup=targetGroup,
+                            targetGrade=targetGrade.toString(),
+                            targetGroup=targetGroup.toString(),
                             type=type,
                             club=clubName
                     )
