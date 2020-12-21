@@ -11,7 +11,7 @@ class CheckAnnouncementUseCaseImpl(
         val viewRepository: ViewRepository
 ): CheckAnnouncementUseCase {
     override fun execute(uuid: String, type: String): Int {
-        val announcements = announcementRepository.findAllByType(type)
+        val announcements = announcementRepository.findByType(type)
 
         for (announcement: Announcement in announcements) {
             viewRepository.findByUuid(announcement.uuid)?.let {

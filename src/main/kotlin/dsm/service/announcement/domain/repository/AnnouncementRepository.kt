@@ -12,19 +12,19 @@ interface AnnouncementRepository: CrudRepository<Announcement, Long> {
 
     fun findTopByOrderByNumberAsc(): Announcement?
 
-    fun findAllByWriterUuidAndType(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByWriterUuidAndType(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
 
-    fun findAllByTitleContainsAndType(title: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByTitleContainsAndType(title: String, type: String, pageable: Pageable): Page<Announcement>
 
-    fun findAllByType(type: String): MutableIterable<Announcement>
+    fun findByType(type: String): MutableIterable<Announcement>
 
-    fun findAllByType(type: String, pageable: Pageable): Page<Announcement>
+    fun findByType(type: String, pageable: Pageable): Page<Announcement>
 
     fun findByNumber(number: Long): Announcement?
 
-    fun findAllByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
+    fun findByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
-    fun findAllByTypeAndTargetGradeContainingAndTargetGroupContaining(
+    fun findByTypeAndTargetGradeContainingAndTargetGroupContaining(
             type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 }

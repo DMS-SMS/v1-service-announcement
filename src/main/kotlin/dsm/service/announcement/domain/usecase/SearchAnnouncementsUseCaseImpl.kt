@@ -14,13 +14,13 @@ class SearchAnnouncementsUseCaseImpl(
 ): SearchAnnouncementsUseCase {
     override fun execute(accountUuid: String, type: String, query: String, start: Int, count: Int): MutableIterable<Announcement> {
         return if (type == "club") {
-            announcementRepository.findAllByTitleContainsAndType(query, type, PageRequest.of(start,count))
+            announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                announcementRepository.findAllByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
+                announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainingAndTargetGroupContaining(
                         query, "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
             }
-            announcementRepository.findAllByTitleContainsAndType(query, type, PageRequest.of(start,count))
+            announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count))
         }
     }
 }

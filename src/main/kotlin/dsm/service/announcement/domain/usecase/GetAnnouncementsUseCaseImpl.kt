@@ -13,13 +13,13 @@ class GetAnnouncementsUseCaseImpl(
 ): GetAnnouncementsUseCase {
     override fun execute(accountUuid: String, type: String, start: Int, count: Int): MutableIterable<Announcement> {
         return if (type == "club") {
-            announcementRepository.findAllByType(type, PageRequest.of(start,count))
+            announcementRepository.findByType(type, PageRequest.of(start,count))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                announcementRepository.findAllByTypeAndTargetGradeContainingAndTargetGroupContaining(
+                announcementRepository.findByTypeAndTargetGradeContainingAndTargetGroupContaining(
                         "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
             }
-            announcementRepository.findAllByType(type, PageRequest.of(start,count))
+            announcementRepository.findByType(type, PageRequest.of(start,count))
         }
     }
 }
