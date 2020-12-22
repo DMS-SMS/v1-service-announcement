@@ -60,6 +60,8 @@ message GetAnnouncementDetailResponse {
     string next_announcement_id = 9;
     string previous_title = 10;
     string previous_announcement_id = 11;
+    int32 target_grade = 12;
+    int32 target_group = 13;
 }
 
 message CreateAnnouncementRequest {

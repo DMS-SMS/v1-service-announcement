@@ -61,6 +61,8 @@ public class AnnouncementMapper(
         response.title = announcement.title
         response.date = Timestamp.valueOf(announcement.date).time
         response.content = content
+        response.targetGrade = announcement.targetGrade.toInt()
+        response.targetGroup = announcement.targetGroup.toInt()
 
         getAccountUseCase.execute(announcement.writerUuid).let {
             if (it != null) {
