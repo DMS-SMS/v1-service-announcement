@@ -18,6 +18,7 @@ public class AnnouncementMapper(
 ) {
     fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>, uuid: String): GetAnnouncementsResponse.Builder {
         val response = GetAnnouncementsResponse.newBuilder();
+        response.size = announcements.count().toLong()
 
         for(announcement: Announcement in announcements) {
             val previewBuilder = AnnouncementPreview.newBuilder()

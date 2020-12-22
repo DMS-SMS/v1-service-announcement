@@ -31,6 +31,7 @@ message GetAnnouncementsResponse {
     int32 code = 2;
     string msg = 3;
     repeated AnnouncementPreview announcement = 4;
+    int64 size = 5;
 }
 
 message AnnouncementPreview {
