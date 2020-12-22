@@ -12,14 +12,14 @@ class GetAnnouncementsUseCaseImpl(
         val studentRepository: StudentRepository
 ): GetAnnouncementsUseCase {
     override fun execute(accountUuid: String, type: String, start: Int, count: Int): MutableIterable<Announcement> {
-        return if (type == "club") {
-            announcementRepository.findByType(type, PageRequest.of(start,count))
+        if (type == "club") {
+            return announcementRepository.findByType(type, PageRequest.of(start,count))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
                 return announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
                         "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
             }
-            announcementRepository.findByType(type, PageRequest.of(start,count))
+            return announcementRepository.findByType("school", PageRequest.of(start,count))
         }
     }
 }
