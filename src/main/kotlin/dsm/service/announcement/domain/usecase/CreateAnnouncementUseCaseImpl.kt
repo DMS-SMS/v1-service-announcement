@@ -35,13 +35,13 @@ class CreateAnnouncementUseCaseImpl(
             type: String
     ): String {
         var clubName: String? = null
-        teacherRepository.findByUuid(writerUuid) ?: run {
+        teacherRepository.findByUuid(writerUuid) ?: {
             if (type == "school") throw UnAuthorizedException()
             val clubUuid = clubRepository.findClubUuidByLeaderUuid(writerUuid)
             clubUuid?.let {
                 clubName = clubRepository.findByUuid(clubUuid, writerUuid)?.name
             }?: throw UnAuthorizedException()
-        }
+        }()
 
         val announcementUuid = uuidService.createAnnouncementUuid()
 

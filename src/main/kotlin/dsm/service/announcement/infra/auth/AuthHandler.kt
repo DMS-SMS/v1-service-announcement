@@ -46,7 +46,7 @@ class AuthHandler(
         val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
         channel.shutdown()
 
-        return response
+        return if (response.status != 200) { null } else { response }
     }
 
     @Tracing("AuthServiceHandler (getTeacherInform)")
@@ -73,6 +73,6 @@ class AuthHandler(
         val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
         channel.shutdown()
 
-        return response
+        return if (response.status != 200) { null } else { response }
     }
 }
