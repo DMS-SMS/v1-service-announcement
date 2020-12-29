@@ -12,15 +12,21 @@ class SearchAnnouncementsUseCaseImpl(
         val studentRepository: StudentRepository
 
 ): SearchAnnouncementsUseCase {
-    override fun execute(accountUuid: String, type: String, query: String, start: Int, count: Int): MutableIterable<Announcement> {
+    override fun execute(accountUuid: String, type: String, query: String, start: Int, count: Int):
+            Pair<MutableIterable<Announcement>, Long> {
         return if (type == "club") {
-            announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count))
+            Pair(announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count)),
+                    announcementRepository.countByTitleContainsAndType(query, type))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
-                        query, "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
+                return Pair(announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
+                        query, "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count)),
+                        announcementRepository.countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
+                                query, "school", it.grade.toString(), it.group.toString()
+                        ))
             }
-            announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count))
+            Pair(announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count)),
+                    announcementRepository.countByTitleContainsAndType(query, type))
         }
     }
 }

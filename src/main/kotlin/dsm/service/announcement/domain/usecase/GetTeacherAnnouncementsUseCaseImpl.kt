@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component
 class GetTeacherAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository
 ): GetTeacherAnnouncementsUseCase {
-    override fun execute(uuid: String, start: Int, count: Int): MutableIterable<Announcement> {
-        return announcementRepository.findByWriterUuidAndType(uuid, "school", PageRequest.of(start, count))
+    override fun execute(uuid: String, start: Int, count: Int): Pair<MutableIterable<Announcement>, Long> {
+        return Pair(announcementRepository.findByWriterUuidAndType(uuid, "school", PageRequest.of(start, count)),
+                announcementRepository.countByWriterUuidAndType(uuid, "school"))
     }
 }

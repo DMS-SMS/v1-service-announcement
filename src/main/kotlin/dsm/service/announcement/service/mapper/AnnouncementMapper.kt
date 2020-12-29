@@ -16,9 +16,9 @@ public class AnnouncementMapper(
         val viewRepository: ViewRepository,
         val getAccountUseCase: GetAccountUseCase
 ) {
-    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>, uuid: String): GetAnnouncementsResponse.Builder {
+    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>, uuid: String, size: Long): GetAnnouncementsResponse.Builder {
         val response = GetAnnouncementsResponse.newBuilder();
-        response.size = announcements.count().toLong()
+        response.size = size
 
         for(announcement: Announcement in announcements) {
             val previewBuilder = AnnouncementPreview.newBuilder()

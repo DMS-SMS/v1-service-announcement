@@ -57,11 +57,12 @@ class AnnouncementServiceImpl(
     }
 
     override fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
-        val announcement = getAnnouncementsUseCase.execute(request.uuid, request.type, request.start, request.count)
+        val (announcement, size) = getAnnouncementsUseCase.execute(request.uuid, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcement,
-                request.uuid
+                request.uuid,
+                size
         ).setStatus(200).build()
     }
 
@@ -88,20 +89,22 @@ class AnnouncementServiceImpl(
     }
 
     override fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
-        val announcements = searchAnnouncementsUseCase.execute(request.uuid, request.query, request.type, request.start, request.count)
+        val (announcements, size) = searchAnnouncementsUseCase.execute(request.uuid, request.query, request.type, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcements,
-                request.uuid
+                request.uuid,
+                size
         ).setStatus(200).build()
     }
 
     override fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
-        val announcements = getTeacherAnnouncementsUseCase.execute(request.uuid, request.start, request.count)
+        val (announcements, size) = getTeacherAnnouncementsUseCase.execute(request.uuid, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcements,
-                request.uuid
+                request.uuid,
+                size
         ).setStatus(200).build()
     }
 }

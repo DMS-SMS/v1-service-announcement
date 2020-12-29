@@ -11,17 +11,24 @@ class GetAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository,
         val studentRepository: StudentRepository
 ): GetAnnouncementsUseCase {
-    override fun execute(accountUuid: String, type: String, start: Int, count: Int): MutableIterable<Announcement> {
+    override fun execute(accountUuid: String, type: String, start: Int, count: Int): Pair<MutableIterable<Announcement>, Long> {
         if (type == "club") {
-            return announcementRepository.findByType(type, PageRequest.of(start,count))
+            return Pair(announcementRepository.findByType(type, PageRequest.of(start,count)),
+                    announcementRepository.countByType(type))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                if (it.grade == 0) return announcementRepository.findByType("school", PageRequest.of(start,count))
-                return announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
-                        "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count))
+                if (it.grade == 0) return Pair(
+                        announcementRepository.findByType("school", PageRequest.of(start,count)),
+                        announcementRepository.countByType(type))
+                return Pair(announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
+                        "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count)),
+                        announcementRepository.countByTypeAndTargetGradeContainsAndTargetGroupContains(
+                                "school", it.grade.toString(), it.group.toString()
+                        ))
             }
 
         }
-        return announcementRepository.findByType("school", PageRequest.of(start,count))
+        return Pair(announcementRepository.findByType("school", PageRequest.of(start,count)),
+                announcementRepository.countByType("School"))
     }
 }
