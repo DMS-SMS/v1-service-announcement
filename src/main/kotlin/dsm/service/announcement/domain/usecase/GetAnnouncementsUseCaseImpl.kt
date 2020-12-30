@@ -12,7 +12,7 @@ class GetAnnouncementsUseCaseImpl(
         val studentRepository: StudentRepository
 ): GetAnnouncementsUseCase {
     override fun execute(accountUuid: String, type: String, start: Int, count: Int): Pair<MutableIterable<Announcement>, Long> {
-        if (type == "club") {
+        if (type.equals("club")) {
             return Pair(announcementRepository.findByTypeOrderByDateDesc(type, PageRequest.of(start,count)),
                     announcementRepository.countByType(type))
         } else {

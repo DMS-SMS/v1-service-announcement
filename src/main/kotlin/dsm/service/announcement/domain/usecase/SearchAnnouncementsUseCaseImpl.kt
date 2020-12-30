@@ -16,11 +16,11 @@ class SearchAnnouncementsUseCaseImpl(
     override fun execute(accountUuid: String, type: String, query: String, start: Int, count: Int):
             Pair<MutableIterable<Announcement>, Long> {
         println("aasdf")
-        if (type == "club") {
+        if (type.equals("club")) {
             println("club")
             return Pair(announcementRepository.findByTitleContainsAndTypeOrderByDateDesc(query, type, PageRequest.of(start,count)),
                     announcementRepository.countByTitleContainsAndType(query, type))
-        } else if (type == "school") {
+        } else if (type.equals("school")) {
             println("school")
             studentRepository.findByUuid(accountUuid)?.let {
                 println("sss")
