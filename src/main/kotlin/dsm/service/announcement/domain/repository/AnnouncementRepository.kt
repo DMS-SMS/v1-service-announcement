@@ -28,7 +28,7 @@ interface AnnouncementRepository: PagingAndSortingRepository<Announcement, Long>
 
     fun findByNumber(number: Long): Announcement?
 
-    fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
+    fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(title: String, type: String, targetGrade: String, targetGroup: String): Long
