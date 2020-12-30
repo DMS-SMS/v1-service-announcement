@@ -89,7 +89,7 @@ class AnnouncementServiceImpl(
     }
 
     override fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
-        val (announcements, size) = searchAnnouncementsUseCase.execute(request.uuid, request.query, request.type, request.start, request.count)
+        val (announcements, size) = searchAnnouncementsUseCase.execute(request.uuid, request.type, request.query, request.start, request.count)
 
         return announcementMapper.getAnnouncementsMapper(
                 announcements,
