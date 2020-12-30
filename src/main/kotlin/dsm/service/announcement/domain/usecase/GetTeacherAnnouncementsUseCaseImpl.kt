@@ -10,7 +10,7 @@ class GetTeacherAnnouncementsUseCaseImpl(
         val announcementRepository: AnnouncementRepository
 ): GetTeacherAnnouncementsUseCase {
     override fun execute(uuid: String, start: Int, count: Int): Pair<MutableIterable<Announcement>, Long> {
-        return Pair(announcementRepository.findByWriterUuidAndType(uuid, "school", PageRequest.of(start, count)),
+        return Pair(announcementRepository.findByWriterUuidAndTypeOrderByDateDesc(uuid, "school", PageRequest.of(start, count)),
                 announcementRepository.countByWriterUuidAndType(uuid, "school"))
     }
 }

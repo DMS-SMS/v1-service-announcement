@@ -13,14 +13,14 @@ class GetAnnouncementsUseCaseImpl(
 ): GetAnnouncementsUseCase {
     override fun execute(accountUuid: String, type: String, start: Int, count: Int): Pair<MutableIterable<Announcement>, Long> {
         if (type == "club") {
-            return Pair(announcementRepository.findByType(type, PageRequest.of(start,count)),
+            return Pair(announcementRepository.findByTypeOrderByDateDesc(type, PageRequest.of(start,count)),
                     announcementRepository.countByType(type))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
                 if (it.grade == 0) return Pair(
-                        announcementRepository.findByType("school", PageRequest.of(start,count)),
+                        announcementRepository.findByTypeOrderByDateDesc("school", PageRequest.of(start,count)),
                         announcementRepository.countByType(type))
-                return Pair(announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContains(
+                return Pair(announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
                         "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count)),
                         announcementRepository.countByTypeAndTargetGradeContainsAndTargetGroupContains(
                                 "school", it.grade.toString(), it.group.toString()
@@ -28,7 +28,7 @@ class GetAnnouncementsUseCaseImpl(
             }
 
         }
-        return Pair(announcementRepository.findByType("school", PageRequest.of(start,count)),
+        return Pair(announcementRepository.findByTypeOrderByDateDesc("school", PageRequest.of(start,count)),
                 announcementRepository.countByType("School"))
     }
 }

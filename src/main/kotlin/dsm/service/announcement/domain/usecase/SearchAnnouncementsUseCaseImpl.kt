@@ -15,17 +15,17 @@ class SearchAnnouncementsUseCaseImpl(
     override fun execute(accountUuid: String, type: String, query: String, start: Int, count: Int):
             Pair<MutableIterable<Announcement>, Long> {
         return if (type == "club") {
-            Pair(announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count)),
+            Pair(announcementRepository.findByTitleContainsAndTypeOrderByDateDesc(query, type, PageRequest.of(start,count)),
                     announcementRepository.countByTitleContainsAndType(query, type))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                return Pair(announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
+                return Pair(announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
                         query, "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count)),
                         announcementRepository.countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
                                 query, "school", it.grade.toString(), it.group.toString()
                         ))
             }
-            Pair(announcementRepository.findByTitleContainsAndType(query, type, PageRequest.of(start,count)),
+            Pair(announcementRepository.findByTitleContainsAndTypeOrderByDateDesc(query, type, PageRequest.of(start,count)),
                     announcementRepository.countByTitleContainsAndType(query, type))
         }
     }

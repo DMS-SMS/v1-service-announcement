@@ -12,28 +12,28 @@ interface AnnouncementRepository: PagingAndSortingRepository<Announcement, Long>
 
     fun findTopByOrderByNumberAsc(): Announcement?
 
-    fun findByWriterUuidAndType(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByWriterUuidAndTypeOrderByDateDesc(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
 
     fun countByWriterUuidAndType(writerUuid: String, type: String): Long
 
-    fun findByTitleContainsAndType(title: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByTitleContainsAndTypeOrderByDateDesc(title: String, type: String, pageable: Pageable): Page<Announcement>
 
     fun countByTitleContainsAndType(title: String, type: String): Long
 
-    fun findByType(type: String): MutableIterable<Announcement>
+    fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement>
 
-    fun findByType(type: String, pageable: Pageable): Page<Announcement>
+    fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement>
 
     fun countByType(type: String): Long
 
     fun findByNumber(number: Long): Announcement?
 
-    fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
+    fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(title: String, type: String, targetGrade: String, targetGroup: String): Long
 
-    fun findByTypeAndTargetGradeContainsAndTargetGroupContains(
+    fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun countByTypeAndTargetGradeContainsAndTargetGroupContains(type: String, targetGrade: String, targetGroup: String): Long
