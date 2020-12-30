@@ -19,11 +19,14 @@ class SearchAnnouncementsUseCaseImpl(
                     announcementRepository.countByTitleContainsAndType(query, type))
         } else {
             studentRepository.findByUuid(accountUuid)?.let {
-                return Pair(announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                val garbage = Pair(announcementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
                         query, "school", it.grade.toString(), it.group.toString(), PageRequest.of(start, count)),
                         announcementRepository.countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(
                                 query, "school", it.grade.toString(), it.group.toString()
                         ))
+                print(garbage)
+                print("asdf")
+                return garbage
             }
             Pair(announcementRepository.findByTitleContainsAndTypeOrderByDateDesc(query, type, PageRequest.of(start,count)),
                     announcementRepository.countByTitleContainsAndType(query, type))
