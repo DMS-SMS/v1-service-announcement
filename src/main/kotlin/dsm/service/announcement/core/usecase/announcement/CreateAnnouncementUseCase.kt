@@ -1,7 +1,6 @@
 package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Announcement
-import dsm.service.announcement.core.domain.entity.Club
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.domain.repository.ClubRepository
 import dsm.service.announcement.core.usecase.UseCase
@@ -13,11 +12,8 @@ class CreateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val clubRepository: ClubRepository
 ): UseCase<CreateAnnouncementUseCase.InputValues, CreateAnnouncementUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues {
-        val announcement = createAnnouncement(input)
-
-        return OutputValues(announcementRepository.persist(announcement).uuid)
-    }
+    override fun execute(input: InputValues): OutputValues =
+        OutputValues(announcementRepository.persist(createAnnouncement(input)).uuid)
 
     private fun createAnnouncement(input: InputValues): Announcement {
         return Announcement(
@@ -52,11 +48,11 @@ class CreateAnnouncementUseCase(
     }
 
     private fun getClubName(input: InputValues): String? {
-        if (input.type == "school") return null
-        clubRepository.findClubUuidByLeaderUuid(input.writerUuid)?.let {
-            return clubRepository.findByUuid(it, input.writerUuid)?.name
+        return if (input.type != "school") {
+            clubRepository.findClubUuidByLeaderUuid(input.writerUuid)
+                    ?.let { clubRepository.findByUuid(it, input.writerUuid)?.name }
         }
-        return null
+        else { null }
     }
 
     class InputValues(
