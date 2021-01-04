@@ -7,11 +7,11 @@ data class Announcement (
         val number: Long?,
         val writerUuid: String,
         val date: LocalDateTime,
-        val title: String,
-        val targetGrade: String?,
-        val targetClass: String?,
+        var title: String,
+        var targetGrade: String?,
+        var targetClass: String?,
         val type: String,
         val club: String?,
-        val content: String,
+        var content: String,
         val readAccounts: List<String>
 )
