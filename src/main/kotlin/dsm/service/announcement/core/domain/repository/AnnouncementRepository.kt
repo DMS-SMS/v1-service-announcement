@@ -14,4 +14,5 @@ interface AnnouncementRepository {
     fun findByNumberAndType(number: Long, type: String): Announcement?
 
     fun findTopByOrderByNumberDesc(): Announcement?
+    fun findTopByOrderByNumberAsc(): Announcement?
 }
