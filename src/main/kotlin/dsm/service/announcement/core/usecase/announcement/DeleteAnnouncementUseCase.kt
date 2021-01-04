@@ -16,7 +16,7 @@ class DeleteAnnouncementUseCase(
         return announcementRepository.findById(input.announcementId)
                 ?.takeIf { it.writerUuid == input.writerUuid }
                 ?.also { throw UnAuthorizedException() }
-                ?:{ throw NotFoundException() }()
+                ?: throw NotFoundException()
     }
 
     private fun deleteAnnouncement(announcement: Announcement): String {
