@@ -1,7 +1,7 @@
 package dsm.service.announcement.core.domain.entity
 
 data class Club(
-        val name: String,
-        val clubConcept: String,
-        val introduction: String
+        var name: String,
+        var clubConcept: String,
+        var introduction: String
 )
