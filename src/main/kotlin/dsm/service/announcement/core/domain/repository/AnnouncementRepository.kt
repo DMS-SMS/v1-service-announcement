@@ -19,8 +19,6 @@ interface AnnouncementRepository {
 
     fun findTopByOrderByNumberAsc(): Announcement?
 
-    fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement>
-
     fun countByType(type: String): Long
 
     fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement>
