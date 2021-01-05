@@ -15,37 +15,39 @@ class CreateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val clubRepository: ClubRepository
 ): UseCase<CreateAnnouncementUseCase.InputValues, CreateAnnouncementUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues {
-        val announcementUuid = announcementRepository.persist(createAnnouncement(input)).uuid?:
-                throw ServerException(message = "uuid isn't generated")
-        return OutputValues(announcementUuid)
-    }
+    override fun execute(input: InputValues): OutputValues =
+            OutputValues(announcementRepository.persist(createAnnouncement(input)).uuid)
 
     private fun createAnnouncement(input: InputValues): Announcement {
-        return generateAnnouncementUuid(
-                Announcement(
-                    uuid = null,
-                    number = null,
-                    writerUuid = input.writerUuid,
-                    date = LocalDateTime.now(),
-                    title = input.title,
-                    targetGrade = input.targetGrade,
-                    targetClass = input.targetGroup,
-                    type = input.type,
-                    club = getClubName(input),
-                    content = input.content,
-                    readAccounts = emptyList()
-            )
+        return Announcement(
+                uuid = createAnnouncementUuid(),
+                number = null,
+                writerUuid = input.writerUuid,
+                date = LocalDateTime.now(),
+                title = input.title,
+                targetGrade = input.targetGrade,
+                targetClass = input.targetGroup,
+                type = input.type,
+                club = getClubName(input),
+                content = input.content,
+                readAccounts = emptyList()
         )
     }
 
-    private fun generateAnnouncementUuid(announcement: Announcement): Announcement {
+    private fun createAnnouncementUuid(): String {
         while(true) {
-            val generatedAnnouncement = announcement.generateUuid()
-            val announcementUuid = generatedAnnouncement.uuid ?:
-            throw ServerException(message = "uuid isn't generated")
-            announcementRepository.findById(announcementUuid)?: return generatedAnnouncement
+            val key = generateRandomKey()
+            val announcementUuid = "announcement-$key"
+            announcementRepository.findById(announcementUuid)?: return announcementUuid
         }
+    }
+
+    private fun generateRandomKey(): String {
+        val source = "1234567890"
+        return Random().ints(12, 0, source.length)
+                .asSequence()
+                .map(source::get)
+                .joinToString("")
     }
 
     private fun getClubName(input: InputValues): String? {
