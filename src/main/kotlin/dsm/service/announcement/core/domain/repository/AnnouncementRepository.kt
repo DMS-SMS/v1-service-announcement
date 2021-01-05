@@ -13,6 +13,10 @@ interface AnnouncementRepository {
 
     fun findById(id: String): Announcement?
 
+    fun findByWriterUuidAndTypeOrderByDateDesc(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
+
+    fun countByWriterUuidAndType(writerUuid: String, type: String): Long
+
     fun findByNumberAndType(number: Long, type: String): Announcement?
 
     fun findTopByOrderByNumberDesc(): Announcement?
@@ -20,6 +24,8 @@ interface AnnouncementRepository {
     fun findTopByOrderByNumberAsc(): Announcement?
 
     fun countByType(type: String): Long
+
+    fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement>
 
     fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement>
 
