@@ -14,13 +14,6 @@ class UpdateAnnouncementUseCase(
     override fun execute(input: InputValues): OutputValues =
             OutputValues(announcementRepository.persist(changeAnnouncement(input)).uuid)
 
-    private fun getAnnouncement(input: InputValues): Announcement {
-        return announcementRepository.findById(input.announcementId)
-                ?.takeIf { it.writerUuid == input.writerUuid }
-                ?.also { throw UnAuthorizedException() }
-                ?: throw NotFoundException()
-    }
-
     private fun changeAnnouncement(input: InputValues): Announcement {
         return getAnnouncement(input).apply {
             title = input.title
@@ -28,6 +21,13 @@ class UpdateAnnouncementUseCase(
             targetGrade = input.targetGrade
             targetClass = input.targetGroup
         }
+    }
+
+    private fun getAnnouncement(input: InputValues): Announcement {
+        return announcementRepository.findById(input.announcementId)
+                ?.takeIf { it.writerUuid == input.writerUuid }
+                ?.also { throw UnAuthorizedException() }
+                ?: throw NotFoundException()
     }
 
     class InputValues(
