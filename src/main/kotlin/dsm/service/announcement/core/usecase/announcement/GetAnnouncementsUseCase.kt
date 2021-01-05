@@ -1,6 +1,7 @@
 package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
@@ -12,11 +13,11 @@ class GetAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val accountRepository: AccountRepository
 ): UseCase<GetAnnouncementsUseCase.InputValues, GetAnnouncementsUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues = OutputValues(getAnnouncements(input))
+    override fun execute(input: InputValues): OutputValues = getAnnouncements(input)
 
-    private fun getAnnouncements(input: InputValues): Pair<MutableIterable<Announcement>, Long>? {
+    private fun getAnnouncements(input: InputValues): OutputValues {
         return if (input.type == "club") {
-            Pair(announcementRepository
+            OutputValues(announcementRepository
                     .findByTypeOrderByDateDesc(
                             type = input.type,
                             pageable = PageRequest.of(input.start, input.count)),
@@ -26,19 +27,20 @@ class GetAnnouncementsUseCase(
             accountRepository.findByUuid(input.writerUuid, input.writerUuid)
                     ?.let { account ->
                         if (account.grade == 0) {
-                            Pair(announcementRepository
+                            OutputValues(announcementRepository
                                     .findByTypeOrderByDateDesc(
                                             type = "school",
                                             pageable = PageRequest.of(input.start, input.count)),
                                     announcementRepository.countByType(input.type))
                         }
                         else {
-                            Pair(announcementRepository
-                                    .findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
-                                            type = "school",
-                                            targetGrade = account.grade.toString(),
-                                            targetGroup = account.group.toString(),
-                                            pageable = PageRequest.of(input.start, input.count)),
+                            OutputValues(
+                                    announcementRepository
+                                            .findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                                                    type = "school",
+                                                    targetGrade = account.grade.toString(),
+                                                    targetGroup = account.group.toString(),
+                                                    pageable = PageRequest.of(input.start, input.count)),
                                     announcementRepository
                                             .countByTypeAndTargetGradeContainsAndTargetGroupContains(
                                                     type = "school",
@@ -47,6 +49,7 @@ class GetAnnouncementsUseCase(
                                             ))
                         }
                     }
+                    ?: throw ServerException(message = "Announcement number isn't exists.")
         }
     }
 
@@ -58,6 +61,7 @@ class GetAnnouncementsUseCase(
     ) : UseCase.InputValues
 
     class OutputValues(
-            val pair: Pair<MutableIterable<Announcement>, Long>?
+            val announcements: MutableIterable<Announcement>,
+            val count: Long
     ) : UseCase.OutputValues
 }

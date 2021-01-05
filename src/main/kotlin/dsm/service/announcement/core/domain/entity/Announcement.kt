@@ -1,8 +1,6 @@
 package dsm.service.announcement.core.domain.entity
 
 import java.time.LocalDateTime
-import java.util.*
-import kotlin.streams.asSequence
 
 data class Announcement (
         var uuid: String,
