@@ -23,7 +23,7 @@ class SearchAnnouncementsUseCase(
             else -> throw BadRequestException(message = "Type isn't matched") }
     }
 
-    fun generateClubOutputValue(input: InputValues): OutputValues {
+    private fun generateClubOutputValue(input: InputValues): OutputValues {
         return OutputValues(
                 announcements = announcementRepository
                         .findByTitleContainsAndTypeOrderByDateDesc(
@@ -36,7 +36,7 @@ class SearchAnnouncementsUseCase(
                                 type = input.type))
     }
 
-    fun generateSchoolOutputValue(input: InputValues): OutputValues {
+    private fun generateSchoolOutputValue(input: InputValues): OutputValues {
         return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
                 ?.let { OutputValues(
                 announcements = announcementRepository
