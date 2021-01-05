@@ -14,9 +14,9 @@ class SearchAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val accountRepository: AccountRepository
 ) : UseCase<SearchAnnouncementsUseCase.InputValues, SearchAnnouncementsUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues = getSearchAnnouncements(input)
+    override fun execute(input: InputValues): OutputValues = generateSearchAnnouncements(input)
 
-    private fun getSearchAnnouncements(input: InputValues): OutputValues {
+    private fun generateSearchAnnouncements(input: InputValues): OutputValues {
         return when (input.type) {
             "club" -> { generateClubOutputValue(input) }
             "school" -> { generateSchoolOutputValue(input) }
