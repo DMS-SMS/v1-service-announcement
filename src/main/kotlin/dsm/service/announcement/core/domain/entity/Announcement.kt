@@ -13,5 +13,11 @@ data class Announcement (
         var type: String,
         var club: String?,
         var content: String,
-        var readAccounts: List<String>
-)
+        var readAccounts: List<String>,
+        var isCheck: Long = 0
+) {
+    fun announcementCheck(): Announcement {
+        this.isCheck = 1
+        return this
+    }
+}
