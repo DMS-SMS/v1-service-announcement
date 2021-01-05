@@ -17,22 +17,22 @@ class GetAnnouncementsUseCase(
 ): UseCase<GetAnnouncementsUseCase.InputValues, GetAnnouncementsUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues = getAnnouncements(input)
 
-    private fun getAnnouncements(input: InputValues): OutputValues {
+    private fun generateAnnouncements(input: InputValues): OutputValues {
         return when(input.type) {
-            "club" -> getDefaultOutputValue(input)
-            "school" -> getSchoolOutputValue(input)
+            "club" -> generateDefaultOutputValue(input)
+            "school" -> generateSchoolOutputValue(input)
             else -> throw BadRequestException(message = "Type isn't matched") }
     }
 
-    private fun getSchoolOutputValue(input: InputValues): OutputValues {
+    private fun generateSchoolOutputValue(input: InputValues): OutputValues {
         return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
                 ?.let { account ->
-                    if (account.grade == 0) getDefaultOutputValue(input)
-                    else getSchoolOutputValueByStudent(input, account) }
+                    if (account.grade == 0) generateDefaultOutputValue(input)
+                    else generateSchoolOutputValueByStudent(input, account) }
                 ?: throw ServerException(message = "Announcement number isn't exists.")
     }
 
-    private fun getDefaultOutputValue(input: InputValues): OutputValues {
+    private fun generateDefaultOutputValue(input: InputValues): OutputValues {
         return OutputValues(announcementRepository
                 .findByTypeOrderByDateDesc(
                         type = input.type,
@@ -40,7 +40,7 @@ class GetAnnouncementsUseCase(
                 announcementRepository.countByType(input.type))
     }
 
-    private fun getSchoolOutputValueByStudent(input: InputValues, account: Account): OutputValues {
+    private fun generateSchoolOutputValueByStudent(input: InputValues, account: Account): OutputValues {
         return OutputValues(
                 announcementRepository
                         .findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
