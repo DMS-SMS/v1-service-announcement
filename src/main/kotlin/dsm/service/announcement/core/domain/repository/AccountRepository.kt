@@ -6,5 +6,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AccountRepository {
-    fun findByUuid(uuid: String, accountUuid: String): Account?
+    fun findAdminByUuid(adminUuid: String, accountUuid: String): Account?
+
+    fun findStudentByUuid(studentUuid: String, accountUuid: String): Account?
+
+    fun findTeacherByUuid(teacherUuid: String, accountUuid: String): Account?
+
+    fun findParentsByUuid(parentsUuid: String, accountUuid: String): Account?
 }
