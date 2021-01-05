@@ -15,7 +15,7 @@ class DeleteAnnouncementUseCase(
             OutputValues(deleteAnnouncement(getAnnouncement(input)))
 
     private fun getAnnouncement(input: InputValues): Announcement {
-        return announcementRepository.findById(input.announcementId)
+        return announcementRepository.findById(input.announcementUuid)
                 ?.takeIf { it.writerUuid == input.writerUuid }
                 ?.also { throw UnAuthorizedException() }
                 ?: throw NotFoundException()
@@ -28,7 +28,7 @@ class DeleteAnnouncementUseCase(
 
     class InputValues(
             val writerUuid: String,
-            val announcementId: String
+            val announcementUuid: String
     ): UseCase.InputValues
 
     class OutputValues(

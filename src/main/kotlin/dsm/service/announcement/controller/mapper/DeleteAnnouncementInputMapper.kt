@@ -10,7 +10,7 @@ class DeleteAnnouncementInputMapper {
     fun map(deleteAnnouncementRequest: DeleteAnnouncementRequest): DeleteAnnouncementUseCase.InputValues {
         return DeleteAnnouncementUseCase.InputValues(
                 writerUuid = deleteAnnouncementRequest.uuid,
-                announcementId = deleteAnnouncementRequest.announcementId
+                announcementUuid = deleteAnnouncementRequest.announcementId
         )
     }
 }
