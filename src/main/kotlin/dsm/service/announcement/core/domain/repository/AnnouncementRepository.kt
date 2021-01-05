@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AnnouncementRepository {
     fun persist(announcement: Announcement): Announcement
+
     fun delete(announcement: Announcement)
 
     fun findById(id: String): Announcement?
@@ -18,10 +19,21 @@ interface AnnouncementRepository {
 
     fun findTopByOrderByNumberAsc(): Announcement?
 
+    fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement>
+
+    fun countByType(type: String): Long
+
+    fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement>
+
     fun findByTitleContainsAndTypeOrderByDateDesc(title: String, type: String, pageable: Pageable): Page<Announcement>
 
     fun countByTitleContainsAndType(title: String, type: String): Long
 
     fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
+
+    fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+            type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
+
+    fun countByTypeAndTargetGradeContainsAndTargetGroupContains(type: String, targetGrade: String, targetGroup: String): Long
 }
