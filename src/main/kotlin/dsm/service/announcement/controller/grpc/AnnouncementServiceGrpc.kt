@@ -1,13 +1,28 @@
 package dsm.service.announcement.controller.grpc
 
+import dsm.service.announcement.controller.mapper.CreateAnnouncementInputMapper
+import dsm.service.announcement.controller.mapper.CreateAnnouncementOutputMapper
+import dsm.service.announcement.core.usecase.UseCaseExecutor
+import dsm.service.announcement.core.usecase.announcement.CreateAnnouncementUseCase
 import dsm.service.announcement.proto.*
 import org.lognet.springboot.grpc.GRpcService
+import java.util.function.Function
 
 @GRpcService
 class AnnouncementServiceGrpc(
+        private val useCaseExecutor: UseCaseExecutor,
+
+        private val createAnnouncementUseCase: CreateAnnouncementUseCase,
+
+        private val createAnnouncementInputMapper: CreateAnnouncementInputMapper,
+        private val createAnnouncementOutputMapper: CreateAnnouncementOutputMapper
 ) {
     suspend fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
-        TODO()
+        return useCaseExecutor.execute(
+                createAnnouncementUseCase,
+                createAnnouncementInputMapper.map(request),
+                createAnnouncementOutputMapper
+        )
     }
 
     suspend fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {

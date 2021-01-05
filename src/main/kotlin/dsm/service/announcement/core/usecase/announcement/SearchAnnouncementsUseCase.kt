@@ -6,7 +6,9 @@ import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
 import org.springframework.data.domain.PageRequest
+import org.springframework.stereotype.Component
 
+@Component
 class SearchAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val accountRepository: AccountRepository

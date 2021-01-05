@@ -5,7 +5,9 @@ import dsm.service.announcement.core.domain.exception.NotFoundException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
+import org.springframework.stereotype.Component
 
+@Component
 class UpdateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository
 ): UseCase<UpdateAnnouncementUseCase.InputValues, UpdateAnnouncementUseCase.OutputValues>() {

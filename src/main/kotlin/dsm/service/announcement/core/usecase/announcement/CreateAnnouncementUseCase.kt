@@ -4,10 +4,12 @@ import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.domain.repository.ClubRepository
 import dsm.service.announcement.core.usecase.UseCase
+import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.streams.asSequence
 
+@Component
 class CreateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val clubRepository: ClubRepository
