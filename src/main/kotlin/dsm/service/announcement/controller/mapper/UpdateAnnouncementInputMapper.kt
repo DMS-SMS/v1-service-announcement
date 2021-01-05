@@ -1,5 +1,6 @@
 package dsm.service.announcement.controller.mapper
 
+<<<<<<< HEAD
 import dsm.service.announcement.core.usecase.announcement.UpdateAnnouncementUseCase
 import dsm.service.announcement.proto.UpdateAnnouncementRequest
 import org.springframework.stereotype.Component
@@ -16,4 +17,7 @@ import org.springframework.stereotype.Component
                 targetGrade = updateAnnouncementRequest.targetGrade.toString()
         )
     }
+=======
+class UpdateAnnouncementInputMapper {
+>>>>>>> refactor
 }
