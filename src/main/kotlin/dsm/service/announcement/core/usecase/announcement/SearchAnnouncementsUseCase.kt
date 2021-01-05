@@ -18,38 +18,40 @@ class SearchAnnouncementsUseCase(
 
     private fun getSearchAnnouncements(input: InputValues): OutputValues {
         return when (input.type) {
-            "club" -> {
-                OutputValues(
-                        announcements = announcementRepository
-                                .findByTitleContainsAndTypeOrderByDateDesc(
-                                        title = input.query,
-                                        type = input.type,
-                                        pageable = PageRequest.of(input.start, input.count)),
-                        count = announcementRepository
-                                .countByTitleContainsAndType(
-                                        title = input.query,
-                                        type = input.type))
-            }
-            "school" -> {
-                accountRepository.findByUuid(input.writerUuid, input.writerUuid)
-                        ?.let {
-                            OutputValues(
-                                    announcements = announcementRepository
-                                            .findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
-                                                    title = input.query,
-                                                    type = "school",
-                                                    targetGrade = it.grade.toString(),
-                                                    targetGroup = it.group.toString(),
-                                                    pageable = PageRequest.of(input.start, input.count)),
-                                    count = announcementRepository
-                                            .countByTitleContainsAndType(
-                                                    title = input.query,
-                                                    type = input.type))
-                        }
-                        ?: throw ServerException(message = "Announcement number isn't exists.")
-            }
-            else -> throw BadRequestException()
-        }
+            "club" -> { generateClubOutputValue(input) }
+            "school" -> { generateSchoolOutputValue(input) }
+            else -> throw BadRequestException(message = "Type isn't matched") }
+    }
+
+    fun generateClubOutputValue(input: InputValues): OutputValues {
+        return OutputValues(
+                announcements = announcementRepository
+                        .findByTitleContainsAndTypeOrderByDateDesc(
+                                title = input.query,
+                                type = input.type,
+                                pageable = PageRequest.of(input.start, input.count)),
+                count = announcementRepository
+                        .countByTitleContainsAndType(
+                                title = input.query,
+                                type = input.type))
+    }
+
+    fun generateSchoolOutputValue(input: InputValues): OutputValues {
+        return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
+                ?.let { OutputValues(
+                announcements = announcementRepository
+                        .findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                                title = input.query,
+                                type = "school",
+                                targetGrade = it.grade.toString(),
+                                targetGroup = it.group.toString(),
+                                pageable = PageRequest.of(input.start, input.count)),
+                count = announcementRepository
+                        .countByTitleContainsAndType(
+                                title = input.query,
+                                type = input.type))
+                }
+                ?: throw ServerException(message = "Announcement number isn't exists.")
     }
 
     class InputValues(
