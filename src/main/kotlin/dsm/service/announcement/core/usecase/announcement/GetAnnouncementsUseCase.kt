@@ -2,6 +2,7 @@ package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.exception.BadRequestException
 import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
@@ -17,19 +18,21 @@ class GetAnnouncementsUseCase(
     override fun execute(input: InputValues): OutputValues = getAnnouncements(input)
 
     private fun getAnnouncements(input: InputValues): OutputValues {
-        return if (input.type == "club") {
-            defaultOutputValue(input)
-        }
-        else {
-            accountRepository.findByUuid(input.writerUuid, input.writerUuid)
-                    ?.let { account ->
-                        if (account.grade == 0) defaultOutputValue(input)
-                        else outputValue(input, account) }
-                    ?: throw ServerException(message = "Announcement number isn't exists.")
-        }
+        return when(input.type) {
+            "club" -> getDefaultOutputValue(input)
+            "school" -> getSchoolOutputValue(input)
+            else -> throw BadRequestException(message = "Type isn't matched") }
     }
 
-    fun defaultOutputValue(input: InputValues): OutputValues {
+    private fun getSchoolOutputValue(input: InputValues): OutputValues {
+        return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
+                ?.let { account ->
+                    if (account.grade == 0) getDefaultOutputValue(input)
+                    else getSchoolOutputValueByStudent(input, account) }
+                ?: throw ServerException(message = "Announcement number isn't exists.")
+    }
+
+    private fun getDefaultOutputValue(input: InputValues): OutputValues {
         return OutputValues(announcementRepository
                 .findByTypeOrderByDateDesc(
                         type = input.type,
@@ -37,7 +40,7 @@ class GetAnnouncementsUseCase(
                 announcementRepository.countByType(input.type))
     }
 
-    fun outputValue(input: InputValues, account: Account): OutputValues {
+    private fun getSchoolOutputValueByStudent(input: InputValues, account: Account): OutputValues {
         return OutputValues(
                 announcementRepository
                         .findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
