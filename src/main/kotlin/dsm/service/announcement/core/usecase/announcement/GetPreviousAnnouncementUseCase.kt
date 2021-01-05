@@ -29,7 +29,7 @@ class GetPreviousAnnouncementUseCase(
                     ?.let {
                         when {
                             input.announcement.type == "club" -> it
-                            input.announcement.type == "club" && checkAccount(it, input) -> it
+                            input.announcement.type == "school" && checkAccount(it, input) -> it
                             else -> null
                         }
                     }
