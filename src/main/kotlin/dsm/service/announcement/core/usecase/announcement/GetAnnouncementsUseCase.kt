@@ -15,7 +15,7 @@ class GetAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val accountRepository: AccountRepository
 ): UseCase<GetAnnouncementsUseCase.InputValues, GetAnnouncementsUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues = getAnnouncements(input)
+    override fun execute(input: InputValues): OutputValues = generateAnnouncements(input)
 
     private fun generateAnnouncements(input: InputValues): OutputValues {
         return when(input.type) {
@@ -33,10 +33,11 @@ class GetAnnouncementsUseCase(
     }
 
     private fun generateDefaultOutputValue(input: InputValues): OutputValues {
-        return OutputValues(announcementRepository
-                .findByTypeOrderByDateDesc(
-                        type = input.type,
-                        pageable = PageRequest.of(input.start, input.count)),
+        return OutputValues(
+                announcementRepository
+                        .findByTypeOrderByDateDesc(
+                                type = input.type,
+                                pageable = PageRequest.of(input.start, input.count)),
                 announcementRepository.countByType(input.type))
     }
 
@@ -52,8 +53,7 @@ class GetAnnouncementsUseCase(
                         .countByTypeAndTargetGradeContainsAndTargetGroupContains(
                                 type = "school",
                                 targetGrade = account.grade.toString(),
-                                targetGroup = account.group.toString()
-                        ))
+                                targetGroup = account.group.toString()))
     }
 
     class InputValues(

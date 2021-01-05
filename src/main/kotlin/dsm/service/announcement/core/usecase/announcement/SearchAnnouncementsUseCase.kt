@@ -14,16 +14,16 @@ class SearchAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
         private val accountRepository: AccountRepository
 ) : UseCase<SearchAnnouncementsUseCase.InputValues, SearchAnnouncementsUseCase.OutputValues>() {
-    override fun execute(input: InputValues): OutputValues = getSearchAnnouncements(input)
+    override fun execute(input: InputValues): OutputValues = generateSearchAnnouncements(input)
 
-    private fun getSearchAnnouncements(input: InputValues): OutputValues {
+    private fun generateSearchAnnouncements(input: InputValues): OutputValues {
         return when (input.type) {
             "club" -> { generateClubOutputValue(input) }
             "school" -> { generateSchoolOutputValue(input) }
             else -> throw BadRequestException(message = "Type isn't matched") }
     }
 
-    fun generateClubOutputValue(input: InputValues): OutputValues {
+    private fun generateClubOutputValue(input: InputValues): OutputValues {
         return OutputValues(
                 announcements = announcementRepository
                         .findByTitleContainsAndTypeOrderByDateDesc(
@@ -36,7 +36,7 @@ class SearchAnnouncementsUseCase(
                                 type = input.type))
     }
 
-    fun generateSchoolOutputValue(input: InputValues): OutputValues {
+    private fun generateSchoolOutputValue(input: InputValues): OutputValues {
         return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
                 ?.let { OutputValues(
                 announcements = announcementRepository
