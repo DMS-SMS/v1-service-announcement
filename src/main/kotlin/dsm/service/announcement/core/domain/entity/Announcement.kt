@@ -17,7 +17,7 @@ data class Announcement (
         var readAccounts: MutableList<String> = arrayListOf(),
         var isCheck: Boolean = false
 ) {
-    fun announcementCheck(): Announcement {
+    private fun announcementCheck(): Announcement {
         this.isCheck = true
         return this
     }
