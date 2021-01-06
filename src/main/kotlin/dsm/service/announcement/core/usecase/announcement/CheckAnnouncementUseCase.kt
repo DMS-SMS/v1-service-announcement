@@ -3,7 +3,6 @@ package dsm.service.announcement.core.usecase.announcement
 import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.entity.enums.AccountType
-import dsm.service.announcement.core.domain.exception.BadRequestException
 import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
@@ -24,12 +23,12 @@ class CheckAnnouncementUseCase(
     }
 
     private fun isAnnouncementCheck(input: InputValues, type: String): Boolean {
-        val account = getStudent(input.uuid)
+        val account = getStudent(input.accountUuid)
 
         return when (type) {
-            "club" ->  checkReadAnnouncement(input.uuid, announcementRepository.findByTypeOrderByDateDesc(type))
+            "club" ->  checkReadAnnouncement(input.accountUuid, announcementRepository.findByTypeOrderByDateDesc(type))
             "school" -> checkReadAnnouncement(
-                    input.uuid,
+                    input.accountUuid,
                     announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
                             type, account.grade.toString(), account.group.toString()))
             else -> throw ServerException(message = "This type is not support.")
@@ -50,7 +49,7 @@ class CheckAnnouncementUseCase(
     }
 
     class InputValues(
-            val uuid: String
+            val accountUuid: String
     ): UseCase.InputValues
 
     class OutputValues(
