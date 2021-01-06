@@ -27,7 +27,7 @@ class GetAnnouncementsUseCase(
     private fun generateSchoolOutputValue(input: InputValues): OutputValues {
         return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account
                 ?.let { account ->
-                    if (account.type == AccountType.STUDENT) generateDefaultOutputValue(input)
+                    if (account.type != AccountType.STUDENT) generateDefaultOutputValue(input)
                     else generateSchoolOutputValueByStudent(input, account) }
                 ?: throw ServerException(message = "Announcement number isn't exists.")
     }
