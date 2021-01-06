@@ -37,6 +37,9 @@ interface AnnouncementRepository {
             title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+            type: String, targetGrade: String, targetGroup: String): MutableIterable<Announcement>
+
+    fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
 
     fun countByTypeAndTargetGradeContainsAndTargetGroupContains(type: String, targetGrade: String, targetGroup: String): Long
