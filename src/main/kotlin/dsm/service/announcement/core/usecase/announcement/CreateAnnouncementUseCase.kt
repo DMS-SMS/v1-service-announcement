@@ -23,6 +23,7 @@ class CreateAnnouncementUseCase(
             OutputValues(announcementRepository.persist(createAnnouncement(input)))
 
     private fun createAnnouncement(input: InputValues): Announcement {
+        checkAccount(input)
         return Announcement(
                 uuid = createAnnouncementUuid(),
                 number = null,
