@@ -6,6 +6,7 @@ data class Announcement (
         var uuid: String,
         var number: Long?,
         var writerUuid: String,
+        var writerName: String? = null,
         var date: LocalDateTime,
         var title: String,
         var targetGrade: String?,

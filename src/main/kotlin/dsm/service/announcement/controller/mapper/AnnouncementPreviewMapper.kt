@@ -16,8 +16,9 @@ class AnnouncementPreviewMapper(
             previewBuilder
                     .setAnnouncementId(announcement.uuid)
                     .setTitle(announcement.title)
+                    .setWriterName(announcement.writerName)
                     .setDate(Timestamp.valueOf(announcement.date).time)
-                    .setIsChecked(announcement.isCheck)
+                    .setIsChecked(if (announcement.isCheck) 1 else 0)
 
             getAccountUseCase.execute(GetAccountUseCase.InputValues(announcement.writerUuid)).account
                     ?.let {

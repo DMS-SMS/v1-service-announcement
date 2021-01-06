@@ -1,19 +1,16 @@
 package dsm.service.announcement.core.usecase
 
-import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.domain.repository.ClubRepository
 import dsm.service.announcement.core.usecase.announcement.CreateAnnouncementUseCase
 import org.junit.Test
 import org.junit.Assert.*
-import org.mockito.ArgumentMatchers.any
 import org.mockito.AdditionalAnswers.returnsFirstArg
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.stubbing.Answer
 
 class CreateAnnouncementUseCaseTest(
 

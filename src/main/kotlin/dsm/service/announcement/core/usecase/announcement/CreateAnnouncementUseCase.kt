@@ -20,7 +20,7 @@ class CreateAnnouncementUseCase(
         private val getAccountUseCase: GetAccountUseCase
 ): UseCase<CreateAnnouncementUseCase.InputValues, CreateAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
-            OutputValues(announcementRepository.persist(createAnnouncement(input)).uuid)
+            OutputValues(announcementRepository.persist(createAnnouncement(input)))
 
     private fun createAnnouncement(input: InputValues): Announcement {
         return Announcement(
@@ -79,7 +79,7 @@ class CreateAnnouncementUseCase(
     ): UseCase.InputValues
 
     class OutputValues(
-            val announcementUuid: String
+            val announcement: Announcement
     ): UseCase.OutputValues
 
 }
