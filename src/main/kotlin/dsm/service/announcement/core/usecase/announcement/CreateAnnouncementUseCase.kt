@@ -1,7 +1,9 @@
 package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.entity.enums.AccountType
 import dsm.service.announcement.core.domain.exception.ServerException
+import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.domain.repository.ClubRepository
 import dsm.service.announcement.core.usecase.UseCase
@@ -13,7 +15,9 @@ import kotlin.streams.asSequence
 @Component
 class CreateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
-        private val clubRepository: ClubRepository
+        private val clubRepository: ClubRepository,
+
+        private val getAccountUseCase: GetAccountUseCase
 ): UseCase<CreateAnnouncementUseCase.InputValues, CreateAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
             OutputValues(announcementRepository.persist(createAnnouncement(input)).uuid)
@@ -33,6 +37,14 @@ class CreateAnnouncementUseCase(
         )
     }
 
+    private fun checkAccount(input: InputValues) {
+        val account = getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account?:
+                throw UnAuthorizedException()
+        if (account.type == AccountType.STUDENT && input.type != "club") throw UnAuthorizedException()
+        if (account.type == AccountType.STUDENT &&
+                clubRepository.findClubUuidByLeaderUuid(input.writerUuid) == null) throw UnAuthorizedException()
+    }
+
     private fun createAnnouncementUuid(): String {
         while(true) {
             val key = generateRandomKey()
@@ -50,7 +62,7 @@ class CreateAnnouncementUseCase(
     }
 
     private fun getClubName(input: InputValues): String? {
-        return if (input.type != "school") {
+        return if (input.type == "club") {
             clubRepository.findClubUuidByLeaderUuid(input.writerUuid)
                     ?.let { clubRepository.findByUuid(it, input.writerUuid)?.name }
         }
