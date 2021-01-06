@@ -4,7 +4,6 @@ import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.exception.BadRequestException
 import dsm.service.announcement.core.domain.exception.ServerException
-import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
 import org.springframework.data.domain.PageRequest
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class GetAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository,
-        private val accountRepository: AccountRepository
+        private val getAccountUseCase: GetAccountUseCase
 ): UseCase<GetAnnouncementsUseCase.InputValues, GetAnnouncementsUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues = generateAnnouncements(input)
 
@@ -25,7 +24,7 @@ class GetAnnouncementsUseCase(
     }
 
     private fun generateSchoolOutputValue(input: InputValues): OutputValues {
-        return accountRepository.findByUuid(input.writerUuid, input.writerUuid)
+        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account
                 ?.let { account ->
                     if (account.grade == 0) generateDefaultOutputValue(input)
                     else generateSchoolOutputValueByStudent(input, account) }
