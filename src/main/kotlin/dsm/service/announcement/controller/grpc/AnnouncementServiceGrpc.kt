@@ -16,8 +16,8 @@ class AnnouncementServiceGrpc(
 
         private val createAnnouncementInputMapper: CreateAnnouncementInputMapper,
         private val createAnnouncementOutputMapper: CreateAnnouncementOutputMapper
-) {
-    suspend fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
+): AnnouncementServiceGrpcKt.AnnouncementServiceCoroutineImplBase() {
+    override suspend fun createAnnouncement(request: CreateAnnouncementRequest): DefaultAnnouncementResponse {
         return useCaseExecutor.execute(
                 createAnnouncementUseCase,
                 createAnnouncementInputMapper.map(request),
@@ -25,31 +25,31 @@ class AnnouncementServiceGrpc(
         )
     }
 
-    suspend fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {
+    override suspend fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse {
         TODO()
     }
 
-    suspend fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
+    override suspend fun getAnnouncementDetail(request: GetAnnouncementDetailRequest): GetAnnouncementDetailResponse {
         TODO()
     }
 
-    suspend fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
+    override suspend fun getAnnouncements(request: GetAnnouncementsRequest): GetAnnouncementsResponse {
         TODO()
     }
 
-    suspend fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse {
+    override suspend fun updateAnnouncement(request: UpdateAnnouncementRequest): DefaultAnnouncementResponse {
         TODO()
     }
 
-    suspend fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse {
+    override suspend fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse {
         TODO()
     }
 
-    suspend fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
+    override suspend fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
         TODO()
     }
 
-    suspend fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
+    override suspend fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
         TODO()
     }
 }
