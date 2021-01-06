@@ -25,10 +25,10 @@ class GetNextAnnouncementUseCase(
         while (number < maxNumber) {
             number += 1
             return announcementRepository.findByNumberAndType(number, input.announcement.type)
-                    ?.let {
+                    ?.let { announcement ->
                         when {
-                            input.announcement.type == "club" -> it
-                            input.announcement.type == "school" && checkAccount(it, input) -> it
+                            input.announcement.type == "club" -> announcement
+                            input.announcement.type == "school" && checkAccount(announcement, input) -> announcement
                             else -> null
                         }
                     }
@@ -40,7 +40,7 @@ class GetNextAnnouncementUseCase(
         val account = getAccount(input)
 
         return if (announcement.targetClass != null && announcement.targetGrade != null)
-            announcement.targetClass!!.contains(account.grade.toString()) &&
+            announcement.targetGrade!!.contains(account.grade.toString()) &&
                 announcement.targetClass!!.contains(account.group.toString())
         else false
     }
