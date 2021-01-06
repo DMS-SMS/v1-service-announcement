@@ -30,7 +30,8 @@ class CheckAnnouncementUseCase(
             "school" -> checkReadAnnouncement(
                     input.accountUuid,
                     announcementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
-                            type, account.grade.toString(), account.group.toString()))
+                            type, account.grade.toString(), account.group.toString())
+            )
             else -> throw ServerException(message = "This type is not support.")
         }
     }
