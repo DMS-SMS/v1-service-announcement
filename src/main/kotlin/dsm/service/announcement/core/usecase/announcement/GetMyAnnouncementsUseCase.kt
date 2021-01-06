@@ -7,9 +7,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 @Component
-class GetMyAnnouncementUseCase(
+class GetMyAnnouncementsUseCase(
         private val announcementRepository: AnnouncementRepository
-): UseCase<GetMyAnnouncementUseCase.InputValues, GetMyAnnouncementUseCase.OutputValues>() {
+): UseCase<GetMyAnnouncementsUseCase.InputValues, GetMyAnnouncementsUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues = generateOutputValue(input)
 
     private fun generateOutputValue(input: InputValues): OutputValues {
