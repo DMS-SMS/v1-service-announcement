@@ -1,9 +1,7 @@
 package dsm.service.announcement.core.usecase.announcement
 
-import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.exception.NotFoundException
-import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
 import org.springframework.stereotype.Component
@@ -16,12 +14,14 @@ class GetAnnouncementDetailUseCase(
             OutputValues(getAnnouncement(input))
 
     private fun getAnnouncement(input: InputValues): Announcement {
-        return announcementRepository.findById(input.announcementUuid)?:
-                throw NotFoundException(message = "Not found Announcement")
+        return announcementRepository.findById(input.announcementUuid)
+                ?.apply { read(input.accountUuid) }
+                ?: throw NotFoundException(message = "Not found Announcement")
     }
 
     class InputValues(
-            val announcementUuid: String
+            val announcementUuid: String,
+            val accountUuid: String
     ): UseCase.InputValues
 
     class OutputValues(

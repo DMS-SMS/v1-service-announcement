@@ -29,8 +29,7 @@ class CreateAnnouncementUseCase(
                 targetClass = input.targetGroup,
                 type = input.type,
                 club = getClubName(input),
-                content = input.content,
-                readAccounts = emptyList()
+                content = input.content
         )
     }
 

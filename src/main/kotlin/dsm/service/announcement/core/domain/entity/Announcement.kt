@@ -13,11 +13,17 @@ data class Announcement (
         var type: String,
         var club: String?,
         var content: String,
-        var readAccounts: List<String>,
-        var isCheck: Long = 0
+        var readAccounts: MutableList<String> = arrayListOf(),
+        var isCheck: Boolean = false
 ) {
     fun announcementCheck(): Announcement {
-        this.isCheck = 1
+        this.isCheck = true
+        return this
+    }
+
+    fun read(accountUuid: String): Announcement {
+        announcementCheck()
+        readAccounts.add(accountUuid)
         return this
     }
 }
