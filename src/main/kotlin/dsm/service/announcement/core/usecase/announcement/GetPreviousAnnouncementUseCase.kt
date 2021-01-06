@@ -4,7 +4,6 @@ import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
-import dsm.service.announcement.core.domain.repository.AccountRepository
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.UseCase
 import org.springframework.stereotype.Component
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 class GetPreviousAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
-        private val accountRepository: AccountRepository
+        private val getAccountUseCase: GetAccountUseCase
 ): UseCase<GetPreviousAnnouncementUseCase.InputValues, GetPreviousAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
             OutputValues(getPreviousAnnouncement(input))
@@ -47,7 +46,7 @@ class GetPreviousAnnouncementUseCase(
     }
 
     private fun getAccount(input: InputValues): Account =
-            accountRepository.findByUuid(input.accountUuid, input.accountUuid)
+            getAccountUseCase.execute(GetAccountUseCase.InputValues(input.accountUuid)).account
                     ?: throw UnAuthorizedException()
 
     class InputValues(
