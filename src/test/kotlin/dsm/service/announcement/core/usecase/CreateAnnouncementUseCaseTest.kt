@@ -22,9 +22,7 @@ import org.mockito.Mockito
 import org.mockito.stubbing.Answer
 import java.time.LocalDateTime
 
-class CreateAnnouncementUseCaseTest(
-
-): UseCaseTest() {
+class CreateAnnouncementUseCaseTest: UseCaseTest() {
     @InjectMocks private lateinit var createAnnouncementUseCase: CreateAnnouncementUseCase
     @Mock private lateinit var  announcementRepository: AnnouncementRepository
     @Mock private lateinit var clubRepository: ClubRepository
