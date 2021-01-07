@@ -37,7 +37,10 @@ class GetAnnouncementsUseCase(
                 announcementRepository
                         .findByTypeOrderByDateDesc(
                                 type = input.type,
-                                pageable = PageRequest.of(input.start, input.count)),
+                                pageable = PageRequest.of(input.start, input.count))
+                        .onEach { announcement ->
+                            announcement.isCheck = announcement.readAccounts.contains(announcement.uuid)
+                        },
                 announcementRepository.countByType(input.type))
     }
 
@@ -48,12 +51,16 @@ class GetAnnouncementsUseCase(
                                 type = "school",
                                 targetGrade = account.grade.toString(),
                                 targetGroup = account.group.toString(),
-                                pageable = PageRequest.of(input.start, input.count)),
+                                pageable = PageRequest.of(input.start, input.count))
+                        .onEach { announcement ->
+                            announcement.isCheck = announcement.readAccounts.contains(announcement.uuid)
+                        },
                 announcementRepository
                         .countByTypeAndTargetGradeContainsAndTargetGroupContains(
                                 type = "school",
                                 targetGrade = account.grade.toString(),
-                                targetGroup = account.group.toString()))
+                                targetGroup = account.group.toString()
+                        ))
     }
 
     class InputValues(

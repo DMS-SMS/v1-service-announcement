@@ -12,7 +12,7 @@ class UpdateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository
 ): UseCase<UpdateAnnouncementUseCase.InputValues, UpdateAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
-            OutputValues(announcementRepository.persist(changeAnnouncement(input)).uuid)
+            OutputValues(announcementRepository.persist(changeAnnouncement(input)))
 
     private fun changeAnnouncement(input: InputValues): Announcement {
         return getAnnouncement(input).apply {
@@ -40,6 +40,6 @@ class UpdateAnnouncementUseCase(
     ): UseCase.InputValues
 
     class OutputValues(
-            val announcementUuid: String
+            val announcement: Announcement
     ): UseCase.OutputValues
 }

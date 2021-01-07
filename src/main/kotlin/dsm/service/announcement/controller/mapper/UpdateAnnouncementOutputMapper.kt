@@ -9,7 +9,7 @@ class UpdateAnnouncementOutputMapper: Mapper<UpdateAnnouncementUseCase.OutputVal
     override fun map(input: UpdateAnnouncementUseCase.OutputValues): DefaultAnnouncementResponse {
         return DefaultAnnouncementResponse
                 .newBuilder()
-                .setAnnouncementId(input.announcementUuid)
+                .setAnnouncementId(input.announcement.uuid)
                 .setStatus(201)
                 .build()
     }
