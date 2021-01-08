@@ -45,8 +45,8 @@ class CheckAnnouncementUseCase(
 
     private fun checkReadAnnouncement(studentUuid: String, announcements: MutableIterable<Announcement>): Boolean {
         for (announcement: Announcement in announcements) {
-            if (!announcement.readAccounts.contains(studentUuid)) return true }
-        return false
+            if (!announcement.readAccounts.contains(studentUuid)) return false }
+        return true
     }
 
     class InputValues(

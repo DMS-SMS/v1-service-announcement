@@ -10,8 +10,8 @@ class CheckAnnouncementOutputMapper: Mapper<CheckAnnouncementUseCase.OutputValue
     override fun map(input: CheckAnnouncementUseCase.OutputValues): CheckAnnouncementResponse {
         return CheckAnnouncementResponse
                 .newBuilder()
-                .setSchool(if (input.schoolIsCheck) 1 else 0)
-                .setClub(if (input.clubIsCheck) 1 else 0)
+                .setSchool(if (input.schoolIsCheck) 0 else 1)
+                .setClub(if (input.clubIsCheck) 0 else 1)
                 .setStatus(200)
                 .build()
 
