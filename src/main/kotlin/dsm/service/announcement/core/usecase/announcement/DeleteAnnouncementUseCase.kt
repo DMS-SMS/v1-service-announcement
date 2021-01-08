@@ -21,9 +21,9 @@ class DeleteAnnouncementUseCase(
                 ?: throw NotFoundException()
     }
 
-    private fun deleteAnnouncement(announcement: Announcement): String {
+    private fun deleteAnnouncement(announcement: Announcement): Announcement {
         announcementRepository.delete(announcement)
-        return announcement.uuid
+        return announcement
     }
 
     class InputValues(
@@ -32,6 +32,6 @@ class DeleteAnnouncementUseCase(
     ): UseCase.InputValues
 
     class OutputValues(
-            val announcementUuid: String
+            val announcement: Announcement
     ): UseCase.OutputValues
 }
