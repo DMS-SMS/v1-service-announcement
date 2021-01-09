@@ -9,7 +9,7 @@ class DeleteAnnouncementOutputMapper: Mapper<DeleteAnnouncementUseCase.OutputVal
     override fun map(input: DeleteAnnouncementUseCase.OutputValues): DefaultAnnouncementResponse {
         return DefaultAnnouncementResponse
                 .newBuilder()
-                .setAnnouncementId(input.announcementUuid)
+                .setAnnouncementId(input.announcement.uuid)
                 .setStatus(201)
                 .build()
     }
