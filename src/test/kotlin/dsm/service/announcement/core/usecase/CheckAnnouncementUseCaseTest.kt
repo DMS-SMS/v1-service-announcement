@@ -7,12 +7,9 @@ import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.core.usecase.announcement.CheckAnnouncementUseCase
 import dsm.service.announcement.core.usecase.announcement.GetAccountUseCase
-import junit.framework.Assert.assertEquals
 
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.AdditionalAnswers
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
