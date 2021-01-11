@@ -21,20 +21,20 @@ class GetAnnouncementDetailUseCase(
                 ?.apply { announcementRepository.persist(read(input.accountUuid)) }
                 ?.let { announcement -> OutputValues(
                             announcement = announcement,
-                            nextAnnouncementId = generateNextAnnouncementId(input.accountUuid, announcement),
-                            previousAnnouncementId = generatePreviousAnnouncementId(input.accountUuid, announcement))
+                            nextAnnouncement = getNextAnnouncement(input.accountUuid, announcement),
+                            previousAnnouncement = getPreviousAnnouncement(input.accountUuid, announcement))
                 }
                 ?: throw NotFoundException(message = "Not found Announcement")
     }
 
-    private fun generateNextAnnouncementId(accountUuid: String, announcement: Announcement): String? {
+    private fun getNextAnnouncement(accountUuid: String, announcement: Announcement): Announcement? {
         return getNextAnnouncementUseCase.execute(GetNextAnnouncementUseCase
-                .InputValues(accountUuid, announcement)).announcement?.uuid
+                .InputValues(accountUuid, announcement)).announcement
     }
 
-    private fun generatePreviousAnnouncementId(accountUuid: String, announcement: Announcement): String? {
+    private fun getPreviousAnnouncement(accountUuid: String, announcement: Announcement): Announcement? {
         return getPreviousAnnouncementUseCase.execute(GetPreviousAnnouncementUseCase
-                .InputValues(accountUuid, announcement)).announcement?.uuid
+                .InputValues(accountUuid, announcement)).announcement
     }
 
     class InputValues(
@@ -44,7 +44,7 @@ class GetAnnouncementDetailUseCase(
 
     class OutputValues(
             val announcement: Announcement,
-            val nextAnnouncementId: String?,
-            val previousAnnouncementId: String?
+            val nextAnnouncement: Announcement?,
+            val previousAnnouncement: Announcement?
     ): UseCase.OutputValues
 }

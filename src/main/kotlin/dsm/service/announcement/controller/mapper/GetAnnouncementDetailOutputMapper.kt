@@ -16,8 +16,10 @@ class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.Out
                 .setDate(Timestamp.valueOf(input.announcement.date).time)
                 .setTargetGrade(input.announcement.targetGrade!!.toInt())
                 .setTargetGroup(input.announcement.targetClass!!.toInt())
-                .setNextAnnouncementId(input.nextAnnouncementId)
-                .setPreviousAnnouncementId(input.previousAnnouncementId)
+                .setNextAnnouncementId(input.nextAnnouncement?.uuid)
+                .setNextTitle(input.nextAnnouncement?.title)
+                .setPreviousAnnouncementId(input.previousAnnouncement?.uuid)
+                .setPreviousTitle(input.previousAnnouncement?.title)
                 .build()
     }
 }
