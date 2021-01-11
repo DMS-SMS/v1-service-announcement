@@ -10,7 +10,7 @@ class UpdateAnnouncementOutputMapper: Mapper<UpdateAnnouncementUseCase.OutputVal
         return DefaultAnnouncementResponse
                 .newBuilder()
                 .setAnnouncementId(input.announcement.uuid)
-                .setStatus(201)
+                .setStatus(200)
                 .build()
     }
 }
