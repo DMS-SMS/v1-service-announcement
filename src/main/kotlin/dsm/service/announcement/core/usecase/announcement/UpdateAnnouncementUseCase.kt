@@ -1,6 +1,7 @@
 package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.entity.enums.AccountType
 import dsm.service.announcement.core.domain.exception.NotFoundException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
@@ -25,8 +26,7 @@ class UpdateAnnouncementUseCase(
 
     private fun getAnnouncement(input: InputValues): Announcement {
         return announcementRepository.findById(input.announcementId)
-                ?.takeIf { it.writerUuid == input.writerUuid }
-                ?.also { throw UnAuthorizedException() }
+                ?.also { if (it.writerUuid != input.writerUuid) throw UnAuthorizedException() }
                 ?: throw NotFoundException()
     }
 
