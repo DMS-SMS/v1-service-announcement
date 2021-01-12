@@ -1,9 +1,12 @@
 package dsm.service.announcement.core.usecase
 
+import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.entity.enums.AccountType
 import dsm.service.announcement.core.domain.exception.NotFoundException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
+import dsm.service.announcement.core.usecase.announcement.GetAccountUseCase
 import dsm.service.announcement.core.usecase.announcement.UpdateAnnouncementUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -19,6 +22,7 @@ import java.time.LocalDateTime
 class UpdateAnnouncementUseCaseTest: UseCaseTest() {
     @InjectMocks private lateinit var updateAnnouncementUseCase: UpdateAnnouncementUseCase
     @Mock private lateinit var announcementRepository: AnnouncementRepository
+    @Mock private lateinit var getAccountUseCase: GetAccountUseCase
 
     @Test
     fun testUpdateSchoolAnnouncementByTeacher() {
@@ -45,6 +49,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 club = null,
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
+        ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "선생님",
+                        phoneNumber = "01011112222",
+                        type = AccountType.TEACHER
+                )
         ))
 
         updateAnnouncementUseCase.execute(input).apply {
@@ -81,6 +94,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "학생",
+                        phoneNumber = "01011112222",
+                        type = AccountType.STUDENT
+                )
+        ))
 
         assertThrows(UnAuthorizedException::class.java) { updateAnnouncementUseCase.execute(input) }
     }
@@ -111,6 +133,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "어드민",
+                        phoneNumber = "01011112222",
+                        type = AccountType.ADMIN
+                )
+        ))
 
         updateAnnouncementUseCase.execute(input).apply {
             assertEquals(announcement.title, "Changed Announcement")
@@ -137,7 +168,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 uuid = "announcement-111122223333",
                 writerUuid = "student-111122223333",
                 number = 1,
-                writerName= "깡신희",
+                writerName= "학생",
                 date = LocalDateTime.now(),
                 title = "Announcement",
                 targetGrade = "1",
@@ -146,6 +177,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 club = "DMS",
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
+        ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "학생",
+                        phoneNumber = "01011112222",
+                        type = AccountType.STUDENT
+                )
         ))
 
         updateAnnouncementUseCase.execute(input).apply {
@@ -183,6 +223,60 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "선생님",
+                        phoneNumber = "01011112222",
+                        type = AccountType.TEACHER
+                )
+        ))
+
+        updateAnnouncementUseCase.execute(input).apply {
+            assertEquals(announcement.title, "Changed Announcement")
+            assertEquals(announcement.content, "{'content': 'mock'}")
+            assertEquals(announcement.writerUuid, "teacher-111122223333")
+            assertEquals(announcement.type, "club")
+            assertEquals(announcement.club, null)
+        }
+    }
+
+    @Test
+    fun testUpdateClubAnnouncementByAdmin() {
+        val input = UpdateAnnouncementUseCase.InputValues(
+                writerUuid = "admin-111122223333",
+                title = "Changed Announcement",
+                content = "{'content': 'mock'}",
+                targetGrade = "1",
+                targetGroup = "1",
+                announcementId = "announcement-111122223333"
+        )
+
+        given(announcementRepository.persist(any())).willAnswer(AdditionalAnswers.returnsFirstArg<Any>())
+        given(announcementRepository.findById(anyString())).willReturn(Announcement(
+                uuid = "announcement-111122223333",
+                writerUuid = "teacher-111122223333",
+                number = 1,
+                writerName= "선생님",
+                date = LocalDateTime.now(),
+                title = "Announcement",
+                targetGrade = "1",
+                targetClass = "1",
+                type = "club",
+                club = null,
+                readAccounts = arrayListOf(),
+                content = "{'content': 'origin'}"
+        ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "어드민",
+                        phoneNumber = "01011112222",
+                        type = AccountType.ADMIN
+                )
+        ))
 
         updateAnnouncementUseCase.execute(input).apply {
             assertEquals(announcement.title, "Changed Announcement")
@@ -208,7 +302,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 uuid = "announcement-111122223333",
                 writerUuid = "student-111122223333",
                 number = 1,
-                writerName= "깡신희",
+                writerName= "학생",
                 date = LocalDateTime.now(),
                 title = "Announcement",
                 targetGrade = "1",
@@ -217,6 +311,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 club = null,
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
+        ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "학생",
+                        phoneNumber = "01011112222",
+                        type = AccountType.STUDENT
+                )
         ))
 
         assertThrows(UnAuthorizedException::class.java) { updateAnnouncementUseCase.execute(input) }
@@ -247,6 +350,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "학생",
+                        phoneNumber = "01011112222",
+                        type = AccountType.STUDENT
+                )
+        ))
 
         assertThrows(UnAuthorizedException::class.java) { updateAnnouncementUseCase.execute(input) }
     }
@@ -261,6 +373,15 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 targetGroup = "1",
                 announcementId = "announcement-111122223333"
         )
+        given(getAccountUseCase.execute(any())).willReturn(GetAccountUseCase.OutputValues(
+                Account(
+                        grade = 1,
+                        group = 1,
+                        name = "어드민",
+                        phoneNumber = "01011112222",
+                        type = AccountType.ADMIN
+                )
+        ))
 
         assertThrows(NotFoundException::class.java) { updateAnnouncementUseCase.execute(input) }
     }
