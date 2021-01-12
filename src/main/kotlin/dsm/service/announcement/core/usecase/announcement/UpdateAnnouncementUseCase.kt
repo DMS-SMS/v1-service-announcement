@@ -10,24 +10,31 @@ import org.springframework.stereotype.Component
 
 @Component
 class UpdateAnnouncementUseCase(
-        private val announcementRepository: AnnouncementRepository
+        private val announcementRepository: AnnouncementRepository,
+
+        private val getAccountUseCase: GetAccountUseCase
 ): UseCase<UpdateAnnouncementUseCase.InputValues, UpdateAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
             OutputValues(announcementRepository.persist(changeAnnouncement(input)))
 
     private fun changeAnnouncement(input: InputValues): Announcement {
-        return getAnnouncement(input).apply {
-            title = input.title
-            content = input.content
-            targetGrade = input.targetGrade
-            targetClass = input.targetGroup
-        }
+        return getAnnouncement(input)
+                ?.apply {
+                    title = input.title
+                    content = input.content
+                    targetGrade = input.targetGrade
+                    targetClass = input.targetGroup
+                }
+                ?: throw NotFoundException()
     }
 
-    private fun getAnnouncement(input: InputValues): Announcement {
-        return announcementRepository.findById(input.announcementId)
-                ?.also { if (it.writerUuid != input.writerUuid) throw UnAuthorizedException() }
-                ?: throw NotFoundException()
+    private fun getAnnouncement(input: InputValues): Announcement? {
+        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account
+                ?.let { account ->
+                    if (account.type == AccountType.ADMIN) announcementRepository.findById(input.announcementId)
+                    else announcementRepository.findById(input.announcementId)
+                            ?.also { if (it.writerUuid != input.writerUuid) throw UnAuthorizedException() }
+                }
     }
 
     class InputValues(
