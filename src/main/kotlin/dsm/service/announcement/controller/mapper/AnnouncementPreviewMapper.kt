@@ -19,13 +19,7 @@ class AnnouncementPreviewMapper(
                     .setWriterName(announcement.writerName)
                     .setDate(Timestamp.valueOf(announcement.date).time)
                     .setIsChecked(if (announcement.isCheck) 1 else 0)
-
-            getAccountUseCase.execute(GetAccountUseCase.InputValues(announcement.writerUuid)).account
-                    ?.let {
-                        announcement.readAccounts.count()
-                                .let { count -> previewBuilder.setViews(count.toLong()) }
-                        previewBuilder.setWriterName(it.name)
-                    }
+                    .setViews(announcement.readAccounts.count().toLong())
             announcement.number?.let { previewBuilder.setNumber(it) }
         }
         return previewBuilder.build()
