@@ -308,7 +308,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 targetGrade = "1",
                 targetClass = "1",
                 type = "club",
-                club = null,
+                club = "DMS",
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
