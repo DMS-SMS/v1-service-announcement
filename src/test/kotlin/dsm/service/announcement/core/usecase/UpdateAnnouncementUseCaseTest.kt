@@ -99,7 +99,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
         given(announcementRepository.persist(any())).willAnswer(AdditionalAnswers.returnsFirstArg<Any>())
         given(announcementRepository.findById(anyString())).willReturn(Announcement(
                 uuid = "announcement-111122223333",
-                writerUuid = "admin-111122223333",
+                writerUuid = "teacher-111122223333",
                 number = 1,
                 writerName= "선생님",
                 date = LocalDateTime.now(),
@@ -115,7 +115,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
         updateAnnouncementUseCase.execute(input).apply {
             assertEquals(announcement.title, "Changed Announcement")
             assertEquals(announcement.content, "{'content': 'mock'}")
-            assertEquals(announcement.writerUuid, "admin-111122223333")
+            assertEquals(announcement.writerUuid, "teacher-111122223333")
             assertEquals(announcement.type, "school")
             assertEquals(announcement.club, null)
         }
@@ -143,7 +143,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
                 targetGrade = "1",
                 targetClass = "1",
                 type = "club",
-                club = null,
+                club = "DMS",
                 readAccounts = arrayListOf(),
                 content = "{'content': 'origin'}"
         ))
@@ -153,7 +153,7 @@ class UpdateAnnouncementUseCaseTest: UseCaseTest() {
             assertEquals(announcement.content, "{'content': 'mock'}")
             assertEquals(announcement.writerUuid, "student-111122223333")
             assertEquals(announcement.type, "club")
-            assertEquals(announcement.club, null)
+            assertEquals(announcement.club, "DMS")
         }
     }
 
