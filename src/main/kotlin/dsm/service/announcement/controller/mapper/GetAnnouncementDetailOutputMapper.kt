@@ -12,14 +12,16 @@ class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.Out
     override fun map(input: GetAnnouncementDetailUseCase.OutputValues): GetAnnouncementDetailResponse {
         return GetAnnouncementDetailResponse.newBuilder()
                 .setTitle(input.announcement.title)
-                .setContent(input.announcement.content)
                 .setDate(Timestamp.valueOf(input.announcement.date).time)
+                .setContent(input.announcement.content)
+                .setWriterName(input.announcement.writerName)
                 .setTargetGrade(input.announcement.targetGrade!!.toInt())
                 .setTargetGroup(input.announcement.targetClass!!.toInt())
                 .setNextAnnouncementId(input.nextAnnouncement?.uuid)
                 .setNextTitle(input.nextAnnouncement?.title)
                 .setPreviousAnnouncementId(input.previousAnnouncement?.uuid)
                 .setPreviousTitle(input.previousAnnouncement?.title)
+                .setStatus(200)
                 .build()
     }
 }
