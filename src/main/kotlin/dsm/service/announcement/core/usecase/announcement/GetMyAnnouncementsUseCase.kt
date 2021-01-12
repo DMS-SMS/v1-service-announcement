@@ -29,7 +29,10 @@ class GetMyAnnouncementsUseCase(
 
     private fun checkTeacher(writerUuid: String) {
         getAccountUseCase.execute(GetAccountUseCase.InputValues(writerUuid)).account
-                ?.also { if (it.type != AccountType.TEACHER) throw UnAuthorizedException() }
+                ?.let { account ->
+                    if (account.type != AccountType.ADMIN)
+                        if (account.type != AccountType.TEACHER) throw UnAuthorizedException()
+                }
                 ?: throw UnAuthorizedException()
     }
 
