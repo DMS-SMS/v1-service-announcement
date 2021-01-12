@@ -50,8 +50,8 @@ class AnnouncementServiceImpl(
         return announcementMapper.getAnnouncementDetailMapper(
                 currentAnnouncement,
                 getContentUseCase.execute(request.announcementId),
-                getNextAnnouncementUseCase.execute(currentAnnouncement),
-                getPreviewAnnouncementUseCase.execute(currentAnnouncement)
+                getNextAnnouncementUseCase.execute(currentAnnouncement, request.uuid),
+                getPreviewAnnouncementUseCase.execute(currentAnnouncement, request.uuid)
 
         ).setStatus(200).build()
     }
