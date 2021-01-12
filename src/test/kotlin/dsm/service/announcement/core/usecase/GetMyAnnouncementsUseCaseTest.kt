@@ -82,7 +82,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     }
 
     @Test
-    fun tesMyAnnouncementsByStudent() {
+    fun testGetMyAnnouncementsByStudent() {
         val input = GetMyAnnouncementsUseCase.InputValues(
                 writerUuid = "teacher-111122223333",
                 start = 0,
@@ -159,7 +159,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     }
 
     @Test
-    fun testNoneMyAnnouncements() {
+    fun testGetNoneMyAnnouncements() {
         val input = GetMyAnnouncementsUseCase.InputValues(
                 writerUuid = "teacher-111122223333",
                 start = 0,
