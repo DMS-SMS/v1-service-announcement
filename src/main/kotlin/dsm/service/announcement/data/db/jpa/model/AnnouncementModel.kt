@@ -24,10 +24,10 @@ data class AnnouncementModel(
     var title: String,
 
     @Column(name = "target_grade", length = 3)
-    var targetGrade: String,
+    var targetGrade: String?,
 
     @Column(name = "target_group", length = 4)
-    var targetGroup: String,
+    var targetGroup: String?,
 
     @Column(name = "type", length = 6)
     var type: String,
