@@ -2,20 +2,33 @@ package dsm.service.announcement.data.adapter.repository
 
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
+import dsm.service.announcement.data.adapter.repository.mapper.AnnouncementRepositoryMapper
+import dsm.service.announcement.data.db.jpa.repository.JpaAnnouncementDetailRepository
+import dsm.service.announcement.data.db.jpa.repository.JpaAnnouncementRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-class AnnouncementRepositoryImpl: AnnouncementRepository {
+class AnnouncementRepositoryImpl(
+    val announcementRepositoryMapper: AnnouncementRepositoryMapper,
+    val jpaAnnouncementRepository: JpaAnnouncementRepository,
+    val jpaAnnouncementDetailRepository: JpaAnnouncementDetailRepository
+): AnnouncementRepository {
     override fun persist(announcement: Announcement): Announcement {
-        TODO("Not yet implemented")
+        val announcementModels = announcementRepositoryMapper.map(announcement)
+        jpaAnnouncementRepository.save(announcementModels.announcementModel)
+        jpaAnnouncementDetailRepository.save(announcementModels.announcementDetailModel)
+        return announcement
     }
 
     override fun delete(announcement: Announcement) {
-        TODO("Not yet implemented")
+        val announcementModels = announcementRepositoryMapper.map(announcement)
+        jpaAnnouncementRepository.delete(announcementModels.announcementModel)
+        jpaAnnouncementDetailRepository.deleteByUuid(announcementModels.announcementDetailModel.uuid)
     }
 
     override fun findById(id: String): Announcement? {
-        TODO("Not yet implemented")
+        return announcementRepositoryMapper.map(jpaAnnouncementRepository.findByUuid(id),
+            jpaAnnouncementDetailRepository.findByUuid(id))
     }
 
     override fun findByNumberAndType(number: Long, type: String): Announcement? {
