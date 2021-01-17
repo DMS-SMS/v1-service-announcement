@@ -8,6 +8,8 @@ import org.springframework.data.repository.PagingAndSortingRepository
 interface JpaAnnouncementRepository: PagingAndSortingRepository<AnnouncementModel, Long> {
     fun findByUuid(uuid: String): AnnouncementModel?
 
+    fun findByNumberAndType(number: Long, type: String): AnnouncementModel?
+
     fun findTopByOrderByNumberDesc(): AnnouncementModel?
 
     fun findTopByOrderByNumberAsc(): AnnouncementModel?
@@ -26,12 +28,11 @@ interface JpaAnnouncementRepository: PagingAndSortingRepository<AnnouncementMode
 
     fun countByType(type: String): Long
 
-    fun findByNumber(number: Long): AnnouncementModel?
-
     fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
         title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<AnnouncementModel>
 
-    fun countByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContains(title: String, type: String, targetGrade: String, targetGroup: String): Long
+    fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+        type: String, targetGrade: String, targetGroup: String): MutableIterable<AnnouncementModel>
 
     fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
         type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<AnnouncementModel>
