@@ -2,6 +2,7 @@ package dsm.service.announcement.core.usecase.announcement
 
 import dsm.service.announcement.core.domain.entity.Account
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.entity.enums.AccountType
 import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.exception.UnAuthorizedException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
@@ -38,6 +39,8 @@ class GetNextAnnouncementUseCase(
 
     private fun checkAccount(announcement: Announcement, input: InputValues): Boolean {
         val account = getAccount(input)
+
+        if (account.type != AccountType.STUDENT) return true
 
         return if (announcement.targetClass != null && announcement.targetGrade != null)
             announcement.targetGrade!!.contains(account.grade.toString()) &&
