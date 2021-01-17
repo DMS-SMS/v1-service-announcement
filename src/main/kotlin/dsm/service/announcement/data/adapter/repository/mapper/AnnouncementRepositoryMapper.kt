@@ -5,8 +5,9 @@ import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.usecase.announcement.GetAccountUseCase
 import dsm.service.announcement.data.db.jpa.model.AnnouncementDetailModel
 import dsm.service.announcement.data.db.jpa.model.AnnouncementModel
-import java.time.LocalDateTime
+import org.springframework.stereotype.Component
 
+@Component
 class AnnouncementRepositoryMapper(
     val getAccountUseCase: GetAccountUseCase
 ) {
