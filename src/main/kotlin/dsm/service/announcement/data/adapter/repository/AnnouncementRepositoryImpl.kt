@@ -3,11 +3,14 @@ package dsm.service.announcement.data.adapter.repository
 import dsm.service.announcement.core.domain.entity.Announcement
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.data.adapter.repository.mapper.AnnouncementRepositoryMapper
+import dsm.service.announcement.data.db.jpa.model.AnnouncementModel
 import dsm.service.announcement.data.db.jpa.repository.JpaAnnouncementDetailRepository
 import dsm.service.announcement.data.db.jpa.repository.JpaAnnouncementRepository
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.stereotype.Repository
+import java.util.*
 
+@Repository
 class AnnouncementRepositoryImpl(
     val announcementRepositoryMapper: AnnouncementRepositoryMapper,
     val jpaAnnouncementRepository: JpaAnnouncementRepository,
@@ -27,12 +30,17 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun findById(id: String): Announcement? {
-        return announcementRepositoryMapper.map(jpaAnnouncementRepository.findByUuid(id),
+        return announcementRepositoryMapper.map(
+            jpaAnnouncementRepository.findByUuid(id),
             jpaAnnouncementDetailRepository.findByUuid(id))
     }
 
     override fun findByNumberAndType(number: Long, type: String): Announcement? {
-        TODO("Not yet implemented")
+        val announcementModel = jpaAnnouncementRepository.findByNumberAndType(number, type)?: return null
+        return announcementRepositoryMapper.map(
+            announcementModel,
+            jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+        )
     }
 
     override fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
@@ -41,20 +49,45 @@ class AnnouncementRepositoryImpl(
         targetGrade: String,
         targetGroup: String,
         pageable: Pageable
-    ): Page<Announcement> {
-        TODO("Not yet implemented")
+    ): MutableList<Announcement> {
+        val announcementModels =
+            jpaAnnouncementRepository.findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                title, type, targetGrade, targetGroup, pageable
+            )
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun findByTitleContainsAndTypeOrderByDateDesc(
         title: String,
         type: String,
         pageable: Pageable
-    ): Page<Announcement> {
-        TODO("Not yet implemented")
+    ): MutableList<Announcement> {
+        val announcementModels = jpaAnnouncementRepository.findByTitleContainsAndTypeOrderByDateDesc(title, type, pageable)
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun countByTitleContainsAndType(title: String, type: String): Long {
-        TODO("Not yet implemented")
+        return jpaAnnouncementRepository.countByTitleContainsAndType(title, type)
     }
 
     override fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
@@ -62,7 +95,21 @@ class AnnouncementRepositoryImpl(
         targetGrade: String,
         targetGroup: String
     ): MutableIterable<Announcement> {
-        TODO("Not yet implemented")
+        val announcementModels =
+            jpaAnnouncementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                type, targetGrade, targetGroup
+            )
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
@@ -70,36 +117,94 @@ class AnnouncementRepositoryImpl(
         targetGrade: String,
         targetGroup: String,
         pageable: Pageable
-    ): Page<Announcement> {
-        TODO("Not yet implemented")
+    ): MutableList<Announcement> {
+        val announcementModels =
+            jpaAnnouncementRepository.findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
+                type, targetGrade, targetGroup, pageable
+            )
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement> {
-        TODO("Not yet implemented")
+        val announcementModels =
+            jpaAnnouncementRepository.findByTypeOrderByDateDesc(type)
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
-    override fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement> {
-        TODO("Not yet implemented")
+    override fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): MutableIterable<Announcement> {
+        val announcementModels =
+            jpaAnnouncementRepository.findByTypeOrderByDateDesc(type, pageable)
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun findByWriterUuidAndTypeOrderByDateDesc(
         writerUuid: String,
         type: String,
         pageable: Pageable
-    ): Page<Announcement> {
-        TODO("Not yet implemented")
+    ): MutableList<Announcement> {
+        val announcementModels =
+            jpaAnnouncementRepository.findByWriterUuidAndTypeOrderByDateDesc(writerUuid, type, pageable)
+
+        val announcements = Collections.emptyList<Announcement>()
+
+        for (announcementModel: AnnouncementModel in announcementModels) {
+            announcements.add(announcementRepositoryMapper.map(
+                announcementModel,
+                jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+            ))
+        }
+
+        return announcements
     }
 
     override fun findTopByOrderByNumberAsc(): Announcement? {
-        TODO("Not yet implemented")
+        val announcementModel = jpaAnnouncementRepository.findTopByOrderByNumberAsc()?: return null
+        return announcementRepositoryMapper.map(
+            announcementModel,
+            jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+        )
     }
 
     override fun findTopByOrderByNumberDesc(): Announcement? {
-        TODO("Not yet implemented")
+        val announcementModel = jpaAnnouncementRepository.findTopByOrderByNumberDesc()?: return null
+        return announcementRepositoryMapper.map(
+            announcementModel,
+            jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
+        )
     }
 
     override fun countByType(type: String): Long {
-        TODO("Not yet implemented")
+        return jpaAnnouncementRepository.countByType(type)
     }
 
     override fun countByTypeAndTargetGradeContainsAndTargetGroupContains(
@@ -107,10 +212,12 @@ class AnnouncementRepositoryImpl(
         targetGrade: String,
         targetGroup: String
     ): Long {
-        TODO("Not yet implemented")
+        return jpaAnnouncementRepository.countByTypeAndTargetGradeContainsAndTargetGroupContains(
+            type, targetGrade, targetGroup
+        )
     }
 
     override fun countByWriterUuidAndType(writerUuid: String, type: String): Long {
-        TODO("Not yet implemented")
+        return jpaAnnouncementRepository.countByWriterUuidAndType(writerUuid, type)
     }
 }
