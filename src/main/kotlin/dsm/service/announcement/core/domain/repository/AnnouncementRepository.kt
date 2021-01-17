@@ -13,7 +13,7 @@ interface AnnouncementRepository {
 
     fun findById(id: String): Announcement?
 
-    fun findByWriterUuidAndTypeOrderByDateDesc(writerUuid: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByWriterUuidAndTypeOrderByDateDesc(writerUuid: String, type: String, pageable: Pageable): MutableIterable<Announcement>
 
     fun countByWriterUuidAndType(writerUuid: String, type: String): Long
 
@@ -27,20 +27,20 @@ interface AnnouncementRepository {
 
     fun findByTypeOrderByDateDesc(type: String): MutableIterable<Announcement>
 
-    fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): Page<Announcement>
+    fun findByTypeOrderByDateDesc(type: String, pageable: Pageable): MutableIterable<Announcement>
 
-    fun findByTitleContainsAndTypeOrderByDateDesc(title: String, type: String, pageable: Pageable): Page<Announcement>
+    fun findByTitleContainsAndTypeOrderByDateDesc(title: String, type: String, pageable: Pageable): MutableIterable<Announcement>
 
     fun countByTitleContainsAndType(title: String, type: String): Long
 
     fun findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
-            title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
+            title: String, type: String, targetGrade: String, targetGroup: String, pageable: Pageable): MutableIterable<Announcement>
 
     fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
             type: String, targetGrade: String, targetGroup: String): MutableIterable<Announcement>
 
     fun findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
-            type: String, targetGrade: String, targetGroup: String, pageable: Pageable): Page<Announcement>
+            type: String, targetGrade: String, targetGroup: String, pageable: Pageable): MutableIterable<Announcement>
 
     fun countByTypeAndTargetGradeContainsAndTargetGroupContains(type: String, targetGrade: String, targetGroup: String): Long
 }
