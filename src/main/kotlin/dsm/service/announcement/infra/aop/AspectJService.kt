@@ -18,20 +18,20 @@ import org.springframework.stereotype.Component
 class AspectJService(
     val jaegerService: JaegerService
 ) {
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.createAnnouncement(..)) || " +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.updateAnnouncement(..)) || " +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.deleteAnnouncement(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.createAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.updateAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.deleteAnnouncement(..))")
     fun defaultAnnouncementPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getAnnouncements(..)) ||" +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getMyAnnouncements(..)) ||" +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.searchAnnouncements(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getAnnouncements(..)) ||" +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getMyAnnouncements(..)) ||" +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.searchAnnouncements(..))")
     fun getAnnouncementsPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getAnnouncementDetail(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getAnnouncementDetail(..))")
     fun getAnnouncementDetailPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.checkAnnouncement(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.checkAnnouncement(..))")
     fun checkAnnouncementPointCut() {}
 
     @Around("getAnnouncementsPointCut()")
