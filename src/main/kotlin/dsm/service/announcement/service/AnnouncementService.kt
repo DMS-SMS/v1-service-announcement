@@ -14,4 +14,8 @@ interface AnnouncementService {
     fun deleteAnnouncement(request: DeleteAnnouncementRequest): DefaultAnnouncementResponse
 
     fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse
+
+    fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse
+
+    fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse
 }

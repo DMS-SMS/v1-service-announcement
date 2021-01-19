@@ -34,4 +34,12 @@ public class AnnouncementServiceGrpc(
     override suspend fun checkAnnouncement(request: CheckAnnouncementRequest): CheckAnnouncementResponse {
         return announcementService.checkAnnouncement(request)
     }
+
+    override suspend fun getMyAnnouncements(request: GetMyAnnouncementsRequest): GetAnnouncementsResponse {
+        return announcementService.getMyAnnouncements(request)
+    }
+
+    override suspend fun searchAnnouncements(request: SearchAnnouncementsRequest): GetAnnouncementsResponse {
+        return announcementService.searchAnnouncements(request)
+    }
 }

@@ -14,12 +14,12 @@ class UpdateAnnouncementUseCaseImpl(
         var announcementRepository: AnnouncementRepository,
         var contentRepository: ContentRepository
 ): UpdateAnnouncementUseCase {
-    override fun run(writerUuid: String, announcementUuid: String, title: String, content: String, targetGrade: Int, targetGroup: Int) {
+    override fun execute(writerUuid: String, announcementUuid: String, title: String, content: String, targetGrade: Int, targetGroup: Int) {
         announcementRepository.findByUuid(announcementUuid)?.let {
                 if (it.writerUuid != writerUuid) throw UnAuthorizedException()
                 it.title = title
-                it.targetGrade = targetGrade
-                it.targetGroup = targetGroup
+                it.targetGrade = targetGrade.toString()
+                it.targetGroup = targetGroup.toString()
                 announcementRepository.save(it)
                 contentRepository.findByUuid(announcementUuid)?.let {
                     it.content = BasicDBObject.parse(content)

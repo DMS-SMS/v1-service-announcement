@@ -9,6 +9,7 @@ import dsm.service.announcement.service.aop.annotation.Tracing
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
+import io.grpc.Server
 import io.grpc.stub.MetadataUtils
 import org.springframework.stereotype.Component
 import java.lang.Exception
@@ -19,14 +20,12 @@ class AuthHandler(
         val jaegerHandler: JaegerHandler,
         val consulHandler: ConsulHandler
 ) {
-    val host: String = "127.0.0.1"
     val serviceName: String = "DMS.SMS.v1.service.auth"
 
     @Tracing("AuthServiceHandler (getStudentInform)")
     suspend fun getStudentInform(uuid: String): GetStudentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: AuthStudentGrpcKt.AuthStudentCoroutineStub = AuthStudentGrpcKt.AuthStudentCoroutineStub(channel)
@@ -44,24 +43,16 @@ class AuthHandler(
                 .setStudentUUID(uuid)
                 .build()
 
+        val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        channel.shutdown()
 
-        var response: GetStudentInformWithUUIDResponse? = null
-
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
-            channel.shutdown()
-        } catch (e: Exception) {
-            channel.shutdown()
-        } finally {
-            return response
-        }
+        return if (response.status != 200) { null } else { response }
     }
 
     @Tracing("AuthServiceHandler (getTeacherInform)")
     suspend fun getTeacherInform(uuid: String): GetTeacherInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-//                consulHandler.getServiceHost(serviceName),
-                host,
+                consulHandler.getServiceHost(serviceName),
                 consulHandler.getServicePort(serviceName)
         ).usePlaintext().build()
         val stub: AuthTeacherGrpcKt.AuthTeacherCoroutineStub = AuthTeacherGrpcKt.AuthTeacherCoroutineStub(channel)
@@ -79,15 +70,9 @@ class AuthHandler(
                 .setTeacherUUID(uuid)
                 .build()
 
-        var response: GetTeacherInformWithUUIDResponse? = null
+        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        channel.shutdown()
 
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-            channel.shutdown()
-        } catch (e: Exception) {
-            throw e.message?.let { ServerException(message = it) }!!
-        } finally {
-            return response
-        }
+        return if (response.status != 200) { null } else { response }
     }
 }

@@ -9,39 +9,45 @@ import dsm.service.announcement.proto.GetAnnouncementDetailResponse
 import dsm.service.announcement.proto.GetAnnouncementsResponse
 import org.springframework.stereotype.Component
 import java.sql.Timestamp
+import kotlin.reflect.typeOf
 
 @Component
 public class AnnouncementMapper(
         val viewRepository: ViewRepository,
         val getAccountUseCase: GetAccountUseCase
 ) {
-    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>): GetAnnouncementsResponse.Builder {
+    fun getAnnouncementsMapper(announcements: MutableIterable<Announcement>, uuid: String, size: Long): GetAnnouncementsResponse.Builder {
         val response = GetAnnouncementsResponse.newBuilder();
+        response.size = size
 
         for(announcement: Announcement in announcements) {
             val previewBuilder = AnnouncementPreview.newBuilder()
-            viewRepository.findByUuid(announcement.uuid)?.read_accounts?.let {
-                var checked = 0
-                it.find { it == announcement.writerUuid }.let {
-                    checked = 1
-                }
-                previewBuilder
-                        .setAnnouncementId(announcement.uuid)
-                        .setTitle(announcement.title)
-                        .setDate(Timestamp.valueOf(announcement.date).time)
-                        .setViews(it.size.toLong())
-                        .setIsChecked(checked.toLong())
-            }
+            previewBuilder
+                    .setAnnouncementId(announcement.uuid)
+                    .setTitle(announcement.title)
+                    .setDate(Timestamp.valueOf(announcement.date).time)
+                    .setIsChecked(0)
+            viewRepository.findByUuid(announcement.uuid)
+                    ?.let {
+                        it.read_accounts.count()
+                                .let { size ->
+                                    previewBuilder.setViews(size.toLong())
+                                }
+                        if (it.read_accounts.contains(uuid)) previewBuilder.setIsChecked(1)
+                    }
 
             announcement.number?.let {
                 previewBuilder.setNumber(it)
             }
 
+            announcement.writerUuid.let {
+                val userName: String = getAccountUseCase.execute(announcement.writerUuid)?.name ?: ""
+                previewBuilder.setWriterName(userName)
+            }
+
             announcement.club?.let {
                 previewBuilder.setWriterName(it)
-            }?.let {
-                val userName: String = getAccountUseCase.execute(announcement.writerUuid)?.name ?: ""
-                previewBuilder.setWriterName(userName) }
+            }
 
             response.addAnnouncement(previewBuilder.build())
         }
@@ -56,6 +62,8 @@ public class AnnouncementMapper(
         response.title = announcement.title
         response.date = Timestamp.valueOf(announcement.date).time
         response.content = content
+        response.targetGrade = announcement.targetGrade.toInt()
+        response.targetGroup = announcement.targetGroup.toInt()
 
         getAccountUseCase.execute(announcement.writerUuid).let {
             if (it != null) {

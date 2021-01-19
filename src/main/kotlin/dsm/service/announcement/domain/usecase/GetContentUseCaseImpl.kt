@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class GetContentUseCaseImpl(
         var contentRepository: ContentRepository
 ): GetContentUseCase {
-    override fun run(announcementUuid: String): String {
+    override fun execute(announcementUuid: String): String {
         contentRepository.findByUuid(announcementUuid)?.let {
             return it.content.toJson()
         }?: throw NotFoundException()

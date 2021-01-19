@@ -11,15 +11,17 @@ class CheckAnnouncementUseCaseImpl(
         val viewRepository: ViewRepository
 ): CheckAnnouncementUseCase {
     override fun execute(uuid: String, type: String): Int {
-        val announcements = announcementRepository.findAllByType(type)
+        val announcements = announcementRepository.findByTypeOrderByDateDesc(type)
 
         for (announcement: Announcement in announcements) {
             viewRepository.findByUuid(announcement.uuid)?.let {
                 it.read_accounts.find { it == uuid }?.let {
-                    return 1
+                    return 0
                 }
             }
         }
-        return 0
+
+        if (announcements.count().equals(0)) return 0
+        return 1
     }
 }
