@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dsm.service.announcement.proto";
+option java_outer_classname = "AuthParentProto";
+
+package announcement;
+
+service AuthParent {
+    rpc LoginParentAuth(LoginParentAuthRequest) returns (LoginParentAuthResponse) {}
+    rpc ChangeParentPW(ChangeParentPWRequest) returns (ChangeParentPWResponse) {}
+    rpc GetParentInformWithUUID(GetParentInformWithUUIDRequest) returns (GetParentInformWithUUIDResponse) {}
+    rpc GetParentUUIDsWithInform(GetParentUUIDsWithInformRequest) returns (GetParentUUIDsWithInformResponse) {}
+}
+
+message LoginParentAuthRequest {
+    string ParentID = 1;
+    string ParentPW = 2;
+}
+
+message LoginParentAuthResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+    string AccessToken = 4;
+    string LoggedInParentUUID = 5;
+}
+
+message ChangeParentPWRequest {
+    string UUID = 1;
+    string ParentUUID = 2;
+    string CurrentPW = 3;
+    string RevisionPW = 4;
+}
+
+message ChangeParentPWResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+}
+
+message GetParentInformWithUUIDRequest {
+    string UUID = 1;
+    string ParentUUID = 2;
+}
+
+message GetParentInformWithUUIDResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+    string Name = 4;
+    string PhoneNumber = 5;
+}
+
+message GetParentUUIDsWithInformRequest {
+    string UUID = 1;
+    string Name = 2;
+    string PhoneNumber = 3;
+}
+
+message GetParentUUIDsWithInformResponse {
+    uint32 Status = 1;
+    sint32 Code = 2;
+    string Message = 3;
+    repeated string ParentUUIDs = 4;
+}
