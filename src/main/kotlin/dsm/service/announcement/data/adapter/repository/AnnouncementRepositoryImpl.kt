@@ -156,7 +156,7 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByTypeOrderByDateDesc(type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         println("Repository")
 
@@ -171,7 +171,11 @@ class AnnouncementRepositoryImpl(
                 if (announcement != null) announcements.add(announcement)
                 println("AAA")
             } catch (e: Exception) {
+                println(e)
                 println(e.cause)
+                println(e.message)
+                println(e.localizedMessage)
+                println(e.stackTrace)
                 throw ServerException(message = e.message!!)
             }
         }
