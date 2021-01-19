@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component
 import java.sql.Timestamp
 
 @Component
-class AnnouncementPreviewMapper(
-        private val getAccountUseCase: GetAccountUseCase
-) {
+class AnnouncementPreviewMapper {
     fun mapItems(announcements: MutableIterable<Announcement>): AnnouncementPreview {
         val previewBuilder = AnnouncementPreview.newBuilder()
         for (announcement in announcements) {
