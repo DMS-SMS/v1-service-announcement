@@ -35,6 +35,8 @@ class AnnouncementRepositoryMapper(
     fun map(announcementModel: AnnouncementModel?, announcementDetailModel: AnnouncementDetailModel?): Announcement? {
         if (announcementModel == null || announcementDetailModel == null) return null
 
+        println("MAPPER [=]")
+
         return Announcement(
              uuid = announcementModel.uuid,
              number = announcementModel.number,

@@ -1,7 +1,6 @@
 package dsm.service.announcement.data.grpc.auth
 
 import dsm.service.announcement.controller.grpc.MetadataInterceptor
-import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.infra.aop.annotation.Tracing
 import dsm.service.announcement.infra.consul.ConsulService
 import dsm.service.announcement.infra.jaeger.JaegerService
@@ -40,18 +39,10 @@ class AuthService(
             .setStudentUUID(studentUuid)
             .build()
 
-        var response: GetStudentInformWithUUIDResponse? = null
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
-        } catch (e: Exception) {
-            print(e.cause)
-            throw ServerException(message = e.message!!)
-        } finally {
-            channel.shutdown()
-            return response
-        }
+        val response = MetadataUtils.attachHeaders(stub, metadata).getStudentInformWithUUID(request)
+        channel.shutdown()
 
-//        return if (response.status != 200) { null } else { response }
+        return if (response.status != 200) { null } else { response }
     }
 
     @Tracing("getTeacherInform Channel")
@@ -75,21 +66,10 @@ class AuthService(
             .setTeacherUUID(teacherUuid)
             .build()
 
-        var response: GetTeacherInformWithUUIDResponse? = null
-        try {
-            response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-        } catch (e: Exception) {
-            print(e.cause)
-            throw ServerException(message = e.message!!)
-        } finally {
-            channel.shutdown()
-            return response
-        }
+        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
+        channel.shutdown()
 
-//        val response = MetadataUtils.attachHeaders(stub, metadata).getTeacherInformWithUUID(request)
-//        channel.shutdown()
-
-//        return if (response.status != 200) { null } else { response }
+        return if (response.status != 200) { null } else { response }
     }
 
     @Tracing("getParentInform Channel")
