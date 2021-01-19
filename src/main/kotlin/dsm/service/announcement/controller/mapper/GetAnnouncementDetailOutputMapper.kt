@@ -10,17 +10,25 @@ import java.sql.Timestamp
 @Component
 class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.OutputValues, GetAnnouncementDetailResponse>() {
     override fun map(input: GetAnnouncementDetailUseCase.OutputValues): GetAnnouncementDetailResponse {
-        return GetAnnouncementDetailResponse.newBuilder()
+         val announcement = GetAnnouncementDetailResponse.newBuilder()
             .setTitle(input.announcement.title)
             .setDate(Timestamp.valueOf(input.announcement.date).time)
             .setContent(input.announcement.content)
             .setWriterName(input.announcement.writerName)
             .setTargetGrade(input.announcement.targetGrade!!.toInt())
             .setTargetGroup(input.announcement.targetClass!!.toInt())
-//            .setNextAnnouncementId(if (input.nextAnnouncement != null) input.nextAnnouncement.uuid else null)
-//            .setNextTitle(if (input.nextAnnouncement != null) input.nextAnnouncement.title else null)
-//            .setPreviousAnnouncementId(if (input.previousAnnouncement != null) input.previousAnnouncement.uuid else null)
-//            .setPreviousTitle(if (input.previousAnnouncement != null) input.previousAnnouncement.title else null)
+        
+        if (input.nextAnnouncement != null)
+            announcement
+                .setNextAnnouncementId(input.nextAnnouncement.uuid)
+                .setNextTitle(input.nextAnnouncement.title)
+
+        if (input.previousAnnouncement != null)
+            announcement
+                .setPreviousAnnouncementId(input.previousAnnouncement.uuid)
+                .setPreviousTitle(input.previousAnnouncement.title)
+
+        return announcement
             .setStatus(200)
             .build()
     }

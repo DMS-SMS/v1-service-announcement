@@ -168,6 +168,8 @@ class AnnouncementRepositoryImpl(
             )?.let { announcements.add(it) }
         }
 
+        println(announcements.size)
+
         return announcements
     }
 
