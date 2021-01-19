@@ -157,12 +157,20 @@ class AnnouncementRepositoryImpl(
 
         val announcements = Collections.emptyList<Announcement>()
 
+        println("Repository")
+        
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            println("asdf")
+            val announcement = announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )
+            println("FFF")
+            if (announcement != null) announcements.add(announcement)
+            println("AAA")
         }
+
+        println("Repository 2")
 
         return announcements
     }
