@@ -4,7 +4,7 @@ import com.mongodb.BasicDBObject
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
-@Document(collection="col_announcement_detail")
+@Document(collection="test_col_announcement_detail")
 data class AnnouncementDetailModel(
     @Id
     var uuid: String,

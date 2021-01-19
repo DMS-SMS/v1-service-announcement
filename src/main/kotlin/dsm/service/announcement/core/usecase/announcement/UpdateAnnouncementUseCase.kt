@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 @Component
 class UpdateAnnouncementUseCase(
         private val announcementRepository: AnnouncementRepository,
-
         private val getAccountUseCase: GetAccountUseCase
 ): UseCase<UpdateAnnouncementUseCase.InputValues, UpdateAnnouncementUseCase.OutputValues>() {
     override fun execute(input: InputValues): OutputValues =
