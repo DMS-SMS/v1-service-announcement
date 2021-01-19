@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component
 class AuthService {
     val serviceName = "DMS.SMS.v1.service.auth"
 
-    fun getStudentInform(studentUuid: String, accountUuid: String): GetStudentInformWithUUIDResponse? {
+    suspend fun getStudentInform(studentUuid: String, accountUuid: String): GetStudentInformWithUUIDResponse? {
         TODO ()
     }
 
-    fun getTeacherInform(teacherUuid: String, accountUuid: String): GetTeacherInformWithUUIDResponse? {
+    suspend fun getTeacherInform(teacherUuid: String, accountUuid: String): GetTeacherInformWithUUIDResponse? {
         TODO()
     }
 
-    fun getParentInform(parentUuid: String, accountUuid: String): GetParentInformWithUUIDResponse? {
+    suspend fun getParentInform(parentUuid: String, accountUuid: String): GetParentInformWithUUIDResponse? {
         TODO()
     }
 }
