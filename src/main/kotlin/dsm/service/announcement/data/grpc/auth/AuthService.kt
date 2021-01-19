@@ -1,6 +1,7 @@
 package dsm.service.announcement.data.grpc.auth
 
 import dsm.service.announcement.controller.grpc.MetadataInterceptor
+import dsm.service.announcement.infra.aop.annotation.Tracing
 import dsm.service.announcement.infra.consul.ConsulService
 import dsm.service.announcement.infra.jaeger.JaegerService
 import dsm.service.announcement.proto.*
@@ -17,6 +18,7 @@ class AuthService(
 ) {
     val serviceName = "DMS.SMS.v1.service.auth"
 
+    @Tracing("getStudentInform Channel")
     suspend fun getStudentInform(studentUuid: String, accountUuid: String): GetStudentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
             consulService.getServiceHost(serviceName),
@@ -43,6 +45,7 @@ class AuthService(
         return if (response.status != 200) { null } else { response }
     }
 
+    @Tracing("getTeacherInform Channel")
     suspend fun getTeacherInform(teacherUuid: String, accountUuid: String): GetTeacherInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
             consulService.getServiceHost(serviceName),
@@ -69,6 +72,7 @@ class AuthService(
         return if (response.status != 200) { null } else { response }
     }
 
+    @Tracing("getParentInform Channel")
     suspend fun getParentInform(parentUuid: String, accountUuid: String): GetParentInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
             consulService.getServiceHost(serviceName),
