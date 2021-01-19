@@ -44,11 +44,6 @@ class AspectJService(
                 .setCode(e.errorCode)
                 .setMsg(e.message)
                 .build()
-        } catch (e: Exception) {
-            GetAnnouncementsResponse.newBuilder()
-                .setStatus(500)
-                .setMsg(e.message)
-                .build()
         }
     }
 
@@ -63,12 +58,7 @@ class AspectJService(
                 .setCode(e.errorCode)
                 .setMsg(e.message)
                 .build()
-       } catch (e: Exception) {
-            GetAnnouncementDetailResponse.newBuilder()
-                .setStatus(500)
-                .setMsg(e.message)
-                .build()
-        }
+       }
     }
 
     @Around("defaultAnnouncementPointCut()")
@@ -79,11 +69,6 @@ class AspectJService(
             DefaultAnnouncementResponse.newBuilder()
                 .setStatus(e.statusCode)
                 .setCode(e.errorCode)
-                .setMsg(e.message)
-                .build()
-        } catch (e: Exception) {
-            DefaultAnnouncementResponse.newBuilder()
-                .setStatus(500)
                 .setMsg(e.message)
                 .build()
         }
@@ -97,11 +82,6 @@ class AspectJService(
             CheckAnnouncementResponse.newBuilder()
                 .setStatus(e.statusCode)
                 .setCode(e.errorCode)
-                .setMsg(e.message)
-                .build()
-        } catch (e: Exception) {
-            CheckAnnouncementResponse.newBuilder()
-                .setStatus(500)
                 .setMsg(e.message)
                 .build()
         }
