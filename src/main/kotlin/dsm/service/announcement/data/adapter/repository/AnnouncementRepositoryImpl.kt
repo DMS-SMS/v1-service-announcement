@@ -158,6 +158,9 @@ class AnnouncementRepositoryImpl(
 
         val announcements = ArrayList<Announcement>()
 
+        println(pageable)
+        println(announcementModels.totalElements)
+
         for (announcementModel: AnnouncementModel in announcementModels) {
             announcementRepositoryMapper.map(
                 announcementModel,
