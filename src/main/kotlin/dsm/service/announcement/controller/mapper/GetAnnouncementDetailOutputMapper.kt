@@ -10,26 +10,18 @@ import java.sql.Timestamp
 @Component
 class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.OutputValues, GetAnnouncementDetailResponse>() {
     override fun map(input: GetAnnouncementDetailUseCase.OutputValues): GetAnnouncementDetailResponse {
-        println("..")
-        val announcement = GetAnnouncementDetailResponse.newBuilder()
+        return GetAnnouncementDetailResponse.newBuilder()
             .setTitle(input.announcement.title)
             .setDate(Timestamp.valueOf(input.announcement.date).time)
             .setContent(input.announcement.content)
-        println("...")
-        announcement.setWriterName(input.announcement.writerName)
-//            .setNextAnnouncementId(input.nextAnnouncement?.uuid)
-//            .setNextTitle(input.nextAnnouncement?.title)
-//            .setPreviousAnnouncementId(input.previousAnnouncement?.uuid)
-//            .setPreviousTitle(input.previousAnnouncement?.title)
-        println("asdF")
-        if (input.announcement.targetClass != null && input.announcement.targetGrade != null) {
-            announcement
-                .setTargetGrade(input.announcement.targetGrade!!.toInt())
-                .setTargetGroup(input.announcement.targetClass!!.toInt())
-        }
-        println("asdFff")
-        return announcement
+            .setWriterName(input.announcement.writerName)
+            .setTargetGrade(input.announcement.targetGrade!!.toInt())
+            .setTargetGroup(input.announcement.targetClass!!.toInt())
+            .setNextAnnouncementId(if (input.nextAnnouncement != null) input.nextAnnouncement.uuid else null)
+            .setNextTitle(if (input.nextAnnouncement != null) input.nextAnnouncement.title else null)
+            .setPreviousAnnouncementId(if (input.previousAnnouncement != null) input.previousAnnouncement.uuid else null)
+            .setPreviousTitle(if (input.previousAnnouncement != null) input.previousAnnouncement.title else null)
             .setStatus(200)
-                .build()
+            .build()
     }
 }
