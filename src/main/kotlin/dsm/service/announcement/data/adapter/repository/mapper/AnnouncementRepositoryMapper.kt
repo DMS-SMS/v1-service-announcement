@@ -34,11 +34,15 @@ class AnnouncementRepositoryMapper(
 
     fun map(announcementModel: AnnouncementModel?, announcementDetailModel: AnnouncementDetailModel?): Announcement? {
         if (announcementModel == null || announcementDetailModel == null) return null
+
         return Announcement(
              uuid = announcementModel.uuid,
              number = announcementModel.number,
              writerUuid = announcementModel.writerUuid,
-             writerName = getAccountUseCase.execute(GetAccountUseCase.InputValues(announcementModel.writerUuid)).account?.name,
+             writerName =
+             if (announcementModel.club == null)
+                 getAccountUseCase.execute(GetAccountUseCase.InputValues(announcementModel.writerUuid)).account?.name
+             else announcementModel.club,
              date = announcementModel.date,
              title = announcementModel.title,
              targetGrade = announcementModel.targetGrade,
