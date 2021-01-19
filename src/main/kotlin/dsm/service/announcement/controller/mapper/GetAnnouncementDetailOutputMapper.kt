@@ -15,11 +15,12 @@ class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.Out
             .setTitle(input.announcement.title)
             .setDate(Timestamp.valueOf(input.announcement.date).time)
             .setContent(input.announcement.content)
-            .setWriterName(input.announcement.writerName)
-            .setNextAnnouncementId(input.nextAnnouncement?.uuid)
-            .setNextTitle(input.nextAnnouncement?.title)
-            .setPreviousAnnouncementId(input.previousAnnouncement?.uuid)
-            .setPreviousTitle(input.previousAnnouncement?.title)
+        println("...")
+        announcement.setWriterName(input.announcement.writerName)
+//            .setNextAnnouncementId(input.nextAnnouncement?.uuid)
+//            .setNextTitle(input.nextAnnouncement?.title)
+//            .setPreviousAnnouncementId(input.previousAnnouncement?.uuid)
+//            .setPreviousTitle(input.previousAnnouncement?.title)
         println("asdF")
         if (input.announcement.targetClass != null && input.announcement.targetGrade != null) {
             announcement
