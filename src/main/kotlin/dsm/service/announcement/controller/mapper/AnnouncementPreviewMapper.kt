@@ -9,7 +9,6 @@ import java.sql.Timestamp
 @Component
 class AnnouncementPreviewMapper {
     fun mapItems(announcements: MutableIterable<Announcement>): AnnouncementPreview {
-        println("MAPPER PREVIEW[=]")
         val previewBuilder = AnnouncementPreview.newBuilder()
         for (announcement in announcements) {
             previewBuilder

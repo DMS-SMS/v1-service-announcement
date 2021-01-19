@@ -31,12 +31,9 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun findById(id: String): Announcement? {
-        println("ASDF")
-        val announcement = announcementRepositoryMapper.map(
+        return announcementRepositoryMapper.map(
             jpaAnnouncementRepository.findByUuid(id),
             jpaAnnouncementDetailRepository.findByUuid(id))
-        println("HEE")
-        return announcement
     }
 
     override fun findByNumberAndType(number: Long, type: String): Announcement? {

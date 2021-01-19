@@ -9,7 +9,6 @@ class GetAnnouncementsOutputMapper(
         private val announcementPreviewMapper: AnnouncementPreviewMapper
 ): Mapper<GetAnnouncementsUseCase.OutputValues, GetAnnouncementsResponse>() {
     override fun map(input: GetAnnouncementsUseCase.OutputValues): GetAnnouncementsResponse {
-        println("MAPPER ddd[=]")
         return GetAnnouncementsResponse
                 .newBuilder()
                 .setSize(input.count)
