@@ -26,7 +26,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetMyAnnouncementsByTeacher() {
         val input = GetMyAnnouncementsUseCase.InputValues(
-                writerUuid = "teacher-111122223333",
+                accountUuid = "teacher-111122223333",
                 start = 0,
                 count = 10
         )
@@ -84,7 +84,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetMyAnnouncementsByStudent() {
         val input = GetMyAnnouncementsUseCase.InputValues(
-                writerUuid = "teacher-111122223333",
+                accountUuid = "teacher-111122223333",
                 start = 0,
                 count = 10
         )
@@ -103,7 +103,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetMyAnnouncementsByAdmin() {
         val input = GetMyAnnouncementsUseCase.InputValues(
-                writerUuid = "teacher-111122223333",
+                accountUuid = "teacher-111122223333",
                 start = 0,
                 count = 10
         )
@@ -161,7 +161,7 @@ class GetMyAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetNoneMyAnnouncements() {
         val input = GetMyAnnouncementsUseCase.InputValues(
-                writerUuid = "teacher-111122223333",
+                accountUuid = "teacher-111122223333",
                 start = 0,
                 count = 10
         )

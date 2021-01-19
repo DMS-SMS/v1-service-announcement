@@ -24,7 +24,7 @@ class SearchAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetSearchSchoolAnnouncements() {
         val input = SearchAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 query = "Announcement",
                 start = 0,
                 count = 10,
@@ -86,7 +86,7 @@ class SearchAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetSearchClubAnnouncements() {
         val input = SearchAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 query = "Announcement",
                 start = 0,
                 count = 10,
@@ -140,7 +140,7 @@ class SearchAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetNoneSearchSchoolAnnouncements() {
         val input = SearchAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 query = "Announcement",
                 start = 0,
                 count = 10,
@@ -168,7 +168,7 @@ class SearchAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetNoneSearchClubAnnouncements() {
         val input = SearchAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 query = "Announcement",
                 start = 0,
                 count = 10,

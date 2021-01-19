@@ -8,7 +8,7 @@ import java.sql.Timestamp
 
 @Component
 class AnnouncementPreviewMapper {
-    fun mapItems(announcements: MutableIterable<Announcement>): AnnouncementPreview {
+    fun mapItems(accountUuid: String, announcements: MutableIterable<Announcement>): AnnouncementPreview {
         val previewBuilder = AnnouncementPreview.newBuilder()
         for (announcement in announcements) {
             previewBuilder
@@ -16,7 +16,7 @@ class AnnouncementPreviewMapper {
                     .setTitle(announcement.title)
                     .setWriterName(announcement.writerName)
                     .setDate(Timestamp.valueOf(announcement.date).time)
-                    .setIsChecked(if (announcement.isCheck) 1 else 0)
+                    .setIsChecked(if (announcement.isCheck || announcement.readAccounts.contains(accountUuid)) 1 else 0)
                     .setViews(announcement.readAccounts.count().toLong())
             announcement.number?.let { previewBuilder.setNumber(it) }
         }

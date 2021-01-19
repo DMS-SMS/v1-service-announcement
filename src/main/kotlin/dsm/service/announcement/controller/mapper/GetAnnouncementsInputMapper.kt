@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class GetAnnouncementsInputMapper {
     fun map(getAnnouncementsRequest: GetAnnouncementsRequest): GetAnnouncementsUseCase.InputValues {
         return GetAnnouncementsUseCase.InputValues(
-                writerUuid = getAnnouncementsRequest.uuid,
+                accountUuid = getAnnouncementsRequest.uuid,
                 type = getAnnouncementsRequest.type,
                 start = getAnnouncementsRequest.start,
                 count = getAnnouncementsRequest.count

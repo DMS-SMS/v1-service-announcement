@@ -25,7 +25,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetSchoolAnnouncementsByStudent() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 start = 0,
                 count = 10,
                 type = "school"
@@ -86,7 +86,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetSchoolAnnouncementsByTeacher() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "teacher-111122223333",
+                accountUuid = "teacher-111122223333",
                 start = 0,
                 count = 10,
                 type = "school"
@@ -147,7 +147,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetSchoolAnnouncementsByAdmin() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "admin-111122223333",
+                accountUuid = "admin-111122223333",
                 start = 0,
                 count = 10,
                 type = "school"
@@ -208,7 +208,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetClubAnnouncements() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "student-111122223333",
+                accountUuid = "student-111122223333",
                 start = 0,
                 count = 10,
                 type = "club"
@@ -260,7 +260,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetNoneSchoolAnnouncements() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "admin-111122223333",
+                accountUuid = "admin-111122223333",
                 start = 0,
                 count = 10,
                 type = "school"
@@ -287,7 +287,7 @@ class GetAnnouncementsUseCaseTest: UseCaseTest() {
     @Test
     fun testGetNoneClubAnnouncements() {
         val input = GetAnnouncementsUseCase.InputValues(
-                writerUuid = "admin-111122223333",
+                accountUuid = "admin-111122223333",
                 start = 0,
                 count = 10,
                 type = "club"

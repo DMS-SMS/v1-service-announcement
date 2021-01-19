@@ -12,7 +12,7 @@ class SearchAnnouncementOutputMapper(
         return GetAnnouncementsResponse
                 .newBuilder()
                 .setSize(input.count)
-                .addAnnouncement(announcementPreviewMapper.mapItems(input.announcements))
+                .addAnnouncement(announcementPreviewMapper.mapItems(input.accountUuid, input.announcements))
                 .setStatus(201)
                 .build()
     }

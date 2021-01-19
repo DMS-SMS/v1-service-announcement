@@ -25,7 +25,7 @@ class GetAnnouncementsUseCase(
     }
 
     private fun generateSchoolOutputValue(input: InputValues): OutputValues {
-        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account
+        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.accountUuid)).account
                 ?.let { account ->
                     if (account.type != AccountType.STUDENT) generateDefaultOutputValue(input)
                     else generateSchoolOutputValueByStudent(input, account) }
@@ -34,6 +34,7 @@ class GetAnnouncementsUseCase(
 
     private fun generateDefaultOutputValue(input: InputValues): OutputValues {
         return OutputValues(
+                input.accountUuid,
                 announcementRepository
                         .findByTypeOrderByDateDesc(
                                 type = input.type,
@@ -46,6 +47,7 @@ class GetAnnouncementsUseCase(
 
     private fun generateSchoolOutputValueByStudent(input: InputValues, account: Account): OutputValues {
         return OutputValues(
+                input.accountUuid,
                 announcementRepository
                         .findByTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
                                 type = "school",
@@ -64,13 +66,14 @@ class GetAnnouncementsUseCase(
     }
 
     class InputValues(
-            val writerUuid: String,
+            val accountUuid: String,
             val start: Int,
             val count: Int,
             val type: String
     ) : UseCase.InputValues
 
     class OutputValues(
+            val accountUuid: String,
             val announcements: MutableIterable<Announcement>,
             val count: Long
     ) : UseCase.OutputValues
