@@ -31,9 +31,12 @@ class AnnouncementRepositoryImpl(
     }
 
     override fun findById(id: String): Announcement? {
-        return announcementRepositoryMapper.map(
+        println("ASDF")
+        val announcement = announcementRepositoryMapper.map(
             jpaAnnouncementRepository.findByUuid(id),
             jpaAnnouncementDetailRepository.findByUuid(id))
+        println("HEE")
+        return announcement
     }
 
     override fun findByNumberAndType(number: Long, type: String): Announcement? {
@@ -56,13 +59,13 @@ class AnnouncementRepositoryImpl(
                 title, type, targetGrade, targetGroup, pageable
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -75,13 +78,13 @@ class AnnouncementRepositoryImpl(
     ): MutableList<Announcement> {
         val announcementModels = jpaAnnouncementRepository.findByTitleContainsAndTypeOrderByDateDesc(title, type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -101,13 +104,13 @@ class AnnouncementRepositoryImpl(
                 type, targetGrade, targetGroup
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -124,13 +127,13 @@ class AnnouncementRepositoryImpl(
                 type, targetGrade, targetGroup, pageable
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -140,13 +143,13 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByTypeOrderByDateDesc(type)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -158,29 +161,12 @@ class AnnouncementRepositoryImpl(
 
         val announcements = ArrayList<Announcement>()
 
-        println("Repository")
-
         for (announcementModel: AnnouncementModel in announcementModels) {
-            println("asdf")
-            val announcement = announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            )
-            println("FFF")
-            try {
-                if (announcement != null) announcements.add(announcement)
-                println("AAA")
-            } catch (e: Exception) {
-                println(e)
-                println(e.cause)
-                println(e.message)
-                println(e.localizedMessage)
-                println(e.stackTrace)
-                throw ServerException(message = e.message!!)
-            }
+            )?.let { announcements.add(it) }
         }
-
-        println("Repository 2")
 
         return announcements
     }
@@ -193,13 +179,13 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByWriterUuidAndTypeOrderByDateDesc(writerUuid, type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
