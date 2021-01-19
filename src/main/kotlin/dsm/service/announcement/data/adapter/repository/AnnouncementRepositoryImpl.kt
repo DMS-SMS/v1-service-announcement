@@ -1,6 +1,7 @@
 package dsm.service.announcement.data.adapter.repository
 
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.data.adapter.repository.mapper.AnnouncementRepositoryMapper
 import dsm.service.announcement.data.db.jpa.model.AnnouncementModel
@@ -158,7 +159,7 @@ class AnnouncementRepositoryImpl(
         val announcements = Collections.emptyList<Announcement>()
 
         println("Repository")
-        
+
         for (announcementModel: AnnouncementModel in announcementModels) {
             println("asdf")
             val announcement = announcementRepositoryMapper.map(
@@ -166,8 +167,13 @@ class AnnouncementRepositoryImpl(
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
             )
             println("FFF")
-            if (announcement != null) announcements.add(announcement)
-            println("AAA")
+            try {
+                if (announcement != null) announcements.add(announcement)
+                println("AAA")
+            } catch (e: Exception) {
+                println(e.cause)
+                throw ServerException(message = e.message!!)
+            }
         }
 
         println("Repository 2")
