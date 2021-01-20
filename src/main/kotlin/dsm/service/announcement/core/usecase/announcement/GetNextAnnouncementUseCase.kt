@@ -25,14 +25,14 @@ class GetNextAnnouncementUseCase(
 
         while (number < maxNumber) {
             number += 1
-            return announcementRepository.findByNumberAndType(number, input.announcement.type)
-                    ?.let { announcement ->
-                        when {
-                            input.announcement.type == "club" -> announcement
-                            input.announcement.type == "school" && checkAccount(announcement, input) -> announcement
-                            else -> null
-                        }
-                    }
+            val announcement = announcementRepository.findByNumberAndType(number, input.announcement.type)
+            announcement?.let {
+                when {
+                    input.announcement.type == "club" -> return announcement
+                    input.announcement.type == "school" && checkAccount(announcement, input) -> return announcement
+                    else -> null
+                }
+            }
         }
         return null
     }
