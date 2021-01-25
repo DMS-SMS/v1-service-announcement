@@ -9,26 +9,29 @@ import dsm.service.announcement.proto.GetAnnouncementDetailResponse
 import dsm.service.announcement.proto.GetAnnouncementsResponse
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
+import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
+import org.springframework.stereotype.Component
 
-
+@Component
+@Aspect
 class AspectJService(
     val jaegerService: JaegerService
 ) {
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.createAnnouncement(..)) || " +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.updateAnnouncement(..)) || " +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.deleteAnnouncement(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.createAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.updateAnnouncement(..)) || " +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.deleteAnnouncement(..))")
     fun defaultAnnouncementPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getAnnouncements(..)) ||" +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getMyAnnouncements(..)) ||" +
-            "execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.searchAnnouncements(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getAnnouncements(..)) ||" +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getMyAnnouncements(..)) ||" +
+            "execution(* dsm.service.announcement.controller.grpc.AnnouncementService.searchAnnouncements(..))")
     fun getAnnouncementsPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.getAnnouncementDetail(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.getAnnouncementDetail(..))")
     fun getAnnouncementDetailPointCut() {}
 
-    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementServiceGrpc.checkAnnouncement(..))")
+    @Pointcut("execution(* dsm.service.announcement.controller.grpc.AnnouncementService.checkAnnouncement(..))")
     fun checkAnnouncementPointCut() {}
 
     @Around("getAnnouncementsPointCut()")
@@ -39,11 +42,6 @@ class AspectJService(
             GetAnnouncementsResponse.newBuilder()
                 .setStatus(e.statusCode)
                 .setCode(e.errorCode)
-                .setMsg(e.message)
-                .build()
-        } catch (e: Exception) {
-            GetAnnouncementsResponse.newBuilder()
-                .setStatus(500)
                 .setMsg(e.message)
                 .build()
         }
@@ -60,12 +58,7 @@ class AspectJService(
                 .setCode(e.errorCode)
                 .setMsg(e.message)
                 .build()
-       } catch (e: Exception) {
-            GetAnnouncementDetailResponse.newBuilder()
-                .setStatus(500)
-                .setMsg(e.message)
-                .build()
-        }
+       }
     }
 
     @Around("defaultAnnouncementPointCut()")
@@ -76,11 +69,6 @@ class AspectJService(
             DefaultAnnouncementResponse.newBuilder()
                 .setStatus(e.statusCode)
                 .setCode(e.errorCode)
-                .setMsg(e.message)
-                .build()
-        } catch (e: Exception) {
-            DefaultAnnouncementResponse.newBuilder()
-                .setStatus(500)
                 .setMsg(e.message)
                 .build()
         }
@@ -94,11 +82,6 @@ class AspectJService(
             CheckAnnouncementResponse.newBuilder()
                 .setStatus(e.statusCode)
                 .setCode(e.errorCode)
-                .setMsg(e.message)
-                .build()
-        } catch (e: Exception) {
-            CheckAnnouncementResponse.newBuilder()
-                .setStatus(500)
                 .setMsg(e.message)
                 .build()
         }

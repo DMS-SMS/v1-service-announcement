@@ -1,6 +1,7 @@
 package dsm.service.announcement.data.adapter.repository
 
 import dsm.service.announcement.core.domain.entity.Announcement
+import dsm.service.announcement.core.domain.exception.ServerException
 import dsm.service.announcement.core.domain.repository.AnnouncementRepository
 import dsm.service.announcement.data.adapter.repository.mapper.AnnouncementRepositoryMapper
 import dsm.service.announcement.data.db.jpa.model.AnnouncementModel
@@ -55,13 +56,13 @@ class AnnouncementRepositoryImpl(
                 title, type, targetGrade, targetGroup, pageable
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -74,13 +75,13 @@ class AnnouncementRepositoryImpl(
     ): MutableList<Announcement> {
         val announcementModels = jpaAnnouncementRepository.findByTitleContainsAndTypeOrderByDateDesc(title, type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -100,13 +101,13 @@ class AnnouncementRepositoryImpl(
                 type, targetGrade, targetGroup
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -123,13 +124,13 @@ class AnnouncementRepositoryImpl(
                 type, targetGrade, targetGroup, pageable
             )
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -139,13 +140,13 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByTypeOrderByDateDesc(type)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements
@@ -155,14 +156,19 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByTypeOrderByDateDesc(type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
+
+        println(pageable)
+        println(announcementModels.totalElements)
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
+
+        println(announcements.size)
 
         return announcements
     }
@@ -175,13 +181,13 @@ class AnnouncementRepositoryImpl(
         val announcementModels =
             jpaAnnouncementRepository.findByWriterUuidAndTypeOrderByDateDesc(writerUuid, type, pageable)
 
-        val announcements = Collections.emptyList<Announcement>()
+        val announcements = ArrayList<Announcement>()
 
         for (announcementModel: AnnouncementModel in announcementModels) {
-            announcements.add(announcementRepositoryMapper.map(
+            announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
-            ))
+            )?.let { announcements.add(it) }
         }
 
         return announcements

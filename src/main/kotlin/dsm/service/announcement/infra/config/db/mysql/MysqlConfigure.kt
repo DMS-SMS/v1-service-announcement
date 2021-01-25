@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
 @Configuration
-public class MysqlConfigure(
+class MysqlConfigure(
     private val consulService: ConsulService
 ) {
     @Bean

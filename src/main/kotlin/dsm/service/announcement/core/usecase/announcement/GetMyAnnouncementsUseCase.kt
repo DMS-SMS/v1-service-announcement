@@ -17,14 +17,15 @@ class GetMyAnnouncementsUseCase(
     override fun execute(input: InputValues): OutputValues = generateOutputValue(input)
 
     private fun generateOutputValue(input: InputValues): OutputValues {
-        checkTeacher(input.writerUuid)
+        checkTeacher(input.accountUuid)
         return OutputValues(
+                input.accountUuid,
                 announcementRepository
                         .findByWriterUuidAndTypeOrderByDateDesc(
-                                writerUuid = input.writerUuid,
+                                writerUuid = input.accountUuid,
                                 type = "school",
                                 pageable = PageRequest.of(input.start, input.count)),
-                announcementRepository.countByWriterUuidAndType(input.writerUuid, "school"))
+                announcementRepository.countByWriterUuidAndType(input.accountUuid, "school"))
     }
 
     private fun checkTeacher(writerUuid: String) {
@@ -37,12 +38,13 @@ class GetMyAnnouncementsUseCase(
     }
 
     class InputValues(
-            val writerUuid: String,
+            val accountUuid: String,
             val start: Int,
             val count: Int
     ): UseCase.InputValues
 
     class OutputValues(
+            val accountUuid: String,
             val announcements: MutableIterable<Announcement>,
             val count: Long
     ): UseCase.OutputValues

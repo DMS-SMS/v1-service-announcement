@@ -24,7 +24,7 @@ data class Announcement (
 
     fun read(accountUuid: String): Announcement {
         announcementCheck()
-        readAccounts.add(accountUuid)
+        if (!readAccounts.contains(accountUuid)) readAccounts.add(accountUuid)
         return this
     }
 }

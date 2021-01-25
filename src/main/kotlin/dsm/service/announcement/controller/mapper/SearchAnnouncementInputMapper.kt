@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class SearchAnnouncementInputMapper {
     fun map(searchAnnouncementsRequest: SearchAnnouncementsRequest): SearchAnnouncementsUseCase.InputValues {
         return SearchAnnouncementsUseCase.InputValues(
-                writerUuid = searchAnnouncementsRequest.uuid,
+                accountUuid = searchAnnouncementsRequest.uuid,
                 query = searchAnnouncementsRequest.query,
                 type = searchAnnouncementsRequest.type,
                 start = searchAnnouncementsRequest.start,

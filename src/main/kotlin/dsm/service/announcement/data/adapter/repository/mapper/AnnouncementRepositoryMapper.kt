@@ -36,21 +36,21 @@ class AnnouncementRepositoryMapper(
         if (announcementModel == null || announcementDetailModel == null) return null
 
         return Announcement(
-             uuid = announcementModel.uuid,
-             number = announcementModel.number,
-             writerUuid = announcementModel.writerUuid,
-             writerName =
-             if (announcementModel.club == null)
-                 getAccountUseCase.execute(GetAccountUseCase.InputValues(announcementModel.writerUuid)).account?.name
-             else announcementModel.club,
-             date = announcementModel.date,
-             title = announcementModel.title,
-             targetGrade = announcementModel.targetGrade,
-             targetClass = announcementModel.targetGroup,
-             type = announcementModel.type,
-             club = announcementModel.club,
-             content = announcementDetailModel.content.toJson(),
-             readAccounts = announcementDetailModel.read_accounts
+            uuid = announcementModel.uuid,
+            number = announcementModel.number,
+            writerUuid = announcementModel.writerUuid,
+            writerName =
+            if (announcementModel.club == null)
+                getAccountUseCase.execute(GetAccountUseCase.InputValues(announcementModel.writerUuid)).account?.name
+            else announcementModel.club,
+            date = announcementModel.date,
+            title = announcementModel.title,
+            targetGrade = announcementModel.targetGrade,
+            targetClass = announcementModel.targetGroup,
+            type = announcementModel.type,
+            club = announcementModel.club,
+            content = announcementDetailModel.content.toJson(),
+            readAccounts = announcementDetailModel.read_accounts
         )
     }
 

@@ -5,7 +5,9 @@ import dsm.service.announcement.core.domain.repository.ClubRepository
 import dsm.service.announcement.data.adapter.repository.mapper.ClubRepositoryMapper
 import dsm.service.announcement.data.grpc.club.ClubService
 import kotlinx.coroutines.runBlocking
+import org.springframework.stereotype.Repository
 
+@Repository
 class ClubRepositoryImpl(
     val clubService: ClubService,
     val clubRepositoryMapper: ClubRepositoryMapper

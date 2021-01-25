@@ -18,13 +18,13 @@ class GetAnnouncementDetailUseCase(
 
     private fun getAnnouncementDetail(input: InputValues): OutputValues {
         return announcementRepository.findById(input.announcementUuid)
-                ?.apply { announcementRepository.persist(read(input.accountUuid)) }
-                ?.let { announcement -> OutputValues(
-                            announcement = announcement,
-                            nextAnnouncement = getNextAnnouncement(input.accountUuid, announcement),
-                            previousAnnouncement = getPreviousAnnouncement(input.accountUuid, announcement))
-                }
-                ?: throw NotFoundException(message = "Not found Announcement")
+            ?.apply { announcementRepository.persist(read(input.accountUuid)) }
+            ?.let { announcement -> OutputValues(
+                announcement = announcement,
+                nextAnnouncement = getNextAnnouncement(input.accountUuid, announcement),
+                previousAnnouncement = getPreviousAnnouncement(input.accountUuid, announcement))
+            }
+            ?: throw NotFoundException(message = "Not found Announcement")
     }
 
     private fun getNextAnnouncement(accountUuid: String, announcement: Announcement): Announcement? {

@@ -24,6 +24,7 @@ class SearchAnnouncementsUseCase(
 
     private fun generateClubOutputValue(input: InputValues): OutputValues {
         return OutputValues(
+                accountUuid = input.accountUuid,
                 announcements = announcementRepository
                         .findByTitleContainsAndTypeOrderByDateDesc(
                                 title = input.query,
@@ -36,8 +37,9 @@ class SearchAnnouncementsUseCase(
     }
 
     private fun generateSchoolOutputValue(input: InputValues): OutputValues {
-        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.writerUuid)).account
+        return getAccountUseCase.execute(GetAccountUseCase.InputValues(input.accountUuid)).account
                 ?.let { OutputValues(
+                accountUuid = input.accountUuid,
                 announcements = announcementRepository
                         .findByTitleContainsAndTypeAndTargetGradeContainsAndTargetGroupContainsOrderByDateDesc(
                                 title = input.query,
@@ -54,7 +56,7 @@ class SearchAnnouncementsUseCase(
     }
 
     class InputValues(
-            val writerUuid: String,
+            val accountUuid: String,
             val query: String,
             val start: Int,
             val count: Int,
@@ -62,6 +64,7 @@ class SearchAnnouncementsUseCase(
     ) : UseCase.InputValues
 
     class OutputValues(
+            val accountUuid: String,
             val announcements: MutableIterable<Announcement>,
             val count: Long
     ) : UseCase.OutputValues
