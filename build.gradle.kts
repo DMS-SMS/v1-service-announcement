@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.ofSourceSet
@@ -41,10 +42,16 @@ dependencies {
     implementation("io.jaegertracing:jaeger-client:1.4.0")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("mysql:mysql-connector-java:8.0.21")
-    implementation("org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.5.RELEASE")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws-messaging")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+}
+
+configure<DependencyManagementExtension> {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR6")
     }
 }
 
