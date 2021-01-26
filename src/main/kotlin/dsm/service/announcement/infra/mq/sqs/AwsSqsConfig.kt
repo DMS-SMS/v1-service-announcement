@@ -18,6 +18,7 @@ import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.regions.Region
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 
 @Configuration
@@ -42,6 +43,7 @@ class AwsSqsConfig {
     }
 
     @Bean
+    @Primary 
     fun amazonSQSAsync(): AmazonSQSAsync {
         return AmazonSQSAsyncClientBuilder
             .standard()
