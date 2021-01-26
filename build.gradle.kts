@@ -51,7 +51,7 @@ dependencies {
 
 configure<DependencyManagementExtension> {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR6")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR9")
     }
 }
 
