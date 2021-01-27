@@ -19,12 +19,17 @@ class ClubService(
 ) {
     val serviceName: String = "DMS.SMS.v1.service.club"
 
+    var host: String = ""
+    var port: Int = 0
+
+    fun updateServiceAddress() {
+        host = consulService.getServiceHost(serviceName)
+        port = consulService.getServicePort(serviceName)
+    }
+
     @Tracing("getClubUuidWithLeaderUuid Channel")
     suspend fun getClubUuidWithLeaderUuid(uuid: String): GetClubUUIDWithLeaderUUIDResponse? {
-        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-            consulService.getServiceHost(serviceName),
-            consulService.getServicePort(serviceName)
-        ).usePlaintext().build()
+        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
 
         val metadata = Metadata()
@@ -48,10 +53,7 @@ class ClubService(
 
     @Tracing("getClubWithClubUuid Channel")
     suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse? {
-        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-            consulService.getServiceHost(serviceName),
-            consulService.getServicePort(serviceName)
-        ).usePlaintext().build()
+        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
 
         val metadata = Metadata()

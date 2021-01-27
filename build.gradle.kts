@@ -43,8 +43,15 @@ dependencies {
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("mysql:mysql-connector-java:8.0.21")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws-messaging")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+}
+
+configure<DependencyManagementExtension> {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR6")
     }
 }
 

@@ -17,13 +17,17 @@ class AuthService(
     val jaegerService: JaegerService
 ) {
     val serviceName = "DMS.SMS.v1.service.auth"
+    var host: String = ""
+    var port: Int = 0
+
+    fun updateServiceAddress() {
+        host = consulService.getServiceHost(serviceName)
+        port = consulService.getServicePort(serviceName)
+    }
 
     @Tracing("getStudentInform Channel")
     suspend fun getStudentInform(studentUuid: String, accountUuid: String): GetStudentInformWithUUIDResponse? {
-        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-            consulService.getServiceHost(serviceName),
-            consulService.getServicePort(serviceName)
-        ).usePlaintext().build()
+        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub: AuthStudentGrpcKt.AuthStudentCoroutineStub = AuthStudentGrpcKt.AuthStudentCoroutineStub(channel)
 
 
@@ -47,10 +51,7 @@ class AuthService(
 
     @Tracing("getTeacherInform Channel")
     suspend fun getTeacherInform(teacherUuid: String, accountUuid: String): GetTeacherInformWithUUIDResponse? {
-        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-            consulService.getServiceHost(serviceName),
-            consulService.getServicePort(serviceName)
-        ).usePlaintext().build()
+        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub: AuthTeacherGrpcKt.AuthTeacherCoroutineStub = AuthTeacherGrpcKt.AuthTeacherCoroutineStub(channel)
 
 
@@ -74,10 +75,7 @@ class AuthService(
 
     @Tracing("getParentInform Channel")
     suspend fun getParentInform(parentUuid: String, accountUuid: String): GetParentInformWithUUIDResponse? {
-        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(
-            consulService.getServiceHost(serviceName),
-            consulService.getServicePort(serviceName)
-        ).usePlaintext().build()
+        val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub = AuthParentGrpcKt.AuthParentCoroutineStub(channel)
 
 
