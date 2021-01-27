@@ -1,0 +1,15 @@
+spring:
+  main:
+    web-application-type: none
+  jpa:
+    properties:
+      hibernate:
+        ejb:
+          interceptor: dsm.service.announcement.infra.config.db.mysql.MysqlInterceptor
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+
+grpc:
+  port: 0
+
