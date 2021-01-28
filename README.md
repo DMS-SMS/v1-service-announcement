@@ -3,3 +3,8 @@
 
 ## What used
 - Spring Boot with gRPC
+- MySQL
+- MongoDB
+- Consul
+- Jaeger
+- AWS SQS
