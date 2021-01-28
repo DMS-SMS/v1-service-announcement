@@ -47,14 +47,12 @@ class ClubService(
 
         val response = MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
         channel.shutdown()
-
-        print(response)
-
+        
         return if (response.status != 200) { null } else { response }
     }
 
     @Tracing("getClubWithClubUuid Channel")
-    suspend fun getClubWithClubUuid(accountUuid: String, clubUuid: String): GetClubInformWithUUIDResponse? {
+    suspend fun getClubWithClubUuid(clubUuid: String, accountUuid: String): GetClubInformWithUUIDResponse? {
         val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build()
         val stub: ClubStudentGrpcKt.ClubStudentCoroutineStub = ClubStudentGrpcKt.ClubStudentCoroutineStub(channel)
 
@@ -73,8 +71,6 @@ class ClubService(
 
         val response = MetadataUtils.attachHeaders(stub, metadata).getClubInformWithUUID(request)
         channel.shutdown()
-
-        print(response)
 
         return if (response.status != 200) { null } else { response }
     }
