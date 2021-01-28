@@ -63,11 +63,12 @@ class CreateAnnouncementUseCase(
     }
 
     private fun getClubName(input: InputValues): String? {
-        return if (input.type == "club") {
-            clubRepository.findClubUuidByLeaderUuid(input.writerUuid)
-                    ?.let { clubRepository.findByUuid(it, input.writerUuid)?.name }
+        if (input.type == "club") {
+            clubRepository.findClubUuidByLeaderUuid(input.writerUuid)?.let {
+                return clubRepository.findByUuid(it, input.writerUuid)?.name
+            }
         }
-        else { null }
+        return null
     }
 
     class InputValues(

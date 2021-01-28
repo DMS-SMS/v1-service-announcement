@@ -158,17 +158,12 @@ class AnnouncementRepositoryImpl(
 
         val announcements = ArrayList<Announcement>()
 
-        println(pageable)
-        println(announcementModels.totalElements)
-
         for (announcementModel: AnnouncementModel in announcementModels) {
             announcementRepositoryMapper.map(
                 announcementModel,
                 jpaAnnouncementDetailRepository.findByUuid(announcementModel.uuid)
             )?.let { announcements.add(it) }
         }
-
-        println(announcements.size)
 
         return announcements
     }

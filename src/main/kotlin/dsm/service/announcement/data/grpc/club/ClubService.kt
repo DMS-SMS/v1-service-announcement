@@ -48,6 +48,8 @@ class ClubService(
         val response = MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
         channel.shutdown()
 
+        print(response)
+
         return if (response.status != 200) { null } else { response }
     }
 
@@ -71,6 +73,8 @@ class ClubService(
 
         val response = MetadataUtils.attachHeaders(stub, metadata).getClubInformWithUUID(request)
         channel.shutdown()
+
+        print(response)
 
         return if (response.status != 200) { null } else { response }
     }

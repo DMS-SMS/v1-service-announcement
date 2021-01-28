@@ -13,10 +13,12 @@ class ClubRepositoryImpl(
     val clubRepositoryMapper: ClubRepositoryMapper
 ): ClubRepository {
     override fun findByUuid(clubUuid: String, accountUuid: String): Club? = runBlocking {
+        print("findByUUID (club)")
         return@runBlocking clubRepositoryMapper.map(clubService.getClubWithClubUuid(clubUuid, accountUuid))
     }
 
     override fun findClubUuidByLeaderUuid(leaderUuid: String): String? = runBlocking {
+        print("findByUUID (Leader Uuid)")
         return@runBlocking clubRepositoryMapper.map(clubService.getClubUuidWithLeaderUuid(leaderUuid))
     }
 }
