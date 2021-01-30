@@ -47,7 +47,7 @@ class ClubService(
 
         val response = MetadataUtils.attachHeaders(stub, metadata).getClubUUIDWithLeaderUUID(request)
         channel.shutdown()
-        
+
         return if (response.status != 200) { null } else { response }
     }
 
