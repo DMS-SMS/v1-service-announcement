@@ -11,12 +11,13 @@ import java.sql.Timestamp
 class GetAnnouncementDetailOutputMapper: Mapper<GetAnnouncementDetailUseCase.OutputValues, GetAnnouncementDetailResponse>() {
     override fun map(input: GetAnnouncementDetailUseCase.OutputValues): GetAnnouncementDetailResponse {
          val announcement = GetAnnouncementDetailResponse.newBuilder()
-            .setTitle(input.announcement.title)
-            .setDate(Timestamp.valueOf(input.announcement.date).time)
-            .setContent(input.announcement.content)
-            .setWriterName(input.announcement.writerName)
-            .setTargetGrade(input.announcement.targetGrade!!.toInt())
-            .setTargetGroup(input.announcement.targetClass!!.toInt())
+             .setTitle(input.announcement.title)
+             .setDate(Timestamp.valueOf(input.announcement.date).time)
+             .setContent(input.announcement.content)
+             .setWriterName(input.announcement.writerName)
+             .setTargetGrade(input.announcement.targetGrade!!.toInt())
+             .setTargetGroup(input.announcement.targetClass!!.toInt())
+             .setAnnouncementType(input.announcement.type)
         
         if (input.nextAnnouncement != null)
             announcement

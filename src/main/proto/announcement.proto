@@ -63,6 +63,7 @@ message GetAnnouncementDetailResponse {
     string previous_announcement_id = 11;
     int32 target_grade = 12;
     int32 target_group = 13;
+    string announcement_type = 14;
 }
 
 message CreateAnnouncementRequest {
