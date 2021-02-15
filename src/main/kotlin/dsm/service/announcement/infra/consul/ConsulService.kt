@@ -31,7 +31,7 @@ class ConsulService(
             .name(serviceName)
             .address(address)
             .port(port)
-            .check(Registration.RegCheck.ttl(100000000L))
+            .check(Registration.RegCheck.ttl(18446744073709551615L))
             .tags(Collections.singletonList("Announcement"))
             .meta(Collections.singletonMap("version","1.0"))
             .build()
