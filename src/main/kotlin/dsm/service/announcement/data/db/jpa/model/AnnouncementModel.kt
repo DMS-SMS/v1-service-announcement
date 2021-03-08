@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "test_tbl_announcement")
+@Table(name = "tbl_announcement")
 data class AnnouncementModel(
     @Column(name = "uuid", length = 25)
     var uuid: String,
