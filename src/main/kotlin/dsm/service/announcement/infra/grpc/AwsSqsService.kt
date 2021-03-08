@@ -1,11 +1,11 @@
-package dsm.service.announcement.infra.mq.sqs
+package dsm.service.announcement.infra.grpc
 
 import dsm.service.announcement.data.grpc.auth.AuthService
 import dsm.service.announcement.data.grpc.club.ClubService
 import org.springframework.stereotype.Component
 
 @Component
-class AwsSqsService(
+class GrpcService(
     val authService: AuthService,
     val clubService: ClubService
 ) {
