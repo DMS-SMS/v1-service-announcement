@@ -7,4 +7,3 @@
 - MongoDB
 - Consul
 - Jaeger
-- AWS SQS
